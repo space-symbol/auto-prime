@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id           String        @id @default(cuid())
+  orderDate    DateTime
+  totalAmount  Float
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderDetails OrderDetail[]
+  payment      Payment?
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          Roles     @default(USER)
+  accounts      Account[]
+  orders       Order[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Detail {
+  id                Int           @id @default(autoincrement())
+  name              String        @unique
+  description       String
+  price             Float
+  discountPercentage Float?
+  quantityAvailable Int
+  imageUrl          String
+  orderDetails     OrderDetail[]
+  categories        Category[]    @relation("CategoryToDetail")
+}
+
+model Category {
+  id      Int      @id @default(autoincrement())
+  name    String
+  details Detail[] @relation("CategoryToDetail")
+}
+
+model OrderDetail {
+  id        Int    @id @default(autoincrement())
+  quantity  Int
+  unitPrice Float
+  orderId   String
+  detailId  Int
+  detail    Detail @relation(fields: [detailId], references: [id])
+  order     Order  @relation(fields: [orderId], references: [id])
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  paymentDate   DateTime
+  paymentMethod String
+  amount        Float
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id])
+}
+
+enum Roles {
+  USER
+  ADMIN
+}

@@ -1,0 +1,27 @@
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    color: var(--gray-color);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    width: 90%;
+    margin: auto;
+}
+
+.divider::after,
+.divider::before {
+    content: "";
+    border: 1px solid var(--gray-light-color);
+    flex: 1;
+    flex-basis: 10%;
+}
+
+.divider:not(:empty)::before {
+    margin-right: 0.25em;
+}
+
+.divider:not(:empty)::after {
+    margin-left: 0.25em;
+}

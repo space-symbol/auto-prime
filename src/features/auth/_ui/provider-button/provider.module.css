@@ -1,0 +1,16 @@
+.providerButton {
+    width: 100%;
+
+    path {
+        transition: fill 0.2s linear;
+    }
+
+    &:hover {
+        svg {
+            path {
+                fill: var(--purple-color);
+            }
+        }
+    }
+
+}

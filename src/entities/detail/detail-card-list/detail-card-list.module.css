@@ -1,0 +1,10 @@
+
+.detailCardList {
+    display: grid;
+    align-content: flex-start;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    grid-auto-rows: 18rem;
+    height: 100%;
+    gap: 1rem;
+    transition: 2s;
+}

@@ -1,0 +1,110 @@
+.card {
+  font-family: var(--montserrat-font);
+  font-size: var(--font-size-base);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  padding-bottom: 0.5em;
+  contain: strict;
+  transition: all 0.3s ease;
+  min-width: 0;
+
+  @apply animate-show-delay;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imageContainer {
+    /* stylelint-disable-next-line number-max-precision */
+    padding-bottom: 66.66666667%;
+    overflow: hidden;
+    fill: #fff;
+    position: relative;
+    margin-bottom: 0.2rem;
+
+    .image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      vertical-align: middle;
+      font-size: 0;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .name {
+    position: relative;
+    padding: 0 0.2em;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    .highlight{
+      display: inline-block;
+      transition: width 0.3s ease;
+      background-color: var(--purple-dark-color);
+      color: white;
+      position: relative;
+      z-index: 10;
+      padding: 0 0.1em;
+    }
+
+    &::after{
+      position: absolute;
+      width: 100%;
+      height: 33%;
+      background: linear-gradient(to top, #fff, rgb(255 255 255 / 0%));;
+      z-index: 1;
+      display:block;
+      content:'';
+      right: 0;
+      bottom: 0;
+    } 
+  }
+
+  .footer {
+    padding: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+    gap: 0.2rem;
+    justify-content: space-between;
+    font-family: var(--rubik-font);
+
+    .priceWrapper {
+      display: flex;
+      gap: 0.5rem;
+      white-space: nowrap;
+
+      .discountPrice {
+        font-size: 0.8em;
+        color: var(--gray-color);
+      }
+    }
+
+    .quantityAvailable {
+      font-size: 0.8em;
+      color: var(--gray-color);
+    }
+  }
+
+}
+
+@media screen and (hover:hover) {
+  .card {
+    &:hover {
+      box-shadow: -2px 23px 37px 27px rgb(34 60 80 / 20%);
+
+      .imageContainer {
+        .image{
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}

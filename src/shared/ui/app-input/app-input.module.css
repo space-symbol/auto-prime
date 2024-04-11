@@ -1,0 +1,162 @@
+.appInputContainer {
+    position: relative;
+    border-radius: 0.25rem  ;
+    width: auto;
+    color: black;
+    margin-bottom: 0.5em;
+
+    .input {
+        font: inherit;
+        background-color: inherit;
+        border: none;
+        width: 100%;
+        height: 100%;
+        padding: 0.5rem;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .wrapper {
+        position: absolute;
+        inset: -0.3rem 0 0;
+        border: 1px solid var(--gray-color);
+        min-width: 0;
+        padding: 0 0.5rem;
+        pointer-events: none;
+        border-radius: 0.1em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        z-index: 0;
+
+        .legend {
+            height: 0.8rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            visibility: hidden;
+            width: 0.01px;
+
+            span {
+                width: 100%;
+            }
+        }
+    }
+
+    .inputLabel {
+        position: absolute;
+        left: 0;
+        padding: 0 0.5rem;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        color: var(--gray-color);
+        animation: 0.2s show-placeholder forwards ease;
+        pointer-events: none;
+        user-select: none;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
+    }
+
+    &.active, &:has(.input:-webkit-autofill, .input:autofill) {
+        .inputLabel {
+            font-size: 0.7rem;
+            top: -0.6em;
+            align-items: flex-start;
+            margin: 0;
+            animation: 0.2s show-label forwards ease;
+            max-width: calc(100% - 1rem - 2px);
+            right: 0;
+            color: black;
+
+            .labelText {
+                padding: 0 4px;
+            }
+        }
+
+        .wrapper {
+            border-color: var(--gray-dark-color);
+            font-size: 0.7rem;
+
+            .legend {
+                width: auto;
+                max-width: calc(100% - 1rem);
+                padding: 0 3px;
+            }
+        }
+    }
+
+    &:has(.input:focus) {
+        .wrapper {
+            border-width: 2px;
+        }
+
+        &.active {
+            .inputLabel {
+                color: var(--purple-color);
+                font-weight: bold;
+            }
+        }
+
+        &.error {
+            .inputLabel {
+                color: var(--warning-red-color);
+            }
+        }
+    }
+
+    &.fullwidth {
+        width: 100%;
+    }
+
+    .errorText {
+        position: absolute;
+        font-size: 0.7rem;
+        bottom: -1.5em;
+        left: 2px;
+        color: var(--warning-red-color);
+        font-weight: bold;
+    }
+
+    &.error {
+        .wrapper {
+            border-color: var(--warning-red-color);
+        }
+
+        .inputLabel {
+            color: var(--warning-red-color);
+        }
+    }
+
+    &.search {
+        margin: 0;
+    }
+}
+
+@keyframes show-label {
+    0% {
+        opacity: 0;
+        transform: translateY(-1em);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes show-placeholder {
+    0% {
+        opacity: 0;
+        transform: translateY(-1em);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

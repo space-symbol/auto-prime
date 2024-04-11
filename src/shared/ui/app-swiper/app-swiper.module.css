@@ -1,0 +1,153 @@
+.appSwiper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    margin: -1px 0 0;
+
+    .swiperSlide {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:focus {
+            outline: none;
+        }
+
+        img {
+            object-fit: cover;
+        }
+    }
+}
+
+
+.pagination {
+    height: 1rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 11;
+    display: flex;
+
+    .bullet {
+        height: 100%;
+        width: 100%;
+        background-color: white;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: var(--purple-color);
+            width: 0.0001px;
+            height: 100%;
+            transition: width 0.3s ease-out;
+        }
+
+        &.activeBullet {
+            &::after {
+                width: 100%;
+            }
+        }
+
+        &.firstBullet {
+            &, &::after {
+                clip-path: polygon(0 0, 100% 0%, 98% 99%, 0% 100%);
+            }
+        }
+
+        &.middleBullet {
+            &, &::after {
+                clip-path: polygon(2% 1%, 100% 0%, 98% 100%, 0 100%);
+            }
+        }
+
+        &.lastBullet {
+            &, &::after {
+                clip-path: polygon(2% 0, 100% 0%, 100% 100%, 0 100%);
+            }
+        }
+    }
+}
+
+.swiperButton {
+    width: 4rem;
+    height: 3rem;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &, &::after {
+        clip-path: polygon(0 0, 100% 0%, 90% 100%, 0% 100%);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: var(--purple-color);
+        width: 0.0001px;
+        height: 100%;
+        transition: width 0.3s ease-out;
+    }
+
+    .arrow {
+        right: 0.25rem;
+        position: relative;
+        z-index: 10;
+        height: 1.5rem;
+        width: 1rem;
+        fill: none;
+        stroke: black;
+        stroke-width: 3;
+    }
+
+
+    &.right {
+        right: 0;
+        left: auto;
+
+        &::after {
+            left: 0;
+        }
+
+        &, &::after {
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .arrow {
+            transform: rotate(180deg);
+            right: 0;
+            left: 0.4rem;
+        }
+    }
+
+    &.active, &:active, &:hover {
+        background-color: var(--purple-color);
+
+        &::after{
+            width: 100%;
+        }
+
+        .arrow {
+            path {
+                stroke: white;
+                fill: white;
+            }
+        }
+    }
+}
