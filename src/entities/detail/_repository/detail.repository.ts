@@ -13,21 +13,46 @@ class DetailRepository {
     };
 
     if (search) {
-      query.where = {
-        name: {
-          contains: search,
-          mode: 'insensitive',
-        },
-      };
+      if (search) {
+        query.where = {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        };
+      }
+      if (order && sort) {
+        query.orderBy = { [order]: sort };
+      }
     }
-    if (order && sort) {
-      query.orderBy = {
-        [order]: sort,
-      };
-    }
-    const data = await prisma.detail.findMany(query);
-    console.log(data);
-    return data;
+    return prisma.detail.findMany(query);
+  }
+  async getDetailById(id: number): Promise<Detail | null> {
+    return await prisma.detail.findUnique({ where: { id } });
+  }
+
+  async getPopularDetails(take: number = 10): Promise<Detail[]> {
+    return await prisma.detail.findMany({
+      orderBy: { quantityOrdered: 'desc' },
+      take: take,
+    });
+  }
+  async getPromitedDetails(): Promise<Detail[]> {
+    return await prisma.detail.findMany({
+      where: {
+        OR: [
+          {
+            promotionId: { not: null },
+
+            discountPercentage: { gt: 0 },
+          },
+        ],
+      },
+      include: { promotion: true },
+    });
+  }
+  async getNewDetails(): Promise<Detail[]> {
+    return prisma.detail.findMany({ where: { discountPercentage: { gt: 0 } } });
   }
 }
 

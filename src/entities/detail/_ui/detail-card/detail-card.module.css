@@ -7,7 +7,7 @@
   opacity: 0;
   padding-bottom: 0.5em;
   contain: strict;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   min-width: 0;
 
   @apply animate-show-delay;
@@ -89,7 +89,7 @@
 
     .quantityAvailable {
       font-size: 0.8em;
-      color: var(--gray-color);
+      color: var(--purple-dark-color);
     }
   }
 
@@ -98,7 +98,9 @@
 @media screen and (hover:hover) {
   .card {
     &:hover {
-      box-shadow: -2px 23px 37px 27px rgb(34 60 80 / 20%);
+      -webkit-box-shadow: 0 0.6rem 1rem 0.6rem  rgb(34 60 80 / 20%);
+      -moz-box-shadow: 0 0.6rem 1rem 0.6rem  rgb(34 60 80 / 20%);
+      box-shadow: 0 0.4rem 1.5rem 0.6rem rgb(0 0 0 / 20%);
 
       .imageContainer {
         .image{

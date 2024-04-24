@@ -9,10 +9,7 @@ export function useOAuthSignIn(provider: AppProvider) {
   const callbackUrl = searchParams?.get('callbackUrl');
 
   const oAuthSignInMutation = useMutation({
-    mutationFn: () =>
-      signIn(provider.id, {
-        callbackUrl: callbackUrl ?? undefined,
-      }),
+    mutationFn: () => signIn(provider.id, { callbackUrl: callbackUrl ?? undefined }),
   });
 
   return {

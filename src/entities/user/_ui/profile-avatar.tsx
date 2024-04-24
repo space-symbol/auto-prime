@@ -17,7 +17,7 @@ export const ProfileAvatar = (props: ProfileAvatarProps) => {
 
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage src={profile.image ?? ''} />
+      <AvatarImage src={profile.image ?? undefined} />
       <AvatarFallback>{getProfileLetters(profile)}</AvatarFallback>
     </Avatar>
   );

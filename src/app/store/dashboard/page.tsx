@@ -1,5 +1,13 @@
-import DashboardPage from '../../../pages/dashboard-page/dashboard-page';
+import { Metadata } from 'next';
 
-const Dashboard = () => <DashboardPage />;
+export const metadata: Metadata = { title: 'Панель управления' };
+
+const Dashboard = () => {
+  return (
+    <main>
+      <h1>Dashboard</h1>
+    </main>
+  );
+};
 
 export default Dashboard;

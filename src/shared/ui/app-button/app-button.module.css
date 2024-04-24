@@ -1,8 +1,8 @@
 .appButton {
     --color: black;
-
+    
     position: relative;
-    transition: background-color 0.3s ease-out;
+    transition: background-color 0.3s ease;
     overflow: hidden;
     user-select: none;
     height: min-content;
@@ -23,12 +23,12 @@
     .icon {
         width: 1rem;
         height: 1rem;
-        transition: color 0.2s ease-out;
+        transition: color 0.2s ease;
     }
 
     .text {
         height: 100%;
-        transition: color 0.2s ease-out;
+        transition: color 0.2s ease;
         color: var(--color);
         font-size: var(--font-size-base);
     }
@@ -50,7 +50,6 @@
         background-color: var(--purple-color);
 
         --color: white;
-
 
         &:active {
             background-color: white;
@@ -83,6 +82,7 @@
 
     &.danger {
         --color: red;
+
 
         &:active {
             background-color: var(--warning-red-color);

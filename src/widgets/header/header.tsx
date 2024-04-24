@@ -27,19 +27,19 @@ export const Header = (props: HeaderProps) => {
       className={classNames(
         'flex items-center justify-between flex-col flex-shrink-0 gap-4 w-full bg-black bg-opacity-60 md:bg-opacity-100 p-pageX h-screen pl-pageLeft pr-pageRight pt-3 md:h-header md:flex-row',
         className,
-      )}
-    >
+      )}>
       <Logo className={'max-w-[200px] md:h-full'} />
       <nav className={'flex-grow flex justify-around h-full items-center'}>
         <ul>
           {headerItems.map((item, index) => (
-            <li className={'uppercase text-3xl sm:text-lg'} key={index}>
+            <li
+              className={'uppercase text-3xl sm:text-lg'}
+              key={index}>
               {item.link ? (
                 <AppLink
                   href={item.link}
                   active={activeIndex === index}
-                  theme={activeIndex === index ? AppLinkTheme.UNDERLINE : AppLinkTheme.HOVER}
-                >
+                  theme={activeIndex === index ? AppLinkTheme.UNDERLINE : AppLinkTheme.HOVER}>
                   {item.item}
                 </AppLink>
               ) : (

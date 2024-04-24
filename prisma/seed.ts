@@ -22,7 +22,8 @@ async function main() {
       price: 59.99,
       discountPercentage: null,
       quantityAvailable: 100,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/21/35/23521/images/20571/20571.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/21/35/23521/images/20571/20571.400x0.jpeg',
     },
     create: {
       id: 1,
@@ -31,7 +32,8 @@ async function main() {
       price: 59.99,
       discountPercentage: null,
       quantityAvailable: 100,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/21/35/23521/images/20571/20571.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/21/35/23521/images/20571/20571.400x0.jpeg',
     },
   });
 
@@ -44,7 +46,8 @@ async function main() {
       price: 12.99,
       discountPercentage: 5,
       quantityAvailable: 200,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg',
     },
     create: {
       id: 2,
@@ -53,7 +56,8 @@ async function main() {
       price: 12.99,
       discountPercentage: 5,
       quantityAvailable: 200,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg',
     },
   });
 
@@ -66,7 +70,8 @@ async function main() {
       price: 129.99,
       discountPercentage: null,
       quantityAvailable: 50,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg',
     },
     create: {
       id: 3,
@@ -75,7 +80,8 @@ async function main() {
       price: 129.99,
       discountPercentage: null,
       quantityAvailable: 50,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg',
     },
   });
 
@@ -88,7 +94,8 @@ async function main() {
       price: 199.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
     },
     create: {
       id: 4,
@@ -97,7 +104,8 @@ async function main() {
       price: 199.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
     },
   });
 
@@ -111,7 +119,8 @@ async function main() {
       price: 100.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg',
     },
   });
 
@@ -121,11 +130,13 @@ async function main() {
     create: {
       id: 6,
       name: 'ST Suspension Подвеска (койловеры) ST X Подвеска (койловеры) ST XA BMW 1er F20 / F 21 / 3er F30 / 4e ',
-      description: 'Комплект винтовой подвески (койловеров) ST Suspension ST X с регулировкой по высоте',
+      description:
+        'Комплект винтовой подвески (койловеров) ST Suspension ST X с регулировкой по высоте',
       price: 100.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
     },
   });
 
@@ -154,7 +165,8 @@ async function main() {
       price: 100.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
     },
   });
 
@@ -183,7 +195,8 @@ async function main() {
       price: 100.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
     },
   });
   const detail9 = await prisma.detail.upsert({
@@ -191,7 +204,7 @@ async function main() {
     update: {},
     create: {
       id: 9,
-      name: 'GSC Power-Division Распредвалы R2 Toyota 2JZ-GTE VVTi, 278°/278°, комплект  ',
+      name: 'EVENTURI Система впуска RS Q8 / Cayenne Turbo / Urus / Bentayga',
       description: `Входы:
 
       8/10* цифровых входов
@@ -211,7 +224,29 @@ async function main() {
       price: 100.99,
       discountPercentage: 10,
       quantityAvailable: 30,
-      imageUrl: 'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg',
+    },
+  });
+
+  const detail10 = await prisma.detail.upsert({
+    where: { id: 10 },
+    update: {},
+    create: {
+      id: 10,
+      name: 'GSC Power-Division Распредвалы R2 Toyota 2JZ-GTE VVTi, 278°/278°, комплект',
+      description: `Предназначен для установки на автомобили:
+
+      - Audi 4MN RSQ8 / SQ8 / 4M SQ7 2020+
+      - Lamborghini Urus 2019+.
+      - Porsche Cayenne Turbo 2020+
+      - Bentley Bentayga 2019+
+      `,
+      price: 100.99,
+      discountPercentage: 10,
+      quantityAvailable: 30,
+      imageUrl:
+        'https://1evel.ru/wa-data/public/shop/products/52/46/24652/images/22230/22230.1920.jpg',
     },
   });
 

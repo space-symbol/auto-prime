@@ -18,8 +18,18 @@ export const ProviderButton = ({ provider }: { provider: AppProvider }) => {
   };
 
   return (
-    <AppButton onClick={() => oauthSignIn.signIn()} theme={AppButtonTheme.OUTLINE} className={cls.providerButton}>
-      {oauthSignIn.isPending ? <Spinner aria-label={'Вход...'} className={'w-auto h-100%'} /> : getIcon(provider)}
+    <AppButton
+      onClick={() => oauthSignIn.signIn()}
+      theme={AppButtonTheme.OUTLINE}
+      className={cls.providerButton}>
+      {oauthSignIn.isPending ? (
+        <Spinner
+          aria-label={'Вход...'}
+          className={'w-auto h-100%'}
+        />
+      ) : (
+        getIcon(provider)
+      )}
     </AppButton>
   );
 };

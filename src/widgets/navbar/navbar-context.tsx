@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext, useState } from 'react';
 
 interface NavbarContextProps {
@@ -10,12 +11,14 @@ export const NavbarProvider = ({ children }: { children: React.ReactNode }) => {
   const [navbarIsActive, setNavbarIsActive] = useState<boolean>(false);
 
   return (
-    <NavbarContext.Provider value={{ navbarIsActive, changeNavbarIsActive: setNavbarIsActive }}>
+    <NavbarContext.Provider
+      value={{
+        navbarIsActive,
+        changeNavbarIsActive: setNavbarIsActive,
+      }}>
       {children}
     </NavbarContext.Provider>
   );
 };
-
-// export default NavbarProvider;
 
 export const useNavbarContext = () => useContext(NavbarContext);

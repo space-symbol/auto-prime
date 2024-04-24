@@ -1,3 +1,4 @@
+'use client';
 import SwitcherIcon from '@assets/icons/navbar-controller.svg';
 import classNames from 'classnames';
 import { ButtonHTMLAttributes } from 'react';
@@ -12,10 +13,9 @@ export const NavbarSwitcher = (props: NavbarSwitcherProps) => {
 
   return (
     <button
-      className={classNames('h-min p-2 sm:hidden', className)}
+      className={classNames('h-min p-2 lg:hidden', className)}
       title={navbarIsActive ? 'Свернуть навигацию' : 'Развернуть навигацию'}
-      {...otherProps}
-    >
+      {...otherProps}>
       <SwitcherIcon
         className={classNames('fill-black h-4 w-4 transition-transform', {
           'rotate-180': !navbarIsActive,

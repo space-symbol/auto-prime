@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -71,14 +72,18 @@ model Detail {
   discountPercentage Float?
   quantityAvailable Int
   imageUrl          String
+  createdAt       DateTime      @default(now())
   orderDetails     OrderDetail[]
-  categories        Category[]    @relation("CategoryToDetail")
+  quantityOrdered  Int           @default(0)
+  categories        Category[] 
+  promotionId         Int?
+  promotion           Promotion?    @relation(fields: [promotionId], references: [id])
 }
 
 model Category {
   id      Int      @id @default(autoincrement())
   name    String
-  details Detail[] @relation("CategoryToDetail")
+  details Detail[]
 }
 
 model OrderDetail {
@@ -98,6 +103,14 @@ model Payment {
   amount        Float
   orderId       String   @unique
   order         Order    @relation(fields: [orderId], references: [id])
+}
+
+model Promotion {
+  id          Int        @id @default(autoincrement())
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  details     Detail[]
 }
 
 enum Roles {

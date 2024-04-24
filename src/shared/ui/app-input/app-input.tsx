@@ -69,7 +69,9 @@ export const AppInput = React.forwardRef<HTMLInputElement, AppInputProps>((props
         </legend>
       </fieldset>
       {label && (
-        <label htmlFor={name} className={cls.inputLabel}>
+        <label
+          htmlFor={name}
+          className={cls.inputLabel}>
           <span className={cls.labelText}>{label}</span>
           {required && <span className={cls.asterisk}>*</span>}
         </label>
@@ -81,7 +83,6 @@ export const AppInput = React.forwardRef<HTMLInputElement, AppInputProps>((props
         defaultValue={defaultValue}
         onChange={onChangeHandler}
         id={name}
-        {...otherProps}
         className={cls.input}
         value={value}
         placeholder={placeholder && !label ? placeholder : ''}

@@ -5,7 +5,6 @@ import authConfig from './auth.config';
 import { AdapterUser } from '@auth/core/adapters';
 import { createUserUseCase } from '@entities/user/_use-case/create-user';
 import { Adapter } from 'next-auth/adapters';
-
 const prismaAdapter = PrismaAdapter(prisma);
 
 export const {
@@ -22,9 +21,7 @@ export const {
   } as Adapter,
   trustHost: true,
   session: { strategy: 'jwt' },
-  pages: {
-    signIn: '/store/auth/sign-in',
-  },
+  pages: { signIn: '/store/auth/sign-in' },
   callbacks: {
     signIn: ({ profile, user }) => {
       // @ts-ignore

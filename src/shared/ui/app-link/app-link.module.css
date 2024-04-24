@@ -46,6 +46,7 @@
         &:active,
         &.active {
             color: var(--purple-color);
+            font-weight: 600;
         }
     }
 

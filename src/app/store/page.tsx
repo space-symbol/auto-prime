@@ -1,5 +1,21 @@
-import StorePage from '../../pages/store-page/store-page';
+import { NewDetails } from '@/widgets/new-details/new-details';
+import { PopularDetails } from '@/widgets/popular-details/popular-details';
+import { PromotionsDetails } from '@/widgets/promotions-details/promotions-details';
+import { Metadata } from 'next';
 
-const Shop = () => <StorePage />;
+export const metadata: Metadata = {
+  title: 'Магазин',
+  description: 'Главная страница магазина',
+};
 
-export default Shop;
+const StorePage = () => {
+  return (
+    <main className="flex flex-col text-black flex-grow h-full gap-6">
+      <PopularDetails />
+      <NewDetails />
+      <PromotionsDetails />
+    </main>
+  );
+};
+
+export default StorePage;

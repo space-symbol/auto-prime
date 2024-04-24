@@ -13,10 +13,8 @@ interface CreateUser {
 
 class CreateUserUseCase {
   async exec(data: CreateUser) {
-    console.log(privateConfig.ADMIN_EMAILS);
     const adminEmails = privateConfig.ADMIN_EMAILS?.split(',') ?? [];
     const role = adminEmails.includes(data.email) ? Roles.ADMIN : Roles.USER;
-    console.log(role);
     const user: UserEntity = {
       id: createId(),
       role,

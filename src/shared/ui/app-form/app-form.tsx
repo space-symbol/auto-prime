@@ -21,13 +21,15 @@ export const AppForm = (props: AppFormProps) => {
     <form
       className={classNames('flex flex-col w-full gap-8 p-4 border border-opacity-40 border-black rounded', className)}
       onSubmit={onSubmitHandler}
-      {...otherProps}
-    >
+      {...otherProps}>
       {title && <label className="text-2xl font-medium m-auto px-1">{title}</label>}
       <div className={'flex flex-col gap-4'}>
         <div className={'flex flex-col gap-4'}>{children}</div>
         <div className={'flex flex-col gap-4'}>
-          <AppButton theme={AppButtonTheme.FILLED} className={'text-base py-3 rounded'} disabled={isPending}>
+          <AppButton
+            theme={AppButtonTheme.FILLED}
+            className={'text-base py-3 rounded'}
+            disabled={isPending}>
             {isPending ? <Spinner className={'w-auto h-100%'} /> : sendButtonText}
           </AppButton>
         </div>

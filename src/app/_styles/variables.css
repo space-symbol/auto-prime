@@ -1,18 +1,13 @@
 :root {
     /* Размеры */
     --header-height: 6rem;
-    --navbar-width: 13rem;
+    --navbar-width: 14rem;
     --top-bar-height: 3.5rem;
 
     /* Z-Index */
     --top-bar-z-index: 10;
     --navbar-z-index: 20;
     --backdrop-z-index: 15;
-
-    /* Шрифты */
-    --montserrat-font: var(--montserrat-font);
-    --rubik-font: var(--rubik-font);
-    --roboto-font: var(--roboto-font);
 
     /* Отступы */
     --page-padding-top: 2rem;
@@ -35,7 +30,10 @@
     --gray-dark-color: #4c4c4c;
     --warning-red-color: #C30;
 
-    /* Размеры шрифтов */
+    /* Тайминги */
+    --transition-duration: 0.2s 
+
+    /* Размеры шрифтов */;
     --font-size-xss: 0.5rem;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;

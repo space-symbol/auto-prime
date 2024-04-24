@@ -10,7 +10,9 @@ export const Logo = (props: LogoProps) => {
   const { className } = props;
 
   return (
-    <Link className={classNames(cls.logo, className)} href={'/store'}>
+    <Link
+      className={classNames(cls.logo, className)}
+      href={'/store'}>
       <LogoIcon />
     </Link>
   );

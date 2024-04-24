@@ -2,7 +2,13 @@ import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
-  content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
+  important: true,
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
   prefix: '',
   theme: {
     container: {
@@ -68,16 +74,45 @@ const config = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
         show: {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
+          from: {
+            opacity: '0',
+          },
+          to: {
+            opacity: '1',
+          },
+        },
+        'translate-right': {
+          from: {
+            transform: 'translateX(-100%)',
+          },
+          to: {
+            transform: 'translateX(0)',
+          },
+        },
+        'translate-left': {
+          from: {
+            transform: 'translateX(0)',
+          },
+          to: {
+            transform: 'translateX(-100%)',
+            opacity: '0',
+          },
         },
       },
       animation: {
@@ -85,6 +120,8 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'show-delay': 'show 0.2s 0.1s forwards ease',
         show: 'show 0.2s ease',
+        'translate-right': 'translate-right 0.2s forwards ease',
+        'translate-left': 'translate-left 0.2s forwards ease',
       },
       margin: {
         navbar: 'var(--navbar-width)',
@@ -116,11 +153,13 @@ const config = {
         topBar: 'var(--top-bar-height)',
       },
       fontFamily: {
-        roboto: 'var(--font-roboto)',
-        rubik: 'var(--font-rubik)',
-        montserrat: 'var(--font-montserrat)',
+        roboto: 'var(--roboto(-font)',
+        rubik: 'var(--rubik-font)',
+        montserrat: 'var(--montserrat-font)',
+        golos: 'var(--golos-font)',
       },
       fontSize: {
+        inherit: 'inherit',
         xxs: 'var(--font-size-xss)',
         xs: 'var(--font-size-xs)',
         sm: 'var(--font-size-xs)',
@@ -131,12 +170,16 @@ const config = {
         '3xl': 'var(--font-size-3xl)',
         '4xl': 'var(--font-size-4xl)',
       },
+      transitionDuration: {
+        DEFAULT: 'var(--transition-duration)',
+      },
       transitionProperty: {
         margin: 'margin',
         width: 'width',
         height: 'height',
         invisible: 'visibility width height opacity',
         position: 'position',
+        'flex-grow': 'flex-grow',
       },
       zIndex: {
         topBar: 'var(--top-bar-z-index)',

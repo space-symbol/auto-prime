@@ -26,8 +26,7 @@ export const SwiperButton = (props: SwiperButtonProps) => {
       className={classNames(cls.swiperButton, className, {
         [cls.right]: direction === 'right',
       })}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <ArrowIcon className={cls.arrow} />
     </button>
   );
@@ -69,11 +68,12 @@ export const AppSwiper = (props: AppSwiperProps) => {
       }}
       loop
       initialSlide={activeIndex || 0}
-      onSlideChange={onSlideChange}
-    >
+      onSlideChange={onSlideChange}>
       <SwiperButton />
       {slides.map((slide: Slide, index) => (
-        <SwiperSlide className={cls.swiperSlide} key={index}>
+        <SwiperSlide
+          className={cls.swiperSlide}
+          key={index}>
           {slide.slide}
         </SwiperSlide>
       ))}

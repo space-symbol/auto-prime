@@ -23,7 +23,10 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>((props: A
   const buttonClasses = classNames(cls.appButton, cls[theme], className);
 
   return (
-    <button ref={ref} {...otherProps} className={buttonClasses}>
+    <button
+      ref={ref}
+      {...otherProps}
+      className={buttonClasses}>
       {Icon && Icon}
       <div className={cls.text}>{children}</div>
     </button>

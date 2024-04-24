@@ -12,6 +12,7 @@ export default middleware((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
   if (isApiAuthRoute) {
     return null;
   }

@@ -1,7 +1,8 @@
+'use client';
 import classNames from 'classnames';
 import { AppInput } from '@shared/ui/app-input/app-input';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 import { debounce } from 'lodash-es';
 // import FilterIcon from '@assets/icons/filter.svg?url';
 
@@ -12,35 +13,27 @@ interface SearchBarProps {
 export const SearchDetailsBar = (props: SearchBarProps) => {
   const { className } = props;
   const router = useRouter();
-  const searchParams = useSearchParams()!;
   const pathname = usePathname();
-  const defaultValue = searchParams.get('search') || '';
-  const [searchValue, setSearchValue] = useState<string>(defaultValue);
 
-  const onSearch = useMemo(
+  const onSearchValueChange = useMemo(
     () =>
-      debounce(() => {
-        if (pathname === '/store') {
-          router.push(`?search=${searchValue}`);
+      debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+        if (pathname === '/store/catalog') {
+          router.push(`?search=${e.target.value}`);
         }
-      }, 600),
-    [searchValue],
+      }, 400),
+    [pathname, router],
   );
-
-  const onSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
 
   const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      if (pathname !== '/store') {
-        router.push(`/store?search=${searchValue}`);
+      if (pathname !== '/store/catalog') {
+        router.push(`/store/catalog/?search=${e.currentTarget.value}`);
+      } else {
+        router.push(`?search=${e.currentTarget.value}`);
       }
     }
   };
-  useEffect(() => {
-    onSearch();
-  }, [onSearch]);
 
   return (
     <div className={classNames('flex items-center gap-4 flex-grow max-w-96 w-auto min-w-40', className)}>
@@ -49,7 +42,6 @@ export const SearchDetailsBar = (props: SearchBarProps) => {
         label={'Найти'}
         className={'flex-grow h-full'}
         placeholder={'Найти'}
-        value={searchValue}
         onChange={onSearchValueChange}
         onKeyDown={onEnterPress}
       />

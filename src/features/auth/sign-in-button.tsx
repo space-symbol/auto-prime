@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { AppButton } from '@shared/ui/app-button/app-button';
+import { AppButton, AppButtonTheme } from '@shared/ui/app-button/app-button';
 // import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import SignInIcon from '@assets/icons/enter.svg';
@@ -13,9 +13,12 @@ export const SignInButton = (props: SignInButtonProps) => {
 
   return (
     <Link href={'/store/auth/sign-in'}>
-      <AppButton Icon={SignInIcon} className={classNames('group', className)}>
+      <AppButton
+        theme={AppButtonTheme.FILLED}
+        Icon={SignInIcon}
+        className={classNames('group', className)}>
         <div className={'flex gap-2 items-center'}>
-          <span>Войти</span>
+          <span>Вход</span>
         </div>
       </AppButton>
     </Link>

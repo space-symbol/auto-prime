@@ -1,4 +1,14 @@
-import SingInPage from '../../../../pages/sign-in-page/sing-in-page';
+import { SignInVariants } from '@features/auth/sign-in-variants';
+import { Suspense } from 'react';
 
-const Login = () => <SingInPage />;
-export default Login;
+const SingInPage = () => {
+  return (
+    <main>
+      <Suspense>
+        <SignInVariants />
+      </Suspense>
+    </main>
+  );
+};
+
+export default SingInPage;

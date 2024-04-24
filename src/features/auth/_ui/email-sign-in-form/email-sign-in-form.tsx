@@ -27,9 +27,7 @@ export const EmailSignInForm = (props: LoginFormProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormType>({
-    defaultValues: {
-      email: '',
-    },
+    defaultValues: { email: '' },
     resolver: zodResolver(SignInFormSchema),
     mode: 'onTouched',
   });
@@ -43,8 +41,7 @@ export const EmailSignInForm = (props: LoginFormProps) => {
       isPending={isPending}
       title={'Войти в аккаунт'}
       sendButtonText={'Войти через Email'}
-      className={classNames('min-w-96 px-8 pb-0 border-none', className)}
-    >
+      className={classNames('min-w-96 px-8 pb-0 border-none', className)}>
       <Controller
         control={control}
         render={({ field }) => (
