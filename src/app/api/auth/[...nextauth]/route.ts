@@ -1,1 +1,1 @@
-export { GET, POST } from '@entities/user/auth';
+export { GET, POST } from '@/entities/user/auth/auth';

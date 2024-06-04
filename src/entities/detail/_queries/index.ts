@@ -1,23 +1,21 @@
-import { SearchOptions } from '../_domain/types';
-import { UseQueryOptions, useQuery } from '@tanstack/react-query';
+import { UseQueryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
+import { DetailEntity, SearchDetailsParams } from '../_domain/types';
 import { getDetailsByParamsAction } from '../_actions/get-details-by-params';
-import { Detail } from '@prisma/client';
-import { getNewDetailsAction } from '../_actions/get-new-details';
-import { getPopularDetailsAction } from '../_actions/get-popular-details';
-import { getPromitedDetailsAction } from '../_actions/get-promited-details';
+import { getDetailByIdAction } from '../_actions/get-detail-by-id';
 
-const baseKey = 'store';
-interface QueryOptions extends Omit<UseQueryOptions<Detail[]>, 'queryFn' | 'queryKey'> {
-  queryKey: string[];
-  queryFn: () => Promise<Detail[]>;
-}
-export const useGetDetailsByParamsQuery = (
-  SearchOptions: SearchOptions,
-  options?: QueryOptions,
-) => {
-  const { data, ...other } = useQuery<Detail[], Error>({
-    queryKey: [baseKey, 'catalog'],
-    queryFn: async () => await getDetailsByParamsAction(SearchOptions),
+const baseKey = 'detail';
+interface QueryOptions extends Omit<UseQueryOptions<DetailEntity[]>, 'queryFn' | 'queryKey'> {}
+export const useGetDetailsQuery = (params?: SearchDetailsParams, options?: QueryOptions) => {
+  const queryKey = [baseKey];
+  if (params) {
+    queryKey.push(JSON.stringify(params));
+  } else {
+    queryKey.push('all');
+  }
+
+  const { data, ...other } = useQuery({
+    queryKey,
+    queryFn: async () => await getDetailsByParamsAction(params),
     ...options,
   });
 
@@ -27,41 +25,25 @@ export const useGetDetailsByParamsQuery = (
   };
 };
 
-export const useGetNewDetailsQuery = (options?: QueryOptions) => {
-  const { data, ...other } = useQuery<Detail[], Error>({
-    queryKey: [baseKey, 'new'],
-    queryFn: async () => await getNewDetailsAction(),
-    ...options,
-  });
-
-  return {
-    newDetails: data,
-    ...other,
-  };
+export const useInvalidateDetails = (params?: SearchDetailsParams) => {
+  const queryClient = useQueryClient();
+  const queryKey = [baseKey];
+  if (params) {
+    queryKey.push(JSON.stringify(params));
+  } else {
+    queryKey.push('all');
+  }
+  return () => queryClient.invalidateQueries({ queryKey: [baseKey] });
 };
 
-export const useGetPopularDetailsQuery = (options?: QueryOptions) => {
-  const { data, ...other } = useQuery<Detail[], Error>({
-    queryKey: [baseKey, 'popular'],
-    queryFn: async () => await getPopularDetailsAction(),
-
-    ...options,
+export const useGetDetailQuery = (id: number) => {
+  const { data, ...other } = useQuery({
+    queryKey: [baseKey, id],
+    queryFn: async () => await getDetailByIdAction(id),
   });
-  return {
-    popularDetails: data,
-    ...other,
-  };
-};
 
-export const useGetPromitedDetailsQuery = (options?: QueryOptions) => {
-  const { data, ...other } = useQuery<Detail[], Error>({
-    queryKey: [baseKey, 'promited'],
-    queryFn: async () => await getPromitedDetailsAction(),
-
-    ...options,
-  });
   return {
-    promitedDetails: data,
+    detail: data,
     ...other,
   };
 };

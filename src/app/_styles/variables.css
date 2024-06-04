@@ -1,94 +1,163 @@
-:root {
-    /* Размеры */
-    --header-height: 6rem;
-    --navbar-width: 14rem;
-    --top-bar-height: 3.5rem;
-
-    /* Z-Index */
-    --top-bar-z-index: 10;
-    --navbar-z-index: 20;
-    --backdrop-z-index: 15;
-
-    /* Отступы */
-    --page-padding-top: 2rem;
-    --page-padding-bottom: 1rem;
-    --page-padding-left: 1rem;
-    --page-padding-right: 1rem;
-    --page-paddings-x: var(--page-padding-left) var(--page-padding-right);
-    --page-paddings-y: var(--page-padding-top) var(--page-padding-bottom);
-    --page-paddings: var(--page-padding-top) var(--page-padding-bottom) var(--page-padding-left) var(--page-padding-right);
-
-    /* Цвета */
-    --purple-color: #8b00ff;
-    --purple-dark-color: #9d6cff;
-    --purple-light-color: #B39DDB;
-    --gold-color: #fdbe00;
-    --gold-light-color: #FFF59D;
-    --orange-color-default: #F90;
-    --gray-color: #989898;
-    --gray-light-color: #D3D3D3;
-    --gray-dark-color: #4c4c4c;
-    --warning-red-color: #C30;
-
-    /* Тайминги */
-    --transition-duration: 0.2s 
-
-    /* Размеры шрифтов */;
-    --font-size-xss: 0.5rem;
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.375rem;
-    --font-size-3xl: 1.5rem;
-
-    
-}
-
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 224 71.4% 4.1%;
-        --card: 0 0% 100%;
-        --card-foreground: 224 71.4% 4.1%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 224 71.4% 4.1%;
-        --primary: 220.9 39.3% 11%;
-        --primary-foreground: 210 20% 98%;
-        --secondary: 220 14.3% 95.9%;
-        --secondary-foreground: 220.9 39.3% 11%;
-        --muted: 220 14.3% 95.9%;
-        --muted-foreground: 220 8.9% 46.1%;
-        --accent: 220 14.3% 95.9%;
-        --accent-foreground: 220.9 39.3% 11%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 20% 98%;
-        --border: 220 13% 91%;
-        --input: 220 13% 91%;
-        --ring: 224 71.4% 4.1%;
+        /* Размеры */
+        --header-height: 6rem;
+        --navbar-width: 14rem;
+        --top-bar-height: 3.5rem;
+
+        /* Z-Index */
+        --top-bar-z-index: 10;
+        --navbar-z-index: 25;
+        --backdrop-z-index: 15;
+        --menu-menu-z-index: 20;
+        --input-label-z-index: 10;
+
+        /* Отступы */
+        --page-padding-top: 1.5rem;
+        --page-padding-bottom: 1rem;
+        --page-padding-left: 1rem;
+        --page-padding-right: 1rem;
+        --page-paddings-x:  0 var(--page-padding-left) 0 var(--page-padding-right);
+        --page-paddings-y: var(--page-padding-top) 0 var(--page-padding-bottom) 0;
+        --page-paddings: var(--page-padding-top) var(--page-padding-bottom) var(--page-padding-left) var(--page-padding-right);
+
+        /* Цвета */
+        --gold: 48deg 100% 50%;
+        --gold-dark: 39deg 100% 60%;
+        --destructive-red: 0deg 62.8% 30.6%;
+        --warning-red: 0deg 100% 70%;
+
+        /* Тайминги */
+        --transition-duration: 0.2s;
+
+        /* Размеры шрифтов */
+        --font-size-xss: 0.5rem;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.375rem;
+        --font-size-3xl: 1.5rem;
+        --background: 0deg 0% 100%;
+        --background-invert: 0deg 0% 0%;
+        --foreground: 0deg 0% 0%;
+        --foreground-secondary: var(--gray);
+
+        /* Цвет карточек */
+        --card: 0deg 0% 100%;
+        --card-foreground: 0deg 0% 0%;
+
+        /* Цвет попапов */
+        --popover: 0deg 0% 100%;
+        --popover-foreground: var(--gray-dark);
+
+        /* Цвет меток */
+        --muted: var(--gray-light);
+        --muted-foreground: var(--gray);
+
+        /* Цвет инпутов */
+        --input: 0deg 0% 100%;
+        --input-foreground: 0deg 0% 0%;
+        --ring: 0deg 0% 0%;
         --radius: 0.5rem;
+        --border: 0deg 0% 0%;
+        --link: 270deg 100% 50%;
+        
+        /* Цвет навигационной панели */
+        --navbar: 0deg 0% 0%;
+        --navbar-foreground: 0deg 0% 100%;
+
+        /* Акцентные цвета */
+        --accent-active: var(--gold-dark);
+        --accent-active-foreground:  0 0% 0%;
+        --accent: 270deg 100% 50%;
+        --accent-foreground: 0deg 0% 100%;
+
+        /* Цвет скелетона */
+        --skeleton: 0deg 0% 10%;
+
+        /* Цвета кнопок */
+        --destructive:  0deg 0% 100%;
+        --destructive-foreground: var(--destructive-red);
+
+        /* Цвет скролбара */
+        --scorllbar: 210deg 4% 10%;
+
+        /* Цвет диалогов */
+        --dialog: 0deg 0% 100%;
+        --dialog-foreground: 0deg 0% 0%;
+
+        /* Цвет заголовков */
+        --title: 0deg 0% 0%;
+
+        /* Цвет таблиц */
+        --table-header: 0deg 0% 80%;
+        --table-header-foreground: 0deg 0% 70%;
     }
 
     .dark {
-        --background: 224 71.4% 4.1%;
-        --foreground: 210 20% 98%;
-        --card: 224 71.4% 4.1%;
-        --card-foreground: 210 20% 98%;
-        --popover: 224 71.4% 4.1%;
-        --popover-foreground: 210 20% 98%;
-        --primary: 210 20% 98%;
-        --primary-foreground: 220.9 39.3% 11%;
-        --secondary: 215 27.9% 16.9%;
-        --secondary-foreground: 210 20% 98%;
-        --muted: 215 27.9% 16.9%;
-        --muted-foreground: 217.9 10.6% 64.9%;
-        --accent: 215 27.9% 16.9%;
-        --accent-foreground: 210 20% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 20% 98%;
-        --border: 215 27.9% 16.9%;
-        --input: 215 27.9% 16.9%;
-        --ring: 216 12.2% 83.9%;
+        --background: 0deg 0% 0%;
+        --foreground: 0deg 0% 60%;
+        --border: 0deg 0% 70%;
+        --input: 0deg 0% 0%;
+        --ring: 0deg 0% 100%;
+        --page: 0deg 0% 6%;
+
+        /* Цвета ссылок */
+        --link: 360deg 100% 70%;
+
+        /* Цвета карточек */
+        --card: 0deg 0% 10%;
+        --card-foreground: 0deg 0% 80%;
+
+        /* Цвета попапов */
+        --popover: 210deg 4% 19%;
+        --popover-foreground: 0 0 80%;
+
+        /* Цвета меток */
+        --muted: var(--purple);
+        --muted-foreground: var(--gray-light);
+
+        /* Цвета кнопок */
+        --destructive: var(--destructive-red);
+        --destructive-foreground: 0deg 0% 100%;
+        --primary: 0deg 0% 0%;
+        --primary-foreground:  39deg 100% 60%;
+
+        /* Цвет скелетона */
+        --skeleton: 0deg 0% 10%;
+
+        /* Цвет навигационной панели */
+        --navbar: 0deg 0% 6%;
+        --navbar-foreground: 0deg 0% 70%;
+
+        /* Цвета заголовков */
+        --title: 0deg 0% 80%;
+
+        /* Цвет скролбара */
+        --scorllbar: 0deg 0% 100%;
+
+        /* Цвет тостов */
+        --toast-success: 0deg 0% 100%;
+        --toast-error: 0deg 0% 100%;
+        --toast-warning: 0deg 0% 100%;
+        --toast-info: 0deg 0% 10%;
+
+        /* Цвета текста в тостах */
+        --toast-success-foreground: 0deg 0% 0%;
+        --toast-error-foreground: 0deg 0% 0%;
+        --toast-warning-foreground: 0deg 0% 0%;
+        --toast-info-foreground: 0deg 0% 100%;
+
+        /* Цвет диалогов */
+        --dialog: 0deg 0% 10%;
+        --dialog-foreground: 0deg 0% 70%;
+    
+        /* Цвет таблиц */
+        --table-header: 0deg 0% 10%;
+        --table-header-foreground: 0deg 0% 70%;
     }
 }
+
+

@@ -7,32 +7,33 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEmailSignIn } from '../../_vm/use-email-sign-in';
 
-interface LoginFormProps {
+interface EmailSignInFormProps {
   className?: string;
 }
 
-export const SignInFormSchema = z.object({
+export const EmailSignInFormSchema = z.object({
   email: z
     .string()
     .min(1, { message: 'Электронная почта обязательна' })
     .email({ message: 'Такой электронной почты не существует' }),
 });
-type LoginFormType = z.infer<typeof SignInFormSchema>;
+type EmailSignInFormType = z.infer<typeof EmailSignInFormSchema>;
 
-export const EmailSignInForm = (props: LoginFormProps) => {
+export const EmailSignInForm = (props: EmailSignInFormProps) => {
   const { className } = props;
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormType>({
+  } = useForm<EmailSignInFormType>({
     defaultValues: { email: '' },
-    resolver: zodResolver(SignInFormSchema),
+    resolver: zodResolver(EmailSignInFormSchema),
     mode: 'onTouched',
   });
 
   const { signIn, isPending } = useEmailSignIn();
+
   return (
     <AppForm
       onSubmit={handleSubmit((data) => {
@@ -41,12 +42,12 @@ export const EmailSignInForm = (props: LoginFormProps) => {
       isPending={isPending}
       title={'Войти в аккаунт'}
       sendButtonText={'Войти через Email'}
-      className={classNames('min-w-96 px-8 pb-0 border-none', className)}>
+      className={classNames('w-full px-8 pb-0 border-none', className)}>
       <Controller
         control={control}
         render={({ field }) => (
           <AppInput
-            className={'py-2'}
+            className={'h-12'}
             label={'Электронная почта'}
             type={'email'}
             autoComplete={'email'}

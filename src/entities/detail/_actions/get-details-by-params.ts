@@ -1,7 +1,7 @@
 'use server';
-import { detailRepository } from '@entities/detail/_repository/detail.repository';
-import { SearchOptions } from '../_domain/types';
+import { SearchDetailsParams } from '../_domain/types';
+import { getDetailsList } from '../_use-cases/get-details-list';
 
-export const getDetailsByParamsAction = async (searchOptions?: SearchOptions) => {
-  return detailRepository.getDetailsByParams(searchOptions);
+export const getDetailsByParamsAction = async (params?: SearchDetailsParams) => {
+  return getDetailsList.execute(params);
 };

@@ -1,32 +1,25 @@
 'use client';
-import { SearchOptions } from '@/entities/detail/_domain/types';
-import { useGetDetailsByParamsQuery } from '@/entities/detail/_queries';
-import { DetailsCardsList } from '@/entities/detail/details-cards-list/details-cards-list';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/detail';
+import { memo, useEffect } from 'react';
+import { useGetQueryParams } from '@/shared/hooks/use-get-query-params';
+import { SearchDetailsParamsSchema } from '@entities/detail/_domain/schemas';
 
-export const SearchParamsDetailslist = () => {
-  const searchParams = useSearchParams()!;
-  const searchOptions: SearchOptions = useMemo(
-    () => ({
-      searchValue: searchParams.get('search') ?? '',
-      order: searchParams.get('order') ?? '',
-      sort: searchParams.get('sort') ?? '',
-    }),
-    [searchParams],
-  );
-  const { details, isPending, refetch } = useGetDetailsByParamsQuery(searchOptions);
+export const SearchParamsDetailslist = memo(() => {
+  const searchQueryParams = useGetQueryParams(SearchDetailsParamsSchema);
+
+  const { details, isPending, refetch } = useGetDetailsQuery(searchQueryParams);
 
   useEffect(() => {
     refetch();
-  }, [refetch, searchOptions]);
+  }, [refetch]);
 
-  if (!searchParams) return 'null';
   return (
     <DetailsCardsList
-      searchValue={searchOptions.searchValue}
+      searchValue={searchQueryParams.search}
       isPending={isPending}
       details={details}
     />
   );
-};
+});
+
+SearchParamsDetailslist.displayName = 'SearchParamsDetailslist';

@@ -1,17 +1,34 @@
-.appInputContainer {
+.inputContainer {
     position: relative;
-    border-radius: 0.25rem  ;
+    border-radius: 0.25rem;
     width: auto;
-    color: black;
     margin-bottom: 0.5em;
+    margin-top: 3px;
+
+    @apply text-foreground;
+
 
     .input {
         font: inherit;
-        background-color: inherit;
-        border: none;
         width: 100%;
         height: 100%;
         padding: 0.5rem;
+        text-align: inherit;
+        position: relative;
+        border-radius: inherit;
+        z-index: 1;
+        border: none;
+        background-color: transparent;
+        
+        &[type='number'] {
+            appearance: textfield;
+        }
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            appearance: none;
+            margin: 0;
+        }
 
         &:focus {
             outline: none;
@@ -21,14 +38,15 @@
     .wrapper {
         position: absolute;
         inset: -0.3rem 0 0;
-        border: 1px solid var(--gray-color);
         min-width: 0;
         padding: 0 0.5rem;
         pointer-events: none;
-        border-radius: 0.1em;
+        border-radius: inherit;
         overflow: hidden;
         text-overflow: ellipsis;
-        z-index: 0;
+        z-index: var(--input-label-z-index);
+ 
+        @apply border border-foreground-secondary;
 
         .legend {
             height: 0.8rem;
@@ -53,87 +71,277 @@
         bottom: 0;
         display: flex;
         align-items: center;
-        color: var(--gray-color);
         animation: 0.2s show-placeholder forwards ease;
         pointer-events: none;
         user-select: none;
         text-overflow: ellipsis;
         overflow: hidden;
         max-width: 100%;
+        z-index: var(--input-label-z-index);
+        background-color: transparent;
+
+        .labelText {
+            @apply text-foreground-secondary;
+        }
     }
 
-    &.active, &:has(.input:-webkit-autofill, .input:autofill) {
+    &:has(textarea.input) {
         .inputLabel {
-            font-size: 0.7rem;
-            top: -0.6em;
-            align-items: flex-start;
-            margin: 0;
-            animation: 0.2s show-label forwards ease;
-            max-width: calc(100% - 1rem - 2px);
-            right: 0;
-            color: black;
-
-            .labelText {
-                padding: 0 4px;
-            }
-        }
-
-        .wrapper {
-            border-color: var(--gray-dark-color);
-            font-size: 0.7rem;
-
-            .legend {
-                width: auto;
-                max-width: calc(100% - 1rem);
-                padding: 0 3px;
-            }
+            align-items: start;
         }
     }
 
+    &.filled, &:has(.input:focus, .input:-webkit-autofill, .input:autofill, .input[type='datetime-local'], .input[type='date']) {
+            .inputLabel {
+                font-size: 0.7rem;
+                top: -0.6em;
+                align-items: flex-start;
+                margin: 0;
+                animation: 0.2s show-label forwards ease;
+                max-width: calc(100% - 1rem - 2px);
+                right: 0;
+    
+                .labelText {
+                    padding: 0 4px;
+
+                    @apply text-foreground;
+                }
+            }
+
+            .wrapper {
+                font-size: 0.7rem;
+                border-color: hsl(var(--gray-dark-color));
+                
+                .legend {
+                    max-width: calc(100% - 1rem);
+                    padding: 0 3px;
+                    width: auto;
+                }
+            }
+
+            &.error {
+                .wrapper {
+                    @apply text-warning;
+                }
+            }
+        }
+    
     &:has(.input:focus) {
         .wrapper {
             border-width: 2px;
         }
 
-        &.active {
-            .inputLabel {
-                color: var(--purple-color);
-                font-weight: bold;
+        .inputLabel {
+            .labelText {
+                @apply text-accent;
+
+                padding: 0 4px;
             }
+
+            font-weight: bold;
         }
 
         &.error {
             .inputLabel {
-                color: var(--warning-red-color);
+                color: var(--destructive-color);
             }
         }
     }
-
+    
     &.fullwidth {
         width: 100%;
     }
 
-    .errorText {
-        position: absolute;
-        font-size: 0.7rem;
-        bottom: -1.5em;
-        left: 2px;
-        color: var(--warning-red-color);
-        font-weight: bold;
-    }
-
     &.error {
-        .wrapper {
-            border-color: var(--warning-red-color);
-        }
-
-        .inputLabel {
-            color: var(--warning-red-color);
+        .errorText {
+            position: absolute;
+            font-size: 0.7rem;
+            bottom: -1.5em;
+            left: 2px;
+            font-weight: bold;
+            white-space: nowrap;
         }
     }
 
     &.search {
         margin: 0;
+    }
+    
+    &.nolabel {
+        .wrapper {
+            inset: 0 !important;
+
+            .legend {
+                display: none;
+            }
+        }
+    }
+}
+
+.inputFileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+
+    
+    .inputFile {
+        display: none;
+    }
+
+    &.dragging{
+        .inputLabel{
+            border: 0.1rem dashed var(--purple-color);
+        }
+
+        .labelText {
+           color: var(--purple-color);
+        }
+    }
+    
+
+    .inputLabel {
+        position: relative;
+        cursor: pointer;
+        border: 0.1rem dashed hsl(var(--foreground));
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        color: hsl(var(--foreground));
+        font-weight: bold;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        width: 100%;
+        border-radius: 0.25rem;
+        height: auto;
+        flex-grow: 1;
+        min-height: 10rem;
+        transition: border-color 0.2s ease-out;
+
+
+        .labelText {
+            user-select: none;
+            pointer-events: none;
+            display: block;
+            padding: 1rem;
+            animation: 0.2s show-placeholder forwards ease;
+            text-align: center;
+            transition: color 0.3s ease-out;
+        }
+
+        &:focus {
+            @apply border-solid border-foreground;
+
+            outline: none;
+
+            .labelText {
+                @apply text-foreground
+            }
+        }
+    }
+
+    .files {
+        display: grid;
+        overflow: auto;
+        height: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+        grid-auto-rows: 13rem;
+        gap: 1rem;
+        border-radius: 0.25rem;
+        padding: 1rem 0;
+        transition: all 0.3s ease-out;
+        position: relative;
+
+
+        .filePreviewCard {
+            max-width: 32rem;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            gap: 0.2rem;
+
+                .fileImage {
+                    height: auto;
+                    width: 100%;
+                    flex-grow: 1;
+                    max-height: 6rem;
+                    max-width: 8rem;
+                    object-fit: contain;
+                    align-self: center;
+                    user-select: none;
+                    pointer-events: none;
+                }
+        }
+
+
+        .fileName {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-weight: 400;
+            font-size: 0.9em;
+        }
+    }
+
+    &.error{
+        .errorText {
+            position: absolute;
+            font-size: 0.9em;
+            bottom: -1.2rem;
+            left: 2px;
+            z-index: 1;
+            line-height: 1em;
+        }
+    }
+
+    .filesInfo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8em;
+
+    }
+         
+    .fileSize{
+        font-size: 0.8em;
+        right: 0.5rem;
+        padding-right: 0.2rem;
+        text-align: right;
+
+        @apply text-foreground-secondary
+    }
+
+    @media screen and (width <= 425px) {
+        &.files {
+                grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+.asterisk {
+    @apply text-warning;
+}
+
+.error{
+    &, &.filled {
+        .inputLabel {
+            .labelText {
+                @apply text-warning;
+            }    
+        }
+
+        .files, .wrapper {
+            @apply border-warning;
+            
+        }
+    
+        .errorText {
+            @apply text-warning;
+        }
     }
 }
 

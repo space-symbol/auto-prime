@@ -4,152 +4,138 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    box-sizing: border-box;
-}
-
-html {
-    div, main, section, article, header {
-         scroll-behavior: smooth !important;
-         scroll-margin-block-start: 2rem;
-    }
-
-    header, main {
-        scrollbar-gutter: stable;
-    }
-}
-
-html, body {
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    color: #fff;
-    font-size: 10px;
-
-    @apply font-golos;
-
-    > * {
-        font-size: inherit;
-        text-wrap: balance;
-    }
-
-}
-
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-}
-
-h1 {
-    font-size: var(--font-size-3xl);
-}
-
-h2 {
-    font-size: var(--font-size-2xl);
-}
-
-h3 {
-    font-size: var(--font-size-xl);
-}
-
-h4 {
-    font-size: var(--font-size-lg);
-}
-
-h5 {
-    font-size: var(--font-size-base);
-}
-
-h6 {
-    font-size: var(--font-size-sm);
-}
-
-::-webkit-scrollbar{
-    background: none;
-    width: 0.5rem;
-}
-
-::-webkit-scrollbar-track{
-    width: 0.1rem;
-}
-
-::-webkit-scrollbar-thumb{
-   background-color: var(--gray-color);
-   border-radius: 0.1rem;
-}
-
-body {
-    > div {
-        min-width: 320px;
-    }
-}
-
-img {
-    width: 100%;
-    height: 100%;
-}
-
-
-ul {
-    li {
-        list-style-type: none;
-    }
-}
-
 
 @layer base {
+    .gutter-stable {
+        scrollbar-gutter: stable;
+    }
+    
+    html, body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-size: 18px;
+        
+        img {
+            height: 100%;
+            width: 100%;
+        }
+        
+        @apply font-golos;
+    
+        * {
+            font-size: inherit;
+            text-wrap: balance;
+            color: hsl(var(--foreground));
+            scroll-behavior: smooth !important;
+        }
+    
+        main, section, article {
+            scroll-margin-block-start: 2rem;
+        }
+    }
+    
+    
+    svg {
+        path {
+            color: inherit;
+        }
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        margin: 0;
+        
+        @apply text-title;
+    }
+    
+    h1 {
+        @apply text-3xl;
+    }
+    
+    h2 {
+        @apply text-lg;
+    }
+    
+    h3, h4, h5, h6 {
+        @apply text-base;
+    }
+    
     * {
-        @apply border-border;
+        @apply border-border box-border;
     }
 
     body {
         @apply bg-background text-foreground;
     }
-}
 
-@media screen and (width >= 2560px) {
-    html {
-        font-size: 30px;
-    }
-}
-
-@media screen and (width <= 2560px) {
-    html {
-        font-size: 22px;
+    ul {
+        li {
+            list-style-type: none;
+        }
     }
     
-}
+    section, div, span {
+        font-size: inherit;
+    }
+    
 
-@media screen and (width <= 1920px) {
-    html {
-        font-size: 20px;
+    ::-webkit-scrollbar{
+        @apply w-2 h-2;
+    }
+    
+    ::-webkit-scrollbar-thumb{
+        @apply bg-transparent rounded-sm;
+    }
+    
+    :hover::-webkit-scrollbar-thumb {
+       @apply bg-scrollbar;
+    }
+    
+    @media screen(xs) {
+        html {
+            font-size: 22px;
+        }
+    }
+
+    @media screen(sm) {
+        html {
+            font-size: 18px;
+        }
+    }
+
+
+    @media screen(md) {
+        ::-webkit-scrollbar-thumb {
+            @apply bg-scrollbar;
+        }
+    }
+
+
+    @media screen(lg) {
+        html {
+            font-size: 18px;
+        }
+    }
+
+    @media screen(xl) {
+        html {
+            font-size: 20px;
+        }
+    } 
+
+    @media screen(2xl) {
+        html {
+            font-size: 30px;
+        }
+    }
+
+    @media screen(3xl) {
+        html {
+            font-size: 40px;
+        }
     }
 }
 
-@media screen and (width <= 1600px) {
-    html {
-        font-size: 18px;
-    }
-}
-
-
-@media screen and (width <= 1024px) {
-    html {
-        font-size: 18px;
-    }
-}
-
-@media screen and (width <= 768px) {
-    html {
-        font-size: 18px;
-    }
-}
-
-
-@media screen and (width <= 420px) {
-    html {
-        font-size: 16px;
-    }
-}

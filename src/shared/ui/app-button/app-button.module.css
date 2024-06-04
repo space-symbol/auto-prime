@@ -1,124 +1,136 @@
 .appButton {
-    --color: black;
-    
+    cursor: pointer !important;
     position: relative;
-    transition: background-color 0.3s ease;
+    transition-property: background, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
     overflow: hidden;
     user-select: none;
-    height: min-content;
     padding: 0.375rem 1rem;
     font-family: var(--roboto-font);
     white-space: nowrap;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.25rem;
-    width: 100%;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 0.375rem;
-    color: var(--color);
+    max-width: 100%;
     max-height: 100%;
     border: none;
-
-
-    .icon {
-        width: 1rem;
-        height: 1rem;
-        transition: color 0.2s ease;
+    font-size: inherit;
+    pointer-events: all !important;
+    height: 2.2em;
+    
+    &:focus{
+        outline-offset: 2px;
     }
 
-    .text {
+    &:active {
+        outline: none;
+    }
+
+    & svg, .icon {
+        width: auto;
+        height: 70%;
+        display: block;
+        transition-property: fill, stroke, color;
+        transition-duration: inherit;
+        transition-timing-function: inherit;
+        color: inherit;
+        fill: currentColor !important;
+        stroke: currentColor !important;
+
+        path {
+            color: inherit;
+            fill: currentColor !important;
+            stroke: currentColor !important;
+        }
+    }
+
+    .content {
         height: 100%;
-        transition: color 0.2s ease;
-        color: var(--color);
-        font-size: var(--font-size-base);
+        font-size: inherit;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        transition-property: color;
+        transition-duration: inherit;
+        transition-timing-function: inherit;
+        white-space: nowrap;
+        color: currentColor;
     }
-
 
     &.background {
-        outline: 1px solid black;
+        @apply border-solid border border-border rounded-sm text-primary-foreground bg-primary;
 
-        &:active {
-            background-color: var(--purple-color);
-            border-color: var(--purple-color);
-
-            --color: white;
+        &:active,
+        &.active{
+            @apply text-primary bg-primary-foreground outline-none;
         }
 
+        &:disabled {
+            border: none !important
+        }
     }
 
     &.filled {
-        background-color: var(--purple-color);
+        @apply border-solid border border-border rounded-sm text-primary bg-primary-foreground;
 
-        --color: white;
-
-        &:active {
-            background-color: white;
-
-            --color: black;
+        &:active,
+        &.active {
+            @apply text-primary bg-primary-foreground;
         }
     }
 
     &.transparent {
-        background-color: transparent;
-    }
+        @apply bg-transparent p-0 box-content px-4;
 
-    &.outline {
-        background-color: transparent;
-        border: 1px solid black;
-
-        &:active {
-            border: 1px solid var(--purple-color);
+        &:active,
+        &.active {
+            @apply text-primary-foreground;
         }
-    }
-
-    &:focus {
-        outline: 2px solid black;
     }
 
     &:disabled {
-        pointer-events: none;
+        pointer-events: none !important;
         opacity: 0.5;
     }
 
-    &.danger {
-        --color: red;
-
-
-        &:active {
-            background-color: var(--warning-red-color);
-
-            --color: white;
+    &.destructive { 
+        @apply bg-destructive rounded-sm text-destructive-foreground;
+  
+        &:active,
+        &:focus,
+        &.active {    
+            @apply opacity-80;
         }
+    }
+
+
+    &.outlined {
+        border: 0.1rem solid var(--text-color);
     }
 }
 
 
 @media screen and (hover: hover) {
-    .appButton.outline:hover {
-        border: 1px solid var(--purple-color);
+    .appButton.transparent:hover {
+        @apply text-primary-foreground;
+    }
+    
+    .appButton.outlined:hover {
+        @apply border-accent;
     }
 
 
     .appButton.filled:hover {
-        background-color: white;
-        outline: 1px solid black;
-
-        --color: black;
-
+        @apply text-primary bg-primary-foreground;
     }
 
     .appButton.background:hover {
-        background-color: var(--purple-color);
-        border-color: var(--purple-color);
-
-        --color: white;
+        @apply text-primary bg-primary-foreground;
     }
 
-    .appButton.danger:hover {
-        background-color: var(--warning-red-color);
-
-        --color: white;
-
-        outline: none;
+    .appButton.destructive:hover {
+        @apply text-destructive-foreground;
     }
 }

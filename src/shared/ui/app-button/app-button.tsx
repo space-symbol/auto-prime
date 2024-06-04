@@ -1,34 +1,41 @@
 import classNames from 'classnames';
 import cls from './app-button.module.css';
-import { forwardRef, ReactNode } from 'react';
+import React, { forwardRef } from 'react';
+import { cn } from '@/shared/lib/utils';
 
 interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   theme?: AppButtonTheme;
-  Icon?: ReactNode;
+  LeftIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  RightIcon?: React.FC<React.SVGProps<SVGSVGElement>>;
+  fullWidth?: boolean;
+  active?: boolean;
 }
 
-export enum AppButtonTheme {
-  BACKGROUND = 'background',
-  FILLED = 'filled',
-  TRANSPARENT = 'transparent',
-  OUTLINE = 'outline',
-  DANGER = 'danger',
-}
+type AppButtonTheme = 'background' | 'filled' | 'transparent' | 'destructive' | 'outlined';
 
 export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>((props: AppButtonProps, ref) => {
-  const { className, children, Icon, theme = AppButtonTheme.BACKGROUND, ...otherProps } = props;
+  const { className, children, LeftIcon, RightIcon, theme = 'background', fullWidth, active, ...otherProps } = props;
 
-  const buttonClasses = classNames(cls.appButton, cls[theme], className);
+  const buttonClasses = cn(
+    classNames(
+      cls.appButton,
+      cls[theme],
+
+      { 'w-full': fullWidth, [cls.active]: active },
+      className,
+    ),
+  );
 
   return (
     <button
       ref={ref}
-      {...otherProps}
-      className={buttonClasses}>
-      {Icon && Icon}
-      <div className={cls.text}>{children}</div>
+      className={buttonClasses}
+      {...otherProps}>
+      {LeftIcon && <LeftIcon className={cls.icon} />}
+      {children && <div className={cls.content}>{children}</div>}
+      {RightIcon && <RightIcon className={cls.icon} />}
     </button>
   );
 });

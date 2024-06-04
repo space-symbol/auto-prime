@@ -1,7 +1,8 @@
 import { Profile } from '../_domain/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@shared/ui/avatar';
-import { getProfileLetters } from '../_lib/get-profile-letters';
+import { getProfileLetters } from '../_vm/get-profile-letters';
 import { cn } from '@shared/lib/utils';
+import classNames from 'classnames';
 
 interface ProfileAvatarProps {
   className?: string;
@@ -16,7 +17,7 @@ export const ProfileAvatar = (props: ProfileAvatarProps) => {
   }
 
   return (
-    <Avatar className={cn(className)}>
+    <Avatar className={cn(classNames(className), 'border-2 border-border')}>
       <AvatarImage src={profile.image ?? undefined} />
       <AvatarFallback>{getProfileLetters(profile)}</AvatarFallback>
     </Avatar>

@@ -1,29 +1,28 @@
 import { cn } from '@/shared/lib/utils';
 import { AppLink, AppLinkProps } from '@/shared/ui/app-link/app-link';
 import classNames from 'classnames';
-import { usePathname, useRouter } from 'next/navigation';
+import { useNavbarContext } from './navbar-context';
 
 export interface NavbarLinkProps extends AppLinkProps {
-  setNavbarIsActive?: (isActive: boolean) => void;
-  navbarIsActive?: boolean;
+  isRoot?: boolean;
 }
 
 export const NavbarLink = (props: NavbarLinkProps) => {
-  const { href, children, className, active, navbarIsActive, setNavbarIsActive, ...otherProps } = props;
-  const pathname = usePathname();
-  const router = useRouter();
-  const onNavbarLinkClick = () => {
-    if (setNavbarIsActive) {
-      setNavbarIsActive(!navbarIsActive);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  const { children, className, isRoot, href, ...otherProps } = props;
+  const { navbarIsActive, changeNavbarIsActive } = useNavbarContext();
+
+  const onLinkClick = () => {
+    if (changeNavbarIsActive) {
+      changeNavbarIsActive(!navbarIsActive);
     }
   };
   return (
     <AppLink
-      onClick={onNavbarLinkClick}
-      active={active || (pathname.includes(href) && href !== '/')}
-      className={classNames(cn('h-auto text-left border-y-gray block p-3 w-full'), className)}
+      onClick={onLinkClick}
+      pathRespnosible
+      fullwidth
+      className={classNames(cn('h-auto text-left block px-6 py-3 w-full text-navbar-foreground'), className)}
+      theme={isRoot ? 'hover' : 'background'}
       href={href}
       {...otherProps}>
       {children}

@@ -1,9 +1,9 @@
-import { privateConfig } from '@shared/config/env/private';
-import { apiAuthPrefix, authRoutes, privateRoutes, signInRoute } from '@entities/user/routes';
-import NextAuth from 'next-auth';
 import authConfig from '@entities/user/auth.config';
-
+import NextAuth from 'next-auth';
+import { routes } from '@/shared/config/routes';
 const { auth: middleware } = NextAuth(authConfig);
+
+const { apiAuthPrefix, privateRoutes, signInRoute, redirectAfterSignInRoute, authRoutes } = routes;
 
 // @ts-ignore
 export default middleware((req) => {
@@ -19,7 +19,7 @@ export default middleware((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(privateConfig.DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return Response.redirect(new URL(redirectAfterSignInRoute, nextUrl));
     }
     return null;
   }

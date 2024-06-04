@@ -2,22 +2,38 @@
 import { AppSwiper, Slide } from '@shared/ui/app-swiper/app-swiper';
 import Image from 'next/image';
 import ShopImage from '@assets/images/store-image.jpg';
-import { Header } from '@widgets/header/header';
+import { Header, HeaderLink } from '@widgets/header/header';
 import HomeBackgroundImage from '@assets/images/home-bg.jpg';
 import { useState } from 'react';
+import { routes } from '@/shared/config/routes';
 
 const HomePage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const headerLinks: HeaderLink[] = [
+    {
+      item: 'Магазин',
+      link: routes.navbarRoutes.main.href,
+    },
+    {
+      item: 'Контакты',
+      link: routes.navbarRoutes.contacts.href,
+    },
+    {
+      item: 'О нас',
+      link: routes.navbarRoutes.about.href,
+    },
+  ];
 
   const slides: Slide[] = [
     {
       slide: (
         <a
           className={'h-full w-full'}
-          href={'/store'}>
+          href={routes.navbarRoutes.main.href}>
           <Image
             src={ShopImage}
-            alt={'store'}
+            alt={'Магазин'}
             priority
           />
         </a>
@@ -48,8 +64,11 @@ const HomePage = () => {
   };
 
   return (
-    <main className="flex bg-black bg-opacity-30 flex-col h-full">
-      <Header activeIndex={activeIndex} />
+    <main className="flex bg-transparent flex-col h-full">
+      <Header
+        headerLinks={headerLinks}
+        activeIndex={activeIndex}
+      />
       <AppSwiper
         onSlideChange={(swiper) => onSlideChange(swiper.realIndex)}
         className={'flex-grow'}

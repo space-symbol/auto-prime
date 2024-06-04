@@ -1,9 +1,9 @@
 import type { NextAuthConfig } from 'next-auth';
 import Google from 'next-auth/providers/google';
-import { privateConfig } from '@shared/config/env/private';
+import { privateConfig } from '@shared/config/private';
 import { compact } from 'lodash-es';
 
-export const authConfig = {
+const authConfig = {
   providers: compact([
     privateConfig.GOOGLE_CLIENT_ID &&
       privateConfig.GOOGLE_CLIENT_SECRET &&

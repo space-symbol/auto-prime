@@ -1,12 +1,17 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     serverActions: {
       allowedOrigins: [
         "localhost:3000",
       ]
-    }
+    },
   },
+  rewrites: () => [
+    {
+      source: '/storage/:path*',
+      destination: `${process.env.S3_ENDPOINT}/:path*`
+    }
+  ],
   images: {
     remotePatterns: [
       {
@@ -14,6 +19,11 @@ const nextConfig = {
         hostname: '1evel.ru',
         pathname: '**'
       },
+      {
+        protocol: 'https',
+        hostname: 'images.wallpaperscraft.ru',
+        pathname: '**'
+      }
     ],
   },
   webpack(config) {

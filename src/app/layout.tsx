@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { AppProvider } from '@app/_providers/app-provider';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/shared/config/seo';
+import { Toaster } from '@/shared/ui/toaster';
 
 const golos = localFont({
   src: './golos.woff2',
@@ -14,10 +15,12 @@ const golos = localFont({
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--montserrat-font',
+  display: 'swap',
 });
 const rubik = Rubik({
   subsets: ['latin'],
   variable: '--rubik-font',
+  display: 'swap',
 });
 const roboto = Roboto({
   subsets: ['latin'],
@@ -36,7 +39,10 @@ export const metadata: Metadata = {
 
 const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <html lang="ru">
+    <html
+      lang="ru"
+      className="dark"
+      suppressHydrationWarning>
       <body
         className={classNames(
           montserrat.variable,
@@ -46,6 +52,7 @@ const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>)
           'h-screen flex flex-col justify-center',
         )}>
         <AppProvider>{children}</AppProvider>
+        <Toaster />
       </body>
     </html>
   );

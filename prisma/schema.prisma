@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -42,6 +42,8 @@ model Order {
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderDetails OrderDetail[]
   payment      Payment?
+  Cart         Cart?         @relation(fields: [cartId], references: [id])
+  cartId       Int?
 }
 
 model User {
@@ -52,8 +54,9 @@ model User {
   image         String?
   role          Roles     @default(USER)
   accounts      Account[]
-  orders       Order[]
+  orders        Order[]
   sessions      Session[]
+  Cart          Cart[]
 }
 
 model VerificationToken {
@@ -65,19 +68,21 @@ model VerificationToken {
 }
 
 model Detail {
-  id                Int           @id @default(autoincrement())
-  name              String        @unique
-  description       String
-  price             Float
-  discountPercentage Float?
-  quantityAvailable Int
-  imageUrl          String
-  createdAt       DateTime      @default(now())
-  orderDetails     OrderDetail[]
-  quantityOrdered  Int           @default(0)
-  categories        Category[] 
-  promotionId         Int?
-  promotion           Promotion?    @relation(fields: [promotionId], references: [id])
+  id                 Int           @id @default(autoincrement())
+  name               String        @unique
+  description        String
+  price              Float
+  discountPercentage Float         @default(0)
+  discountEndDate    DateTime?
+  quantityAvailable  Int
+  images             String[]
+  createdAt          DateTime      @default(now()) @db.Timestamptz(3)
+  orderDetails       OrderDetail[]
+  quantityOrdered    Int           @default(0)
+  categories         Category[]
+  promotionId        Int?
+  promotion          Promotion?    @relation(fields: [promotionId], references: [id])
+  Cart               Cart[]
 }
 
 model Category {
@@ -87,13 +92,14 @@ model Category {
 }
 
 model OrderDetail {
-  id        Int    @id @default(autoincrement())
+  id        Int           @id @default(autoincrement())
   quantity  Int
   unitPrice Float
+  status    OrderStatuses @default(PENDING)
   orderId   String
   detailId  Int
-  detail    Detail @relation(fields: [detailId], references: [id])
-  order     Order  @relation(fields: [orderId], references: [id])
+  detail    Detail        @relation(fields: [detailId], references: [id])
+  order     Order         @relation(fields: [orderId], references: [id])
 }
 
 model Payment {
@@ -106,14 +112,32 @@ model Payment {
 }
 
 model Promotion {
-  id          Int        @id @default(autoincrement())
-  name        String
-  startDate   DateTime
-  endDate     DateTime
-  details     Detail[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  details   Detail[]
+}
+
+model Cart {
+  id       Int     @id @default(autoincrement())
+  detailId Int
+  quantity Int
+  detail   Detail  @relation(fields: [detailId], references: [id])
+  userId   String
+  user     User    @relation(fields: [userId], references: [id])
+  order    Order[]
+
+  @@unique([detailId, userId])
 }
 
 enum Roles {
   USER
   ADMIN
+}
+
+enum OrderStatuses {
+  PENDING
+  COMPLETED
+  CANCELLED
 }

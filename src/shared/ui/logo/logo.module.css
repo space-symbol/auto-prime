@@ -8,19 +8,18 @@
         }
 
          path:first-child {
-            fill: white;
+            @apply fill-white;
         }
 
          path:last-child {
-            fill: var(--gold-color)
+            @apply fill-accent-active;
         }
     }
 
-    &:focus, &:hover, &:active {
+    &:active, &:hover {
         svg {
             path:first-child {
-                fill: var(--purple-dark-color);
-
+                @apply fill-accent;
             }
         }
     }

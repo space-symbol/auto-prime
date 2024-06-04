@@ -1,0 +1,25 @@
+
+.detailsCardsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    grid-auto-rows: 20rem;
+    height: 100%;
+    gap: 1rem;
+    transition: 2s;
+    min-height: 23rem;
+
+    &.error {
+        @apply flex flex-col items-center justify-center;
+    }
+
+    @media screen and (375px <= width <= 768px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 17rem;
+    }
+
+    /* stylelint-disable-next-line media-query-no-invalid */
+    @media screen(md) {
+        grid-auto-rows: 18rem;
+    }
+}
+

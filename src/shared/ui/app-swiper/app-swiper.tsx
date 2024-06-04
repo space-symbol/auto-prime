@@ -1,4 +1,3 @@
-'use client';
 import { ReactNode } from 'react';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 import { Pagination } from 'swiper/modules';

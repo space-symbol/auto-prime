@@ -8,15 +8,15 @@ import {
   DropdownMenuTrigger,
 } from '@shared/ui/dropdown-menu';
 import { ProfileAvatar } from '@/entities/user/_ui/profile-avatar';
-import { getProfileDisplayName } from '@entities/user/_lib/get-profile-display-name';
-import { SignInButton } from '@features/auth/sign-in-button';
+import { getProfileDisplayName } from '@/entities/user/_vm/get-profile-display-name';
+import { SignInButton } from '@features/auth/auth';
 import { User, ShoppingCart, LayoutDashboardIcon } from 'lucide-react';
 import { AppLink } from '@shared/ui/app-link/app-link';
 import React from 'react';
-import { useAppSession } from '@/entities/user/use-app-session';
-import { useSignOut } from '@/features/auth/use-sign-out';
+import { useAppSession } from '@/entities/user/client';
+import { useSignOut } from '@/features/auth/auth';
 import { Skeleton } from '@/shared/ui/skeleton';
-import { AppButton, AppButtonTheme } from '@/shared/ui/app-button/app-button';
+import { AppButton } from '@/shared/ui/app-button/app-button';
 
 interface ProfileLink {
   href: string;
@@ -30,11 +30,13 @@ export const Profile = () => {
 
   if (session.status === 'loading') {
     return (
-      <Skeleton
-        className={'rounded-full w-10 h-10 bg-grayLight'}
-        isPending={session.status === 'loading'}
-        appearanceDelay={300}
-      />
+      <div className={'rounded-full w-10 h-10'}>
+        <Skeleton
+          className={'rounded-full w-full h-full bg-gray-light'}
+          isPending={session.status === 'loading'}
+          appearanceDelay={300}
+        />
+      </div>
     );
   }
 
@@ -47,18 +49,18 @@ export const Profile = () => {
 
   const profileLinks: ProfileLink[] = [
     {
-      text: 'Мой профиль',
-      href: `/store/profile/${user?.id}`,
+      text: 'Профиль',
+      href: '/store/profile',
       icon: User,
     },
     {
       text: 'Корзина',
-      href: `/store/cart/${user?.id}`,
+      href: '/store/cart',
       icon: ShoppingCart,
     },
     {
       text: 'Панель управления',
-      href: '/store/dashboard',
+      href: '/dashboard/details',
       icon: LayoutDashboardIcon,
       isPrivate: true,
     },
@@ -72,26 +74,26 @@ export const Profile = () => {
         <button
           title="Мой аккаунт"
           className={'w-auto h-full'}>
-          <ProfileAvatar
-            profile={user}
-            className=""
-          />
+          <ProfileAvatar profile={user} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 pb-2 mr-2 rounded-sm border border-black">
-        <DropdownMenuLabel>
-          <p className="text-base overflow-hidden text-ellipsis">
-            {user ? getProfileDisplayName(user) : undefined}
-          </p>
+      <DropdownMenuContent className="w-56 pb-2 mr-2">
+        <DropdownMenuLabel className="text-base overflow-hidden text-ellipsis">
+          {user ? getProfileDisplayName(user) : undefined}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {profileLinks.map((item, index) => (
+        <DropdownMenuGroup tabIndex={1}>
+          {profileLinks.map((item) => (
             <DropdownMenuItem
-              className={'text-base'}
-              key={index}>
-              <AppLink href={item.href}>
-                <div className="flex gap-1.5 items-center">
+              asChild
+              key={item.href}>
+              <AppLink
+                key={item.href}
+                href={item.href}
+                tabIndex={1}
+                fullwidth
+                theme="hover">
+                <div className="flex gap-1.5 items-center text-inherit">
                   <item.icon className="h-4 w-4" />
                   <span>{item.text}</span>
                 </div>
@@ -101,13 +103,15 @@ export const Profile = () => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className={'text-base hover:text-red-500 p-0'}>
+          <DropdownMenuItem
+            asChild
+            className="text-inherit">
             <AppButton
-              className={'p-1'}
-              theme={AppButtonTheme.DANGER}
+              className={'p-1 w-full'}
+              theme={'destructive'}
               disabled={isLoadingSignOut}
               onClick={() => signOut()}>
-              <span>Выход</span>
+              Выход
             </AppButton>
           </DropdownMenuItem>
         </DropdownMenuGroup>

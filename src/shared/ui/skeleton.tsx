@@ -16,7 +16,7 @@ function Skeleton(props: SkeletonProps) {
 
   return (
     <div
-      className={cn('animate-pulse rounded-md bg-grayLight static', className)}
+      className={cn('animate-pulse rounded-md bg-skeleton static', className)}
       {...ohterProps}
     />
   );
