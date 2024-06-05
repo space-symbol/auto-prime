@@ -84,7 +84,7 @@ export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <AppButton
-                className="font-sm h-4 w-4"
+                className="font-sm h-4 w-4 !p-0"
                 LeftIcon={DotsHorizontalIcon}
                 theme={'transparent'}
               />

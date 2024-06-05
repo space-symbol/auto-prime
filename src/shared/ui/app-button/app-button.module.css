@@ -82,7 +82,7 @@
     }
 
     &.transparent {
-        @apply bg-transparent p-0 box-content px-4;
+        @apply bg-transparent p-2;
 
         &:active,
         &.active {

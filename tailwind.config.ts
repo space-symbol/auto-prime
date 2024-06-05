@@ -243,6 +243,7 @@ const config = {
         'top-bottom': 'top, bottom',
         top: 'top',
         bottom: 'bottom',
+        'translate-invisible': 'transform visibility opacity',
       },
       zIndex: {
         'top-bar': 'var(--top-bar-z-index)',

@@ -2,7 +2,7 @@
   @apply font-montserrat text-base h-full flex flex-col min-w-0 relative overflow-hidden bg-card text-card-foreground;
 
   &:focus {
-    @apply shadow-lg;
+    @apply shadow-lg outline-offset-2;
 
     .imageContainer {
       .image {
