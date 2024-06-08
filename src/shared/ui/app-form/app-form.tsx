@@ -40,7 +40,7 @@ export const AppForm = (props: AppFormProps) => {
       {!externalSubmit && sendButtonText && (
         <AppButton
           type="submit"
-          className={'text-base py-2 rounded'}
+          className={'text-base py-2 !h-11 rounded'}
           fullWidth
           disabled={isPending}>
           {isPending ? <Spinner className={'w-auto h-100%'} /> : sendButtonText}

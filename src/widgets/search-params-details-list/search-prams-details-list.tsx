@@ -1,5 +1,5 @@
 'use client';
-import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/detail';
+import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/client';
 import { memo, useEffect } from 'react';
 import { useGetQueryParams } from '@/shared/hooks/use-get-query-params';
 import { SearchDetailsParamsSchema } from '@entities/detail/_domain/schemas';

@@ -5,3 +5,7 @@ export { getProfileLetters } from './_vm/get-profile-letters';
 
 export { ProfileAvatar } from './_ui/profile-avatar';
 export { AppSessionProvider } from './_ui/session-provider';
+
+export { AuthorizedGuard } from '../../features/auth/_ui/authorized-guard';
+
+export * from './_queries';

@@ -45,7 +45,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         z-index: var(--input-label-z-index);
- 
+        
         @apply border border-foreground-secondary;
 
         .legend {
@@ -88,6 +88,17 @@
     &:has(textarea.input) {
         .inputLabel {
             align-items: start;
+        }
+    }
+
+    &:has(input:read-only){
+        .wrapper {
+            @apply border-none;
+            
+        }
+
+        .input {
+              cursor: default;  
         }
     }
 
@@ -183,11 +194,13 @@
     flex-direction: column;
     gap: 1.5rem;
     position: relative;
+    border: 0.1rem dashed hsl(var(--foreground));
+    margin-bottom: 1.5em;
 
-    
     .inputFile {
         display: none;
     }
+
 
     &.dragging{
         .inputLabel{
@@ -201,17 +214,17 @@
     
 
     .inputLabel {
-        position: relative;
+        position: absolute;
         cursor: pointer;
-        border: 0.1rem dashed hsl(var(--foreground));
         display: flex;
         flex-shrink: 0;
+        inset: 0;
+        z-index: 1;
         align-items: center;
         justify-content: center;
         color: hsl(var(--foreground));
         font-weight: bold;
         text-overflow: ellipsis;
-        max-width: 100%;
         width: 100%;
         border-radius: 0.25rem;
         height: auto;
@@ -249,42 +262,47 @@
         grid-auto-rows: 13rem;
         gap: 1rem;
         border-radius: 0.25rem;
-        padding: 1rem 0;
+        padding: 0.5rem;
         transition: all 0.3s ease-out;
         position: relative;
 
+        @apply rounded-sm;
+    }
 
-        .filePreviewCard {
-            max-width: 32rem;
-            display: flex;
-            flex-direction: column;
-            padding: 0.5rem;
-            overflow: hidden;
-            position: relative;
-            gap: 0.2rem;
+    .filePreviewCard {
+        @apply grid grid-cols-1 grid-rows-5; 
 
-                .fileImage {
-                    height: auto;
-                    width: 100%;
-                    flex-grow: 1;
-                    max-height: 6rem;
-                    max-width: 8rem;
-                    object-fit: contain;
-                    align-self: center;
-                    user-select: none;
-                    pointer-events: none;
-                }
-        }
+        max-width: 32rem;
+        flex-direction: column;
+        padding: 0.5rem;
+        position: relative;
+        gap: 0.2rem;
+        z-index: 2;
+        overflow: hidden;
+    }
 
+    .fileImage {
+        height: 100%;
+        width: 100%;
+        flex-grow: 1;
+        object-fit: cover;
+        align-self: center;
+        user-select: none;
+        pointer-events: none;
 
-        .fileName {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            flex-shrink: 0;
-            font-weight: 400;
-            font-size: 0.9em;
-        }
+        @apply row-span-3;
+
+    }
+
+    .fileName {
+        @apply row-span-1;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 400;
+        font-size: 0.9em;
+        height: 2em;
     }
 
     &.error{
@@ -303,7 +321,10 @@
         align-items: center;
         gap: 0.5rem;
         font-size: 0.8em;
-
+        position: absolute;
+        bottom: -1.6em;
+        left: 0;
+        user-select: none;
     }
          
     .fileSize{

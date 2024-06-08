@@ -24,6 +24,7 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -32,31 +33,36 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model Order {
-  id           String        @id @default(cuid())
-  orderDate    DateTime
-  totalAmount  Float
-  userId       String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orderDetails OrderDetail[]
-  payment      Payment?
-  Cart         Cart?         @relation(fields: [cartId], references: [id])
-  cartId       Int?
+  id          String   @id @default(cuid())
+  orderDate   DateTime
+  totalAmount Float
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payment     Payment?
+  cartId      Int     
+  cart        Cart     @relation(fields: [cartId], references: [id])
+
+  @@map("orders")
 }
 
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
-  emailVerified DateTime?
+  emailVerified DateTime? @map("email_verified")
   image         String?
   role          Roles     @default(USER)
   accounts      Account[]
   orders        Order[]
   sessions      Session[]
-  Cart          Cart[]
+  carts         Cart[]
+
+  @@map("users")
 }
 
 model VerificationToken {
@@ -65,41 +71,35 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verificationtokens")
 }
 
 model Detail {
-  id                 Int           @id @default(autoincrement())
-  name               String        @unique
+  id                 Int        @id @default(autoincrement())
+  name               String     @unique
   description        String
   price              Float
-  discountPercentage Float         @default(0)
+  discountPercentage Float      @default(0)
+  priceAfterDiscount Float
   discountEndDate    DateTime?
   quantityAvailable  Int
   images             String[]
-  createdAt          DateTime      @default(now()) @db.Timestamptz(3)
-  orderDetails       OrderDetail[]
-  quantityOrdered    Int           @default(0)
+  createdAt          DateTime   @default(now()) @db.Timestamptz(3)
+  quantityOrdered    Int        @default(0)
   categories         Category[]
   promotionId        Int?
-  promotion          Promotion?    @relation(fields: [promotionId], references: [id])
-  Cart               Cart[]
+  promotion          Promotion? @relation(fields: [promotionId], references: [id])
+  cartItems          CartItem[]
+
+  @@map("details")
 }
 
 model Category {
   id      Int      @id @default(autoincrement())
   name    String
   details Detail[]
-}
 
-model OrderDetail {
-  id        Int           @id @default(autoincrement())
-  quantity  Int
-  unitPrice Float
-  status    OrderStatuses @default(PENDING)
-  orderId   String
-  detailId  Int
-  detail    Detail        @relation(fields: [detailId], references: [id])
-  order     Order         @relation(fields: [orderId], references: [id])
+  @@map("categories")
 }
 
 model Payment {
@@ -109,6 +109,8 @@ model Payment {
   amount        Float
   orderId       String   @unique
   order         Order    @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
 }
 
 model Promotion {
@@ -117,18 +119,32 @@ model Promotion {
   startDate DateTime
   endDate   DateTime
   details   Detail[]
+
+  @@map("promotions")
 }
 
 model Cart {
-  id       Int     @id @default(autoincrement())
-  detailId Int
-  quantity Int
-  detail   Detail  @relation(fields: [detailId], references: [id])
-  userId   String
-  user     User    @relation(fields: [userId], references: [id])
-  order    Order[]
+  id        Int        @id @default(autoincrement())
+  userId    String    
+  user      User       @relation(fields: [userId], references: [id])
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+  items     CartItem[]
+  Order     Order[]
 
-  @@unique([detailId, userId])
+  @@map("carts")
+}
+
+model CartItem {
+  id       Int    @id @default(autoincrement())
+  cartId   Int    
+  cart     Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  detailId Int    
+  detail   Detail @relation(fields: [detailId], references: [id])
+  quantity Int
+
+  @@unique([cartId, detailId])
+  @@map("cart_items")
 }
 
 enum Roles {

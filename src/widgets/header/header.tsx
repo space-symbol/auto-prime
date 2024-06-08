@@ -35,7 +35,7 @@ export const Header = (props: HeaderProps) => {
                   <AppLink
                     href={item.link}
                     active={isActive}
-                    theme={isActive ? 'underlined' : 'hover'}>
+                    variant={isActive ? 'underlined' : 'hover'}>
                     {item.item}
                   </AppLink>
                 ) : (

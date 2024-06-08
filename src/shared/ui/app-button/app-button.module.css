@@ -28,21 +28,17 @@
         outline: none;
     }
 
-    & svg, .icon {
-        width: auto;
-        height: 70%;
+    & svg, .content > svg {
         display: block;
         transition-property: fill, stroke, color;
         transition-duration: inherit;
         transition-timing-function: inherit;
         color: inherit;
-        fill: currentColor !important;
-        stroke: currentColor !important;
 
-        path {
+        * {
             color: inherit;
-            fill: currentColor !important;
-            stroke: currentColor !important;
+            fill: inherit;
+            stroke: inherit;
         }
     }
 
@@ -82,7 +78,7 @@
     }
 
     &.transparent {
-        @apply bg-transparent p-2;
+        @apply bg-transparent px-2 py-0;
 
         &:active,
         &.active {
@@ -101,15 +97,15 @@
         &:active,
         &:focus,
         &.active {    
-            @apply opacity-80;
+            @apply opacity-60;
         }
     }
 
-
-    &.outlined {
-        border: 0.1rem solid var(--text-color);
+    &.icon {
+        @apply p-0 w-fit h-fit;
     }
 }
+
 
 
 @media screen and (hover: hover) {
@@ -131,6 +127,6 @@
     }
 
     .appButton.destructive:hover {
-        @apply text-destructive-foreground;
+        @apply opacity-60;
     }
 }

@@ -69,16 +69,16 @@ const rawNavbarRoutes: RawNavbarRoutes = {
       },
     },
   },
-  about: {
-    linkText: 'О нас',
-    href: '/store/about',
-    fullPath: '', // Это поле будет заполняться функцией createRoutes
-  },
-  contacts: {
-    linkText: 'Контакты',
-    href: '/store/contacts',
-    fullPath: '', // Это поле будет заполняться функцией createRoutes
-  },
+  // about: {
+  //   linkText: 'О нас',
+  //   href: '/store/about',
+  //   fullPath: '', // Это поле будет заполняться функцией createRoutes
+  // },
+  // contacts: {
+  //   linkText: 'Контакты',
+  //   href: '/store/contacts',
+  //   fullPath: '', // Это поле будет заполняться функцией createRoutes
+  // },
   home: {
     linkText: 'Главная',
     href: '/',
@@ -113,7 +113,9 @@ export const routes = {
   navbarRoutes: NavbarRoutes,
   redirectAfterSignInRoute: '/store/main',
   signInRoute: '/auth/sign-in',
-  authRoutes: ['/auth/sign-in'],
+  authRoutes: {
+    signIn: '/auth/sign-in',
+  },
   dashboardRoutes: DashboardRoutes,
   privateRoutes: [...Object.values(DashboardRoutes).map(({ href }) => href), '/store/profile'],
   apiAuthPrefix: '/api/auth',

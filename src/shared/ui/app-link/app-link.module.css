@@ -1,69 +1,91 @@
 .appLink {
-    @apply no-underline relative ease-in-out w-fit touch-manipulation;
+  @apply no-underline relative touch-manipulation flex items-center gap-2;
+  
+  & svg {
+    display: block;
+    transition-property: fill, stroke, color;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+    color: inherit;
+    height: auto;
+    width: auto;
+    min-height: 1em;
+
+      * {
+          color: inherit;
+          fill: inherit;
+          stroke: inherit;
+      } 
+  }
+
+  .content {
+    @apply bg-transparent h-full w-full text-inherit flex relative z-0;
+  }
+
+ 
+  &:focus {
+    @apply outline-offset-0;
+  }
+
+  &::after {
+    @apply absolute left-0 -bottom-[0.1em] w-0 h-[0.15em] bg-link transition-all ease-in-out;
     
-    span {
-      @apply bg-transparent h-full w-full text-inherit flex flex-col;
-    }
+    content: '';
+  }
 
-   transition: color 0.3s ease, transform 0.3s ease;
-
-   &.fullwidth {
-     @apply w-full;
-   }
- 
-   &:focus {
-     @apply outline-offset-0;
-   }
- 
-   &::after {
-     @apply absolute left-0 -bottom-[0.1em] w-0 h-[0.15em] bg-link transition-all duration-300 ease-in-out;
-     
-     content: '';
-   }
- 
-   &.hover {
-    @apply text-link;
+  &.transparent {
+    @apply bg-transparent text-foreground transition-colors ease-out;
 
     &:active,
     &.active,
     &:focus {
-      @apply text-accent font-semibold;
+      @apply text-accent;
     }
-   }
- 
-   &.underlined {
-     @apply transition-colors duration-300 ease-in-out rounded-none outline-offset-2 text-link;
- 
-     &::after {
-       @apply w-full;
-     }
-
-     &.active, &:active {
-        @apply text-accent !important;
-
-        &::after {
-          @apply bg-accent-active;
-        }
-      }
   }
- 
-   &.background {
-    @apply rounded-none relative;
-    
-      span {
-          @apply relative z-[10];
+
+  &.hover {
+    @apply text-link w-fit transition-colors ease-out;
+
+    &:active,
+    &.active,
+    &:focus {
+      @apply text-accent;
+    }
+  }
+
+  &.underlined {
+    @apply transition-colors duration-300 ease-in-out rounded-none outline-offset-2 text-link w-fit;
+
+    &::after {
+      @apply w-full;
+    }
+
+    &.active, &:active {
+      @apply text-accent !important;
+
+      &::after {
+        @apply bg-accent-active;
       }
+    }
+}
+
+  &.background {
+    @apply rounded-none relative;
+  
+    span {
+        @apply relative z-10;
+    }
 
     &::before {
       content: '';
 
       @apply absolute left-0 bottom-0 w-0 h-full bg-accent transition-all duration-300 ease-in-out z-0;
-     }
+    }
 
 
     &:focus {
       @apply outline-none text-accent-foreground !important;
-       
+        
       &::before {
         @apply w-full bg-accent;
       }
@@ -80,42 +102,42 @@
 
     &:active,
     &.active {
-     @apply text-accent-active-foreground !important;
+      @apply text-accent-active-foreground !important;
 
-     &::before {
-       @apply w-full bg-accent-active;
-     }
+        &::before {
+          @apply w-full bg-accent-active;
+        }
 
-     &:focus {
-       @apply text-accent-foreground !important;
+        &:focus {
+          @apply text-accent-foreground !important;
 
-       &::before {  
-         @apply w-full bg-accent;
-       }
-     }
-    }
-   }
- 
-   @media (hover: hover) {
-     &.underlined:hover {
-      @apply text-accent !important;
-
-      &::after {
-        @apply bg-accent;
-
+          &::before {  
+            @apply w-full bg-accent;
+          }
+        }
       }
-     }
- 
-     &.hover:hover {
-       @apply text-accent !important;
-     }
- 
-     &.background:hover {
+    }
+
+    @media (hover: hover) {
+      &.underlined:hover {
+        @apply text-accent !important;
+
+        &::after {
+          @apply bg-accent;
+
+        }
+      }
+
+      &.hover:hover {
+        @apply text-accent !important;
+      }
+
+      &.background:hover {
         @apply text-accent-foreground !important;
 
         &::before {
             @apply w-full bg-accent;
         }
-     }
-   }
+      }
+    }
  }

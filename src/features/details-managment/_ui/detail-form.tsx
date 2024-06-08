@@ -201,7 +201,7 @@ export const DetailForm = (props: DetailFormProps) => {
           name={'discountEndDate'}
         />
       </div>
-      <div className={'h-full flex flex-grow w-full xl:max-w-[49%] overflow-hidden min-h-96'}>
+      <div className={'h-full flex flex-grow w-full xl:basis-[49%] min-h-96'}>
         <Controller
           control={control}
           render={({ field }) => (

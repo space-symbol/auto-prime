@@ -11,3 +11,5 @@ declare module '*.svg?url' {
 type SVG = React.SVGProps<SVGSVGElement>;
 type SVGIconFC = React.FC<SVG>;
 type SearchParams = Readonly<URLSearchParams>;
+
+type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;

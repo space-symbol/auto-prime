@@ -14,6 +14,7 @@ import React, {
 import Image from 'next/image';
 import CloseIcon from '@shared/public/assets/icons/close.svg';
 import { AppButton } from '../app-button/app-button';
+import { Minus, Plus } from 'lucide-react';
 
 type AppInputProps<T> = {
   className?: string;
@@ -81,6 +82,7 @@ const AppBaseInput = <T extends HTMLInputElement | HTMLTextAreaElement>(props: A
     ) : (
       label
     );
+
   return (
     <div
       className={classNames(cls.inputContainer, className, {
@@ -111,7 +113,7 @@ const AppBaseInput = <T extends HTMLInputElement | HTMLTextAreaElement>(props: A
         name,
         type,
         className: cls.input,
-        value: value || '',
+        value: (type === 'number' && value === 0) || value ? value : '',
         placeholder: placeholder && !label ? placeholder : '',
         ...otherProps,
       })}
@@ -144,6 +146,70 @@ export const AppTextarea = forwardRef<HTMLTextAreaElement, AppInputProps<HTMLTex
 
 AppTextarea.displayName = 'AppTextarea';
 
+interface AppInputIncrementProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'onBlur'> {
+  value: number;
+  min?: number;
+  max?: number;
+  onChange?: (value: number) => void;
+  onBlur?: (value: number) => void;
+  onIncrement?: (value: number) => void;
+  onDecrement?: (value: number) => void;
+}
+
+export const AppInputIncrement = forwardRef<HTMLInputElement, AppInputIncrementProps>((props, ref) => {
+  const { min, max, value, onChange, className, onBlur, onIncrement, onDecrement, ...otherProps } = props;
+  return (
+    <div className={classNames('flex items-center gap-2 justify-center relative flex-shrink-0', className)}>
+      <AppButton
+        disabled={value && min ? value <= min : false}
+        variant="transparent"
+        className="flex-shrink-0"
+        onClick={() => {
+          if ((min || min === 0) && value <= min) {
+            return onChange?.(min);
+          }
+          onChange?.(value - 1);
+          onDecrement?.(value - 1);
+        }}
+        LeftIcon={<Minus className="h-6 w-6 stroke-current stroke-2" />}
+      />
+      <input
+        min={min}
+        max={max}
+        onChange={(event) => {
+          const value = event.target.value ? Number.parseInt(event.target.value) : Number(event.target.value);
+          if (max) {
+            if (value <= max) {
+              onChange?.(value);
+            }
+          }
+        }}
+        onBlur={(event) => {
+          const value = Number.parseInt(event.target.value);
+          onBlur?.(value);
+        }}
+        type="number"
+        inputMode="numeric"
+        className={'w-full text-center py-1 h-full border-border border rounded-sm bg-input'}
+        value={value}
+        {...otherProps}
+      />
+      <AppButton
+        disabled={value && max ? value >= max : false}
+        variant="transparent"
+        onClick={() => {
+          onChange?.(value + 1);
+          onIncrement?.(value - 1);
+        }}
+        className="flex-shrink-0"
+        LeftIcon={<Plus className="h-6 w-6 stroke-current stroke-2 " />}
+      />
+    </div>
+  );
+});
+
+AppInputIncrement.displayName = 'AppInputIncrement';
+
 interface AppInputFileProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
   className?: string;
   label?: string;
@@ -173,8 +239,9 @@ export const AppInputFile = forwardRef<HTMLInputElement, AppInputFileProps>((pro
 
   const inputRef = useRef<HTMLInputElement | null>();
   const [isDragStarted, setDragStarted] = useState<boolean>(false);
+
   useEffect(() => {
-    if (inputRef.current && inputRef.current.files && value) {
+    if (inputRef.current && inputRef.current.files && value && value?.length > 0) {
       inputRef.current.files = value;
     }
   }, [value]);
@@ -185,45 +252,58 @@ export const AppInputFile = forwardRef<HTMLInputElement, AppInputFileProps>((pro
       return;
     }
 
-    if (event.target.files?.length === 0) {
-      inputRef.current.files = inputRef.current.files;
-    } else {
-      const newFiles = getNewUniqueFiles(event.target.files, maxFiles, value, accept, maxSize, multiple);
-      if (newFiles.length > 0) {
-        onChange?.(newFiles);
-      }
+    const newFiles = getNewUniqueFiles(event.target.files, maxFiles, value, accept, maxSize, multiple);
+    if (newFiles.length > 0) {
+      onChange?.(newFiles);
     }
   };
 
   const onDeleteFile = (fileName: string) => {
-    if (inputRef.current && inputRef.current.files) {
+    if (inputRef.current) {
       const dataTransfer = new DataTransfer();
-      Array.from(value || []).forEach((file) => file.name !== fileName && dataTransfer.items.add(file));
+      [...(value || [])].forEach((file) => file.name !== fileName && dataTransfer.items.add(file));
       onChange?.(dataTransfer.files);
     }
   };
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragStarted(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setDragStarted(false);
+  };
+
+  // const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  //   event.preventDefault();
+  //   const newFiles = getNewUniqueFiles(event.dataTransfer.files, maxFiles, currentFiles, accept, maxSize, multiple);
+  //   if (newFiles.length > 0) {
+  //     const updatedFiles = [...currentFiles, ...newFiles];
+  //     setCurrentFiles(updatedFiles);
+  //     onChange?.(updatedFiles);
+  //   }
+  //   setDragStarted(false);
+  // };
 
   const inputFileClasses = classNames(cls.inputFileContainer, className, {
     [cls.error]: error,
     [cls.dragging]: isDragStarted,
   });
+
   return (
     <div
       className={inputFileClasses}
-      onDragOver={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      }}
-      onDragEnter={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setDragStarted(true);
-      }}
-      onDragLeave={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setDragStarted(false);
-      }}
+      onDragOver={handleDragOver}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
       onDrop={(event) => {
         event.preventDefault();
         const newFiles = getNewUniqueFiles(event.dataTransfer.files, maxFiles, value, accept, maxSize, multiple);
@@ -261,16 +341,28 @@ export const AppInputFile = forwardRef<HTMLInputElement, AppInputFileProps>((pro
         tabIndex={0}
         className={cls.inputLabel}
         htmlFor={name}>
-        <span className={cls.labelText}>
-          {label || 'Выберите файл'}
-          {required && <span className={cls.asterisk}> *</span>}
-        </span>
+        {(!value || value?.length === 0) && (
+          <span className={cls.labelText}>
+            {label || 'Выберите файл'}
+            {required && <span className={cls.asterisk}> *</span>}
+          </span>
+        )}
         {error && <span className={cls.errorText}>{error}</span>}
       </label>
-
-      {value && value.length > 0 && (
+      {value && value.length > 0 && !multiple && (
+        <div className={'w-full h-full'}>
+          <Image
+            width={100}
+            height={100}
+            src={URL.createObjectURL(value[0])}
+            alt={value[0].name}
+            className={cls.fileImage}
+          />
+        </div>
+      )}
+      {value && value.length > 0 && multiple && (
         <div className={cls.files}>
-          {Array.from(value).map((file) => (
+          {[...value].map((file) => (
             <div
               className={cls.filePreviewCard}
               key={file.name}>
@@ -286,7 +378,7 @@ export const AppInputFile = forwardRef<HTMLInputElement, AppInputFileProps>((pro
                 type={'button'}
                 onClick={() => onDeleteFile(file.name)}
                 fullWidth
-                LeftIcon={CloseIcon}>
+                LeftIcon={<CloseIcon className={'w-auto h-full fill-current'} />}>
                 Удалить
               </AppButton>
               <span className={cls.fileSize}>{(file.size / (1024 * 1024)).toFixed(4)} Мб</span>
@@ -295,10 +387,12 @@ export const AppInputFile = forwardRef<HTMLInputElement, AppInputFileProps>((pro
         </div>
       )}
       <div className={cls.filesInfo}>
-        <div>
-          {value?.length || 0}/{maxFiles}
-        </div>
-        {maxSize && <div>{'Макс. размер 1 файла: ' + maxSize + ' Mб'}</div>}
+        {multiple && (
+          <div>
+            {value?.length || 0}/{maxFiles}
+          </div>
+        )}
+        {maxSize && <div>{'Макс. размер файла: ' + maxSize + ' Mб'}</div>}
       </div>
     </div>
   );
@@ -316,12 +410,12 @@ function getNewUniqueFiles(
     maxSize = maxSize * 1024 * 1024;
   }
 
-  const newFilestArray = Array.from(newFiles || []);
-  const currentFilesArray = Array.from(currentFiles || []);
+  const newFilestArray = [...(newFiles || [])];
+  const currentFilesArray = [...(currentFiles || [])];
   const dataTransfer = new DataTransfer();
 
-  if (currentFilesArray.length === 0) {
-    if (multiple) {
+  if (multiple) {
+    if (currentFilesArray.length === 0) {
       const uniqueFilesArray: File[] = [];
 
       for (const newFile of newFilestArray) {
@@ -336,39 +430,42 @@ function getNewUniqueFiles(
         }
       }
     } else {
-      for (const file of newFilestArray) {
-        if (RegExp(accept).test(file.type) && maxSize ? file.size <= maxSize : true) {
-          dataTransfer.items.add(file);
+      currentFilesArray.forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      const newFiles: File[] = [];
+
+      for (let newFile of newFilestArray) {
+        if (dataTransfer.items.length === maxFiles) {
           break;
         }
+
+        if (!RegExp(accept).test(newFile.type) || (maxSize && newFile.size > maxSize)) {
+          continue;
+        }
+
+        if (
+          !currentFilesArray.find((file) => file.name === newFile.name) &&
+          (maxSize ? newFile.size <= maxSize : true)
+        ) {
+          currentFilesArray.push(newFile);
+          newFiles.push(newFile);
+          dataTransfer.items.add(newFile);
+          if (!multiple) {
+            break;
+          }
+        }
+      }
+      if (newFiles.length === 0) {
+        return new DataTransfer().files;
       }
     }
   } else {
-    currentFilesArray.forEach((file) => {
-      dataTransfer.items.add(file);
-    });
-    const newFiles: File[] = [];
-
-    for (let newFile of newFilestArray) {
-      if (dataTransfer.items.length === maxFiles) {
+    for (const file of newFilestArray) {
+      if (RegExp(accept).test(file.type) && maxSize ? file.size <= maxSize : true) {
+        dataTransfer.items.add(file);
         break;
       }
-
-      if (!RegExp(accept).test(newFile.type) || (maxSize && newFile.size > maxSize)) {
-        continue;
-      }
-
-      if (!currentFilesArray.find((file) => file.name === newFile.name) && (maxSize ? newFile.size <= maxSize : true)) {
-        currentFilesArray.push(newFile);
-        newFiles.push(newFile);
-        dataTransfer.items.add(newFile);
-        if (!multiple) {
-          break;
-        }
-      }
-    }
-    if (newFiles.length === 0) {
-      return new DataTransfer().files;
     }
   }
   return dataTransfer.files;

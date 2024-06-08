@@ -1,6 +1,6 @@
 'use server';
-import { detailRepository } from '../detail.server';
+import { getDetailByIdUseCase } from '../_use-cases/get-detail-by-id';
 
 export const getDetailByIdAction = (id: number) => {
-  return detailRepository.getDetailById(id);
+  return getDetailByIdUseCase.execute(id);
 };

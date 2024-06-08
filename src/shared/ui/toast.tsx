@@ -29,22 +29,9 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        success: {
-          DEFAULT: 'bg-toast-success border-toast-success',
-          foreground: 'text-toast-success-foreground',
-        },
-        warning: {
-          DEFAULT: 'bg-toast-warning border-toast-warning',
-          foreground: 'text-toast-warning-foreground',
-        },
-        info: {
-          DEFAULT: 'bg-toast-info border-toast-info',
-          foreground: 'text-toast-info-foreground',
-        },
-        error: {
-          DEFAULT: 'bg-toast-error border-toast-error',
-          foreground: 'text-toast-error-foreground',
-        },
+        success: 'bg-toast-success border-toast-success [&>*]:text-toast-success-foreground',
+        warning: 'bg-toast-warning border-toast-warning [&>*]:text-toast-warning-foreground',
+        info: 'bg-toast-info border-toast-info [&>*]:text-toast-info-foreground',
       },
     },
     defaultVariants: {
@@ -74,7 +61,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive',
+      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-inherit',
       className,
     )}
     {...props}
@@ -105,7 +92,7 @@ const ToastTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Title
     ref={ref}
-    className={cn('text-sm font-semibold', className)}
+    className={cn('text-sm font-semibold text-inherit', className)}
     {...props}
   />
 ));

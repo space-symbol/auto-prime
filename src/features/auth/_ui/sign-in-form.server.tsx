@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { EmailSignInForm } from './email-sign-in-form/email-sign-in-form';
 import { Divider } from './divider/divider';
 import { ProviderButton } from './provider-button/provider-button';
-import authConfig from '@/entities/user/auth.config';
+import { authConfig } from '@/entities/user/server';
 import { AppProvider } from 'next-auth/providers';
 
 interface SignInFormProps {

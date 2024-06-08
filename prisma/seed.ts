@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -27,6 +27,7 @@ async function main() {
       price: 59.99,
       discountPercentage: 0,
       quantityAvailable: 100,
+      priceAfterDiscount: 59.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/47/10/21047/images/17186/17186.1920.jpg'],
     },
     create: {
@@ -35,6 +36,7 @@ async function main() {
       price: 59.99,
       discountPercentage: 0,
       quantityAvailable: 100,
+      priceAfterDiscount: 59.99,
       images: ['https://images.wallpaperscraft.ru/image/single/georgina_tsvetok_lepestki_1224100_1920x1080.jpg'],
     },
   });
@@ -48,6 +50,7 @@ async function main() {
       discountPercentage: 5,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 18),
       quantityAvailable: 200,
+      priceAfterDiscount: 12.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg'],
     },
     create: {
@@ -57,6 +60,7 @@ async function main() {
       discountPercentage: 5,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 18),
       quantityAvailable: 200,
+      priceAfterDiscount: 12.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg'],
     },
   });
@@ -69,6 +73,7 @@ async function main() {
       price: 129.99,
       discountPercentage: 0,
       quantityAvailable: 50,
+      priceAfterDiscount: 129.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg'],
     },
     create: {
@@ -77,6 +82,7 @@ async function main() {
       price: 129.99,
       discountPercentage: 0,
       quantityAvailable: 50,
+      priceAfterDiscount: 129.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg'],
     },
   });
@@ -90,6 +96,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 1),
       quantityAvailable: 30,
+      priceAfterDiscount: 179.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
     create: {
@@ -99,6 +106,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 1),
       quantityAvailable: 30,
+      priceAfterDiscount: 179.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
   });
@@ -112,6 +120,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 2),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
     create: {
@@ -121,6 +130,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 2),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
   });
@@ -134,6 +144,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 7),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -143,6 +154,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 7),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -171,6 +183,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 30),
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -195,6 +208,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 30),
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -223,6 +237,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 20),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -247,6 +262,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 20),
       quantityAvailable: 30,
+      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -272,6 +288,7 @@ async function main() {
       +8В питание датчика`,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -294,6 +311,7 @@ async function main() {
       +8В питание датчика`,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -311,6 +329,8 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
+
       images: ['https://1evel.ru/wa-data/public/shop/products/52/46/24652/images/22230/22230.1920.jpg'],
     },
     create: {
@@ -323,6 +343,7 @@ async function main() {
       - Bentley Bentayga 2019+
       `,
       price: 100.99,
+      priceAfterDiscount: 100.99,
       quantityAvailable: 30,
       images: ['https://1evel.ru/wa-data/public/shop/products/52/46/24652/images/22230/22230.1920.jpg'],
     },
@@ -342,6 +363,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 14),
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/63/31/23163/images/20046/20046.1920.jpeg'],
     },
     create: {
@@ -357,6 +379,7 @@ async function main() {
       discountPercentage: 10,
       discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 14),
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/63/31/23163/images/20046/20046.1920.jpeg'],
     },
   });
@@ -369,6 +392,7 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -378,6 +402,7 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
   });
@@ -390,6 +415,7 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -399,6 +425,7 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
   });
@@ -412,6 +439,7 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -421,57 +449,8 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
+      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
-    },
-  });
-
-  const order1 = await prisma.order.upsert({
-    where: { id: 'order_1' },
-    update: {
-      id: 'order_1',
-      orderDate: new Date(),
-      totalAmount: 44.97,
-      userId: user1.id,
-    },
-    create: {
-      id: 'order_1',
-      orderDate: new Date(),
-      totalAmount: 44.97,
-      userId: user1.id,
-    },
-  });
-
-  const orderDetails = await prisma.orderDetail.createMany({
-    data: [
-      {
-        quantity: 1,
-        unitPrice: 19.99,
-        orderId: order1.id,
-        detailId: detail1.id,
-      },
-      {
-        quantity: 1,
-        unitPrice: 14.99,
-        orderId: order1.id,
-        detailId: detail2.id,
-      },
-      {
-        quantity: 2,
-        unitPrice: 9.99,
-        orderId: order1.id,
-        detailId: detail3.id,
-      },
-    ],
-  });
-
-  const payment1 = await prisma.payment.upsert({
-    where: { orderId: 'order_1' },
-    update: {},
-    create: {
-      paymentDate: new Date(),
-      paymentMethod: 'Credit Card',
-      amount: 44.97,
-      orderId: order1.id,
     },
   });
 

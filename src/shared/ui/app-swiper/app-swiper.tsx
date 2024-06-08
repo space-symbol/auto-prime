@@ -31,13 +31,9 @@ export const SwiperButton = (props: SwiperButtonProps) => {
   );
 };
 
-export interface Slide {
-  slide: ReactNode;
-}
-
 interface AppSwiperProps {
   className?: string;
-  slides: Slide[];
+  slides: ReactNode[];
   onSlideChange?: (swiper: SwiperClass) => void;
   activeIndex?: number;
 }
@@ -55,6 +51,9 @@ export const AppSwiper = (props: AppSwiperProps) => {
         clickable: true,
         horizontalClass: cls.pagination,
         renderBullet: (index, bulletClassname) => {
+          if (slides.length === 1) {
+            return `<button class="${cls.bullet} ${bulletClassname} ${cls.singleBullet}"></button>`;
+          }
           if (index === 0) {
             return `<button class="${cls.bullet} ${bulletClassname} ${cls.firstBullet}"></button>`;
           } else if (index === slides.length - 1) {
@@ -68,15 +67,15 @@ export const AppSwiper = (props: AppSwiperProps) => {
       loop
       initialSlide={activeIndex || 0}
       onSlideChange={onSlideChange}>
-      <SwiperButton />
-      {slides.map((slide: Slide, index) => (
+      {slides.length > 1 && <SwiperButton />}
+      {slides.map((slide: ReactNode, index) => (
         <SwiperSlide
           className={cls.swiperSlide}
           key={index}>
-          {slide.slide}
+          {slide}
         </SwiperSlide>
       ))}
-      <SwiperButton direction="right" />
+      {slides.length > 1 && <SwiperButton direction="right" />}
     </Swiper>
   );
 };

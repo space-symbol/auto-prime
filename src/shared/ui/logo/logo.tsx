@@ -13,10 +13,10 @@ export const Logo = (props: LogoProps) => {
 
   return (
     <NavbarLink
-      theme="hover"
+      variant="hover"
       className={cn(classNames(cls.logo, 'p-0', className))}
-      href={routes.navbarRoutes.main.href}>
-      <LogoIcon />
-    </NavbarLink>
+      href={routes.navbarRoutes.main.href}
+      LeftIcon={<LogoIcon />}
+    />
   );
 };

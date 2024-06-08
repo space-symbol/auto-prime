@@ -1,4 +1,4 @@
-import { SignInForm } from '@features/auth/auth.server';
+import { SignInForm } from '@features/auth/server';
 
 const SingInPage = () => {
   return (

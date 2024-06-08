@@ -7,7 +7,7 @@ export function useOAuthSignIn(provider: AppProvider) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get('callbackUrl');
   const oAuthSignInMutation = useMutation({
-    mutationFn: () => signIn(provider.id, { callbackUrl: callbackUrl ?? undefined }, { prompt: 'login' }),
+    mutationFn: () => signIn(provider.id, { callbackUrl: callbackUrl ?? undefined }),
   });
 
   return {

@@ -6,20 +6,35 @@ import classNames from 'classnames';
 import { useParams } from 'next/navigation';
 import { cn } from '@/shared/lib/utils';
 
-type AppLinkTheme = 'hover' | 'underlined' | 'underlined' | 'background';
+export type AppLinkVariant = 'hover' | 'underlined' | 'background' | 'transparent';
 
 export interface AppLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement>, LinkProps {
-  theme?: AppLinkTheme;
+  variant?: AppLinkVariant;
   href: string;
   active?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   pathRespnosible?: boolean;
   fullwidth?: boolean;
+  RightIcon?: ReactNode;
+  LeftIcon?: ReactNode;
+  vertical?: boolean;
 }
 
 export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>((props: AppLinkProps, ref) => {
-  const { className, active, theme = 'underlined', children, pathRespnosible, href, fullwidth, ...otherProps } = props;
+  const {
+    className,
+    active,
+    variant = 'underlined',
+    children,
+    pathRespnosible,
+    href,
+    fullwidth,
+    RightIcon,
+    LeftIcon,
+    vertical,
+    ...otherProps
+  } = props;
 
   const params = useParams();
   const [currentPath, setCurrentPath] = useState<string>('');
@@ -36,9 +51,9 @@ export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>((props: AppLi
   const endPoint = href.includes('#') ? href.split('#').at(1) : href.split('/').at(-1);
 
   const linkClasses = cn(
-    classNames(cls.appLink, className, cls[theme], {
+    classNames(cls.appLink, className, cls[variant], {
       [cls.active]: active || (currentPath && currentPath === endPoint),
-      [cls.fullwidth]: fullwidth,
+      '!w-full': fullwidth,
     }),
   );
 
@@ -48,8 +63,11 @@ export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>((props: AppLi
       className={linkClasses}
       href={href}
       {...otherProps}>
-      <span>{children}</span>
+      {LeftIcon}
+      {variant === 'background' ? <span className={cls.content}>{children}</span> : children}
+      {RightIcon}
     </Link>
   );
 });
+
 AppLink.displayName = 'AppLink';

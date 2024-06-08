@@ -4,6 +4,7 @@ export const DetailBaseScema = z.object({
   description: z.string(),
   price: z.number(),
   discountPercentage: z.number().default(0),
+  priceAfterDiscount: z.number(),
   discountEndDate: z.date().nullable(),
   quantityAvailable: z.number(),
   images: z.string().array(),

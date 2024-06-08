@@ -11,7 +11,7 @@ export const ProviderButton = ({ provider }: { provider: AppProvider }) => {
   const getIcon = (provider: AppProvider) => {
     switch (provider.id) {
       case 'google':
-        return <GoogleIcon />;
+        return <GoogleIcon className="w-4 h-4 fill-current" />;
       default:
         return null;
     }
@@ -25,7 +25,7 @@ export const ProviderButton = ({ provider }: { provider: AppProvider }) => {
       {oauthSignIn.isPending ? (
         <Spinner
           aria-label={'Вход...'}
-          className={'w-auto h-100%'}
+          className={'w-auto h-100% fill-current'}
         />
       ) : (
         getIcon(provider)

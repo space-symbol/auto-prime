@@ -9,19 +9,19 @@ import {
 } from '@shared/ui/dropdown-menu';
 import { ProfileAvatar } from '@/entities/user/_ui/profile-avatar';
 import { getProfileDisplayName } from '@/entities/user/_vm/get-profile-display-name';
-import { SignInButton } from '@features/auth/auth';
-import { User, ShoppingCart, LayoutDashboardIcon } from 'lucide-react';
+import { SignInButton } from '@/features/auth/client';
+import { User, LayoutDashboardIcon } from 'lucide-react';
 import { AppLink } from '@shared/ui/app-link/app-link';
 import React from 'react';
 import { useAppSession } from '@/entities/user/client';
-import { useSignOut } from '@/features/auth/auth';
+import { useSignOut } from '@/features/auth/client';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { AppButton } from '@/shared/ui/app-button/app-button';
 
 interface ProfileLink {
   href: string;
   text: string;
-  icon: SVGIconFC;
+  Icon: SVGIconFC;
   isPrivate?: boolean;
 }
 export const Profile = () => {
@@ -41,7 +41,7 @@ export const Profile = () => {
   }
 
   if (session.status === 'unauthenticated') {
-    return <SignInButton />;
+    return <SignInButton className="!h-fit" />;
   }
 
   const user = session.data?.user;
@@ -51,17 +51,12 @@ export const Profile = () => {
     {
       text: 'Профиль',
       href: '/store/profile',
-      icon: User,
-    },
-    {
-      text: 'Корзина',
-      href: '/store/cart',
-      icon: ShoppingCart,
+      Icon: User,
     },
     {
       text: 'Панель управления',
       href: '/dashboard/details',
-      icon: LayoutDashboardIcon,
+      Icon: LayoutDashboardIcon,
       isPrivate: true,
     },
   ].filter((item) => !item?.isPrivate || role === 'ADMIN');
@@ -82,7 +77,7 @@ export const Profile = () => {
           {user ? getProfileDisplayName(user) : undefined}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup tabIndex={1}>
+        <DropdownMenuGroup>
           {profileLinks.map((item) => (
             <DropdownMenuItem
               asChild
@@ -90,25 +85,22 @@ export const Profile = () => {
               <AppLink
                 key={item.href}
                 href={item.href}
-                tabIndex={1}
                 fullwidth
-                theme="hover">
-                <div className="flex gap-1.5 items-center text-inherit">
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.text}</span>
-                </div>
+                variant="transparent"
+                LeftIcon={<item.Icon className="stroke-current" />}>
+                {item.text}
               </AppLink>
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        <DropdownMenuGroup className="text-sm">
           <DropdownMenuItem
             asChild
-            className="text-inherit">
+            className="text-inherit p-0">
             <AppButton
-              className={'p-1 w-full'}
-              theme={'destructive'}
+              className={'!h-7 w-full'}
+              variant="destructive"
               disabled={isLoadingSignOut}
               onClick={() => signOut()}>
               Выход

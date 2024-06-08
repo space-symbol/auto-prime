@@ -1,7 +1,7 @@
 'use server';
 import { DetailBase } from '@/entities/detail/_domain/types';
 import { detailRepository } from '@/entities/detail/_repository/detail.repository';
-import { createDetailUseCase } from '@/entities/detail/detail';
+import { createDetailUseCase } from '@/entities/detail/server';
 import { getAppSessionServer } from '@/entities/user/server';
 import { privateConfig } from '@/shared/config/private';
 import { AuthorizatoinError, BadRequest } from '@/shared/lib/errors';
@@ -18,7 +18,7 @@ export const createDetailAction = async (detailFormData: FormData) => {
     throw new BadRequest('Такой продукт уже существует');
   }
 
-  let price = Number.parseFloat(detailFormData.get('price') as string);
+  const price = Number.parseFloat(detailFormData.get('price') as string);
 
   if (!price) {
     throw new BadRequest('Необходимо указать цену');
@@ -27,8 +27,9 @@ export const createDetailAction = async (detailFormData: FormData) => {
   if (Number(price) < 0) {
     throw new BadRequest('Цена не может быть отрицательной');
   }
+  let priceAfterDiscount = price;
 
-  if (detailFormData.get('discountPercentage')) {
+  if (Number.parseInt(detailFormData.get('discountPercentage') as string) > 0) {
     const discountPercentage = Number.parseInt(detailFormData.get('discountPercentage') as string);
 
     if (!detailFormData.get('discountEndDate')) {
@@ -47,7 +48,7 @@ export const createDetailAction = async (detailFormData: FormData) => {
       throw new BadRequest('Скидка не может быть больше 100%');
     }
 
-    price = price - (price / 100) * discountPercentage;
+    priceAfterDiscount = price - (price / 100) * discountPercentage;
   }
 
   const images = (detailFormData.getAll('images') || []) as File[];
@@ -67,6 +68,7 @@ export const createDetailAction = async (detailFormData: FormData) => {
     description: detailFormData.get('description') as string,
     price: price,
     discountPercentage: Number(detailFormData.get('discountPercentage')),
+    priceAfterDiscount: priceAfterDiscount,
     discountEndDate: detailFormData.get('discountEndDate')
       ? new Date(detailFormData.get('discountEndDate') as string)
       : null,

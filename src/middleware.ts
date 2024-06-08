@@ -1,4 +1,4 @@
-import authConfig from '@entities/user/auth.config';
+import { authConfig } from '@entities/user/server';
 import NextAuth from 'next-auth';
 import { routes } from '@/shared/config/routes';
 const { auth: middleware } = NextAuth(authConfig);
@@ -11,7 +11,7 @@ export default middleware((req) => {
   const isLoggedIn = !!req.auth;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = Object.entries(authRoutes).some(([_, route]) => route === nextUrl.pathname);
 
   if (isApiAuthRoute) {
     return null;

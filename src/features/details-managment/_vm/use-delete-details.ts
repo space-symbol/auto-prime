@@ -1,13 +1,24 @@
 import { useMutation } from '@tanstack/react-query';
 import { deleteDetailsAction } from '../_actions/delete-details';
-import { useInvalidateDetails } from '@/entities/detail/detail';
+import { useInvalidateDetails } from '@/entities/detail/client';
 
-export const useDeleteDetails = () => {
+interface DeleteDetailProps {
+  onSuccess?: (data: Awaited<ReturnType<typeof deleteDetailsAction>>) => void;
+  onError?: (error: Error) => void;
+}
+
+export const useDeleteDetails = (props: DeleteDetailProps) => {
+  const { onSuccess, onError } = props;
+
   const invalidateDetails = useInvalidateDetails();
   const detailMutation = useMutation({
     mutationFn: deleteDetailsAction,
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await invalidateDetails();
+      onSuccess?.(data);
+    },
+    onError: (error) => {
+      onError?.(error);
     },
   });
 

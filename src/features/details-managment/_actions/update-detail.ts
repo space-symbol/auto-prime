@@ -1,7 +1,6 @@
 'use server';
-
-import { DetailBase, updateDetailUseCase } from '@/entities/detail/detail';
-import { detailRepository } from '@/entities/detail/detail.server';
+import { DetailBase, updateDetailUseCase } from '@/entities/detail/client';
+import { detailRepository } from '@/entities/detail/server';
 import { BadRequest } from '@/shared/lib/errors';
 import { fileStorage } from '@/shared/lib/file-storage';
 

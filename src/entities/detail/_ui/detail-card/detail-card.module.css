@@ -1,8 +1,8 @@
 .card {
-  @apply font-montserrat text-base h-full flex flex-col min-w-0 relative overflow-hidden bg-card text-card-foreground;
+  @apply font-montserrat text-base h-full flex !flex-col min-w-0 relative overflow-hidden bg-card text-card-foreground rounded-tr-none rounded-tl-none w-full;
 
   &:focus {
-    @apply shadow-lg outline-offset-2;
+    @apply outline-offset-2;
 
     .imageContainer {
       .image {
@@ -12,10 +12,10 @@
   }
 
   .saleBar {
-    @apply absolute flex justify-between items-start left-0 top-0 z-10 text-accent rounded-br rounded-tr text-xs font-rubik w-full;
+    @apply absolute flex justify-between items-start left-0 top-0 z-[1] text-accent rounded-br rounded-tr text-sm font-rubik;
 
     .sale {
-      @apply px-0.5 bg-accent text-white w-fit;
+      @apply font-rubik px-0.5 bg-accent text-white w-fit;
     }
   }
 
@@ -72,8 +72,6 @@
 
   @media (hover: hover) {
     &:hover {
-      @apply shadow-lg;
-
       .imageContainer {
         .image {
           @apply transform scale-110;

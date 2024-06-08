@@ -18,6 +18,7 @@ class DetailRepository {
         images: true,
         description: true,
         quantityAvailable: true,
+        priceAfterDiscount: true,
       },
     };
 

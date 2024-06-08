@@ -8,7 +8,23 @@ import { toast } from '@/shared/ui/use-toast';
 
 const DashboardDetailsPage = () => {
   const [rowSelection, setRowSelection] = useState({});
-  const { deleteDetails } = useDeleteDetails();
+  const { deleteDetails } = useDeleteDetails({
+    onSuccess: () => {
+      toast({
+        title: 'Успешно',
+        description: 'Товары удалены',
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Произошла ошибка',
+        description: error.message,
+        variant: 'warning',
+      });
+    },
+  });
+
   return (
     <main className={'flex flex-col w-full h-full gap-2'}>
       <DetailsManagmentTable
@@ -28,7 +44,7 @@ const DashboardDetailsPage = () => {
                 });
               }
             }}
-            theme={'destructive'}>
+            variant="destructive">
             Удалить выбранные товары
           </AppButton>
         )}

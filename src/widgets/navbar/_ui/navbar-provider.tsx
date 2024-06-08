@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 
 interface NavbarContextProps {
   navbarIsActive: boolean;
-  changeNavbarIsActive: (value: boolean) => void;
+  setNavbarIsActive: (value: boolean) => void;
 }
 const NavbarContext = createContext({} as NavbarContextProps);
 
@@ -14,7 +14,7 @@ export const NavbarProvider = ({ children }: { children: React.ReactNode }) => {
     <NavbarContext.Provider
       value={{
         navbarIsActive,
-        changeNavbarIsActive: setNavbarIsActive,
+        setNavbarIsActive,
       }}>
       {children}
     </NavbarContext.Provider>

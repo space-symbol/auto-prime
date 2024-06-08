@@ -4,16 +4,17 @@
         --header-height: 6rem;
         --navbar-width: 14rem;
         --top-bar-height: 3.5rem;
-
+        --cart-width: 26rem;
+        
         /* Z-Index */
         --top-bar-z-index: 10;
         --navbar-z-index: 25;
-        --backdrop-z-index: 15;
-        --menu-menu-z-index: 20;
-        --input-label-z-index: 10;
+        --overlay-z-index: 15;
+        --input-label-z-index: 1;
+        --cart-z-index: 36;
 
         /* Отступы */
-        --page-padding-top: 1.5rem;
+        --page-padding-top: 1.4rem;
         --page-padding-bottom: 1rem;
         --page-padding-left: 1rem;
         --page-padding-right: 1rem;
@@ -45,7 +46,7 @@
         --foreground-secondary: var(--gray);
 
         /* Цвет карточек */
-        --card: 0deg 0% 100%;
+        --card: 0deg 0% 88%;
         --card-foreground: 0deg 0% 0%;
 
         /* Цвет попапов */
@@ -82,7 +83,7 @@
         --destructive-foreground: var(--destructive-red);
 
         /* Цвет скролбара */
-        --scorllbar: 210deg 4% 10%;
+        --scrollbar: 0deg 0% 50%;
 
         /* Цвет диалогов */
         --dialog: 0deg 0% 100%;
@@ -94,6 +95,13 @@
         /* Цвет таблиц */
         --table-header: 0deg 0% 80%;
         --table-header-foreground: 0deg 0% 70%;
+
+        /* Цвета корзины */
+        --cart: 0 0% 80%;
+        --cart-foreground: 0deg 0% 0%;
+
+        /* Цвет оверлея */
+        --overlay: 0deg 0% 40%;
     }
 
     .dark {
@@ -123,10 +131,10 @@
         --destructive: var(--destructive-red);
         --destructive-foreground: 0deg 0% 100%;
         --primary: 0deg 0% 0%;
-        --primary-foreground:  39deg 100% 60%;
+        --primary-foreground:  0deg 0% 100%;
 
         /* Цвет скелетона */
-        --skeleton: 0deg 0% 10%;
+        --skeleton: 0deg 1% 20%;
 
         /* Цвет навигационной панели */
         --navbar: 0deg 0% 6%;
@@ -136,27 +144,32 @@
         --title: 0deg 0% 80%;
 
         /* Цвет скролбара */
-        --scorllbar: 0deg 0% 100%;
+        --scrollbar: 0deg 0% 30%;
 
         /* Цвет тостов */
-        --toast-success: 0deg 0% 100%;
-        --toast-error: 0deg 0% 100%;
-        --toast-warning: 0deg 0% 100%;
-        --toast-info: 0deg 0% 10%;
+        --toast-success: 0deg 0% 20%;
+        --toast-warning: 0deg 0% 20%;
+        --toast-info: 0deg 0% 20%;
 
         /* Цвета текста в тостах */
-        --toast-success-foreground: 0deg 0% 0%;
-        --toast-error-foreground: 0deg 0% 0%;
-        --toast-warning-foreground: 0deg 0% 0%;
+        --toast-success-foreground: 155deg 67% 45%;
+        --toast-warning-foreground: var(--warning-red);
         --toast-info-foreground: 0deg 0% 100%;
 
         /* Цвет диалогов */
-        --dialog: 0deg 0% 10%;
+        --dialog: 0deg 0% 12%;
         --dialog-foreground: 0deg 0% 70%;
     
         /* Цвет таблиц */
         --table-header: 0deg 0% 10%;
         --table-header-foreground: 0deg 0% 70%;
+
+        /* Цвета корзины */
+        --cart: 0deg 0% 10%;
+        --cart-foreground: 0deg 0% 70%;
+
+        /* Цвет оверлея */
+        --overlay: 0deg 0% 0%;
     }
 }
 

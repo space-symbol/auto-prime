@@ -24,8 +24,8 @@ export const CreateDetailDialog = (props: CreateDetailModalProps) => {
     onError: (error) => {
       toast({
         title: 'Произошла ошибка',
-        description: `${error.message}`,
-        variant: 'error',
+        description: error.message,
+        variant: 'warning',
       });
     },
   });

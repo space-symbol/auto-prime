@@ -1,4 +1,4 @@
-import type { Roles } from '@prisma/client';
+import type { CartItem, Detail, Roles } from '@prisma/client';
 
 export interface UserEntity {
   id: string;
@@ -19,3 +19,15 @@ export interface Profile {
   name?: string | null;
   image?: string | null;
 }
+
+export interface AddToCart {
+  userId?: string;
+  detailId: number;
+  quantity: number;
+}
+
+export interface CartItemEntity extends CartItem, Detail {
+  total: number;
+}
+
+export interface CartEntity extends Array<CartItemEntity> {}

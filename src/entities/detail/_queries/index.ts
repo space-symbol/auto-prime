@@ -5,6 +5,7 @@ import { getDetailByIdAction } from '../_actions/get-detail-by-id';
 
 const baseKey = 'detail';
 interface QueryOptions extends Omit<UseQueryOptions<DetailEntity[]>, 'queryFn' | 'queryKey'> {}
+
 export const useGetDetailsQuery = (params?: SearchDetailsParams, options?: QueryOptions) => {
   const queryKey = [baseKey];
   if (params) {

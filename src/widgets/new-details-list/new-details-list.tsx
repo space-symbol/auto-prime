@@ -1,7 +1,7 @@
 'use client';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link/app-link';
-import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/detail';
+import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/client';
 import classNames from 'classnames';
 
 interface NewDetailsListProps {

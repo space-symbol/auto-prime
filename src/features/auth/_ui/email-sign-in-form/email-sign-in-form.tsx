@@ -4,8 +4,8 @@ import { AppInput } from '@shared/ui/app-input/app-input';
 import { AppForm } from '@shared/ui/app-form/app-form';
 import classNames from 'classnames';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useEmailSignIn } from '../../_vm/use-email-sign-in';
+import { z } from 'zod';
 
 interface EmailSignInFormProps {
   className?: string;

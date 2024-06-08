@@ -3,10 +3,10 @@ import { Logo } from '@shared/ui/logo/logo';
 import classNames from 'classnames';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared/ui/accordion';
 import { NavbarLink } from './navbar-link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { routes, NavbarRoute } from '@/shared/config/routes';
-import { useNavbarContext } from './navbar-context';
+import { useNavbarContext } from './navbar-provider';
 import FocusLock from 'react-focus-lock';
 import CloseIcon from '@/shared/public/assets/icons/close.svg';
 import { AppButton } from '@/shared/ui/app-button/app-button';
@@ -20,8 +20,7 @@ export const Navbar = (props: NavbarProps) => {
   const { className } = props;
   const [inited, setInited] = useState(false);
   const pathname = usePathname();
-  const { navbarIsActive, changeNavbarIsActive } = useNavbarContext();
-  const headerRef = useRef<HTMLDivElement>(null);
+  const { navbarIsActive, setNavbarIsActive } = useNavbarContext();
 
   useEffect(() => {
     setInited(true);
@@ -78,7 +77,7 @@ export const Navbar = (props: NavbarProps) => {
     <header
       className={cn(
         classNames(
-          'items-center bg-navbar left-[-100%] transition-left duration-400 h-full justify-between w-navbar lg:animate-none flex-col flex-shrink-0 gap-4 z-navbar top-0 fixed overflow-auto lg:static lg:translate-x-0 lg:flex  p-page-y gutter-stable',
+          'items-center bg-navbar left-[-100%] transition-left duration-400 h-full justify-between w-navbar z-navbar lg:animate-none flex-col flex-shrink-0 gap-4 top-0 fixed overflow-auto lg:static lg:translate-x-0 lg:flex p-page-y gutter-stable',
           className,
           {
             'animate-translate-right motion-safe:left-0 motion-safe:flex': navbarIsActive,
@@ -88,12 +87,14 @@ export const Navbar = (props: NavbarProps) => {
         ),
       )}>
       <AppButton
-        LeftIcon={CloseIcon}
-        theme="transparent"
-        onClick={() => changeNavbarIsActive(false)}
-        className={'!absolute !h-4 !w-4 top-1 right-0 !p-1 lg:!hidden'}
+        LeftIcon={<CloseIcon className="h-4 w-4 fill-current" />}
+        variant="transparent"
+        onClick={() => setNavbarIsActive(false)}
+        className={'!absolute top-2 right-1 lg:!hidden'}
       />
-      <Logo className={'w-[80%] h-auto p-page pt-0'} />
+      <div className="mx-6 ">
+        <Logo className={'h-auto w-auto pt-0'} />
+      </div>
       <nav className={'font-montserrat flex-grow w-full flex flex-col pt-6'}>
         <ul className={'text-white font-golos text-base uppercase flex flex-col flex-grow justify-center'}>
           {renderLinks(routes.navbarRoutes)}
@@ -104,18 +105,15 @@ export const Navbar = (props: NavbarProps) => {
   return (
     <>
       <div
-        onClick={() => changeNavbarIsActive(false)}
-        className={classNames(
-          'fixed top-0 transition-width duration-400 h-screen bg-black bg-opacity-60 z-backdrop lg:hidden',
-          {
-            'animate-translate-right w-screen': navbarIsActive,
-            'w-0': !navbarIsActive,
-            'motion-safe:flex motion-safe:left-0': inited,
-          },
-        )}
+        onClick={() => setNavbarIsActive(false)}
+        className={classNames('fixed top-0 transition-width duration-400 h-screen bg-overlay/80 z-navbar lg:hidden', {
+          'animate-translate-right w-screen': navbarIsActive,
+          'w-0': !navbarIsActive,
+          'motion-safe:flex motion-safe:left-0': inited,
+        })}
       />
-      <FocusLock className="lg:hidden">{content}</FocusLock>
-      <div className="hidden lg:flex">{content}</div>
+      <FocusLock className="lg:hidden z-navbar">{content}</FocusLock>
+      <div className="hidden lg:flex z-navbar">{content}</div>
     </>
   );
 };

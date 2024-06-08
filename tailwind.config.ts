@@ -34,6 +34,11 @@ const config = {
         navbar: 'hsl(var(--navbar))',
         'navbar-foreground': 'hsl(var(--navbar-foreground))',
         scrollbar: 'hsl(var(--scrollbar))',
+        overlay: 'hsl(var(--overlay))',
+        cart: {
+          DEFAULT: 'hsl(var(--cart))',
+          foreground: 'hsl(var(--cart-foreground))',
+        },
         table: {
           DEFAULT: 'hsl(var(--table))',
           header: {
@@ -53,14 +58,10 @@ const config = {
           DEFAULT: 'hsl(var(--dialog))',
           foreground: 'hsl(var(--dialog-foreground))',
         },
-        toaser: {
+        toast: {
           success: {
             DEFAULT: 'hsl(var(--toast-success))',
             foreground: 'hsl(var(--toast-success-foreground))',
-          },
-          error: {
-            DEFAULT: 'hsl(var(--toast-error))',
-            foreground: 'hsl(var(--toast-error-foreground))',
           },
           warning: {
             DEFAULT: 'hsl(var(--toast-warning))',
@@ -152,16 +153,25 @@ const config = {
           },
           to: {
             transform: 'translateX(-100%)',
-            opacity: '0',
           },
         },
         'cancel-shake': {
-          '0%': {
+          from: {
             transform: 'translateX(1%)',
           },
-          '100%': {
+          to: {
             border: "0.1em solid 'var(--warning) !important'",
             transform: 'translateX(-1%)',
+          },
+        },
+        'cart-hide': {
+          to: {
+            transform: 'translateX(100%)',
+          },
+        },
+        'cart-show': {
+          to: {
+            transform: 'translateX(0)',
           },
         },
       },
@@ -169,10 +179,12 @@ const config = {
         'accordion-down': 'accordion-down 0.4s ease-out',
         'accordion-up': 'accordion-up 0.2s ease',
         'show-delay': 'show 0.2s 0.1s forwards ease',
-        show: 'show 0.2s ease',
+        show: 'show 0.2s 0s 1 forwards ease',
         'translate-right': 'translate-right 0.2s 0s 1 forwards ease',
         'translate-left': 'translate-left 0.2s 0s 1 forwards ease',
         'cancel-shake': 'cancel-shake 0.1s 0s 3 forwards ease',
+        'cart-hide': 'cart-hide 0.2s 0s 1 forwards ease',
+        'cart-show': 'cart-show 0.2s 0s 1 forwards ease',
       },
       margin: {
         navbar: 'var(--navbar-width)',
@@ -198,6 +210,7 @@ const config = {
       },
       width: {
         navbar: 'var(--navbar-width)',
+        cart: 'var(--cart-width)',
       },
       height: {
         header: 'var(--header-height)',
@@ -210,7 +223,7 @@ const config = {
         full: '100%',
       },
       fontFamily: {
-        roboto: 'var(--roboto(-font)',
+        roboto: 'var(--roboto-font)',
         rubik: 'var(--rubik-font)',
         montserrat: 'var(--montserrat-font)',
         golos: 'var(--golos-font)',
@@ -248,8 +261,9 @@ const config = {
       zIndex: {
         'top-bar': 'var(--top-bar-z-index)',
         navbar: 'var(--navbar-z-index)',
-        backdrop: 'var(--backdrop-z-index)',
+        overlay: 'var(--overlay-z-index)',
         'modal-menu': 'var(--modal-menu-z-index)',
+        cart: 'var(--cart-z-index)',
       },
       boxShadow: {
         right: '0.15rem 0 1rem 0.5em hsl(0 0 0%)',

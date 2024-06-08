@@ -1,9 +1,9 @@
 'use client';
-import { useNavbarContext } from '@/widgets/navbar/navbar';
 import { UpdateSearchParamsBar } from '@/features/search-details/search-details';
 import { NavbarSwitcher } from '@widgets/navbar/navbar';
 import classNames from 'classnames';
 import { Profile } from './profile';
+import { Cart } from '@/features/cart/client';
 
 interface TopBarProps {
   className?: string;
@@ -11,12 +11,6 @@ interface TopBarProps {
 
 export const TopBar = (props: TopBarProps) => {
   const { className } = props;
-  const { navbarIsActive, changeNavbarIsActive } = useNavbarContext();
-
-  const onNavbarSwitcherClick = () => {
-    changeNavbarIsActive(!navbarIsActive);
-  };
-
   return (
     <div
       className={classNames(
@@ -24,13 +18,13 @@ export const TopBar = (props: TopBarProps) => {
         className,
       )}>
       <div className={'flex gap-4 items-center h-full w-full'}>
-        <NavbarSwitcher
-          onClick={onNavbarSwitcherClick}
-          navbarIsActive={navbarIsActive}
-        />
+        <NavbarSwitcher />
         <UpdateSearchParamsBar className={'h-full'} />
       </div>
-      <Profile />
+      <div className="flex gap-4 items-center">
+        <Cart />
+        <Profile />
+      </div>
     </div>
   );
 };

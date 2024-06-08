@@ -6,10 +6,6 @@
 
 
 @layer base {
-    .gutter-stable {
-        scrollbar-gutter: stable;
-    }
-    
     html, body {
         height: 100vh;
         width: 100vw;
@@ -52,7 +48,7 @@
     }
     
     h1 {
-        @apply text-3xl;
+        @apply text-3xl mb-2;
     }
     
     h2 {
@@ -82,16 +78,29 @@
     }
     
 
-    ::-webkit-scrollbar{
-        @apply w-2 h-2;
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
     }
-    
-    ::-webkit-scrollbar-thumb{
-        @apply bg-transparent rounded-sm;
+
+    input[type=number] {
+        -moz-appearance: textfield;
     }
-    
+
+    ::-webkit-scrollbar {
+       @apply w-2 h-2 rounded-sm bg-transparent;
+    }
+      
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-scrollbar rounded-sm;
+    }
+
     :hover::-webkit-scrollbar-thumb {
-       @apply bg-scrollbar;
+        @apply bg-scrollbar;
     }
     
     @media screen(xs) {
@@ -109,7 +118,7 @@
 
     @media screen(md) {
         ::-webkit-scrollbar-thumb {
-            @apply bg-scrollbar;
+            @apply bg-transparent;
         }
     }
 
@@ -128,14 +137,23 @@
 
     @media screen(2xl) {
         html {
-            font-size: 30px;
+            font-size: 24px;
         }
     }
 
     @media screen(3xl) {
         html {
-            font-size: 40px;
+            font-size: 30px;
         }
     }
 }
 
+@layer utilities {
+    .gutter-stable {
+        scrollbar-gutter: stable;
+    }
+    
+    .read-only {
+        @apply pointer-events-none opacity-50 select-none;
+    }
+}

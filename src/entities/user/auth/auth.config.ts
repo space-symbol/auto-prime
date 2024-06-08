@@ -3,7 +3,7 @@ import Google from 'next-auth/providers/google';
 import { privateConfig } from '@shared/config/private';
 import { compact } from 'lodash-es';
 
-const authConfig = {
+export const authConfig = {
   providers: compact([
     privateConfig.GOOGLE_CLIENT_ID &&
       privateConfig.GOOGLE_CLIENT_SECRET &&
@@ -13,5 +13,3 @@ const authConfig = {
       }),
   ]),
 } satisfies NextAuthConfig;
-
-export default authConfig;

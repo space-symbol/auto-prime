@@ -10,7 +10,7 @@ import {
 import { DataTable } from '@shared/ui/data-table';
 import { ColumnDef, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import DotsHorizontalIcon from '@shared/public/assets/icons/dots-horizontal.svg';
-import { useGetDetailsQuery } from '@/entities/detail/detail';
+import { useGetDetailsQuery } from '@/entities/detail/client';
 import { DetailEntity } from '@/entities/detail/_domain/types';
 import { useDeleteDetails } from '@/features/details-managment/client';
 import { toast } from '@/shared/ui/use-toast';
@@ -22,7 +22,22 @@ interface DetailsManagmentTableProps {
 export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
   const { className, rowSelection, setRowSelection } = props;
   const { details, isPending } = useGetDetailsQuery();
-  const { deleteDetails } = useDeleteDetails();
+  const { deleteDetails } = useDeleteDetails({
+    onSuccess: (data) => {
+      toast({
+        title: 'Товар(ы) успешно удален',
+        description: data.count > 1 ? `${data.count} товар(а) были удалены` : `${data.count} товар был удален`,
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Произошла ошибка',
+        description: error.message,
+        variant: 'warning',
+      });
+    },
+  });
 
   const colums: ColumnDef<DetailEntity>[] = [
     {
@@ -54,6 +69,7 @@ export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
       accessorKey: 'id',
       header: '№',
       cell: (row) => `${Number(row.row.index) + 1}`,
+      sortingFn: (a, b) => a.index - b.index,
     },
     {
       accessorKey: 'name',
@@ -84,39 +100,30 @@ export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <AppButton
-                className="font-sm h-4 w-4 !p-0"
-                LeftIcon={DotsHorizontalIcon}
-                theme={'transparent'}
+                className="font-sm"
+                LeftIcon={<DotsHorizontalIcon className="h-4 w-4 fill-current" />}
+                variant="transparent"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className={'w-full text-sm p-0'}>
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem>
                   <AppButton
                     fullWidth
                     className={'justify-start'}
-                    theme={'transparent'}
+                    variant="transparent"
                     onClick={() => {}}>
                     Изменить
                   </AppButton>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem>
                   <AppButton
-                    onClick={async () => {
-                      const res = await deleteDetails([row.original.id]);
-                      if (res) {
-                        toast({
-                          title: 'Успешно',
-                          description: 'Товар удален',
-                          variant: 'success',
-                        });
-                      }
-                    }}
+                    onClick={() => deleteDetails([row.original.id])}
                     fullWidth
                     className={'justify-start rounded-none'}
-                    theme={'destructive'}>
+                    variant="destructive">
                     Удалить
                   </AppButton>
                 </DropdownMenuItem>

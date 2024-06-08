@@ -21,8 +21,7 @@ class CreateUserUseCase {
       ...data,
     };
 
-    await userRepository.createUser(user);
-    return user;
+    return userRepository.createUser(user);
   }
 }
 

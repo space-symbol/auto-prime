@@ -1,6 +1,5 @@
 'use client';
-import { useGetDetailsQuery } from '@/entities/detail/detail';
-import { DetailsCardsList } from '@/entities/detail/detail';
+import { useGetDetailsQuery, DetailsCardsList } from '@/entities/detail/client';
 import classNames from 'classnames';
 import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@/shared/ui/app-link/app-link';

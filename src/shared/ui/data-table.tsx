@@ -21,7 +21,6 @@ import { AppButton } from './app-button/app-button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './table';
 import { Spinner } from './spinner/spinner';
 import { AppInput } from './app-input/app-input';
-import CaretSortIcon from '@shared/public/assets/icons/carret-sort.svg';
 import { useState } from 'react';
 
 interface DataTableProps<TData, TValue> extends React.HTMLAttributes<HTMLTableElement> {
@@ -94,14 +93,13 @@ export const DataTable = <TData, TValue>(props: DataTableProps<TData, TValue>) =
                     <TableHead key={header.id}>
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <AppButton
-                          theme={'transparent'}
+                          variant="transparent"
                           onClick={() =>
                             header.column.toggleSorting(
                               header.column.getIsSorted() ? header.column.getIsSorted() === 'asc' : true,
                             )
                           }
                           className="p-0 justify-center h-fit"
-                          RightIcon={CaretSortIcon}
                           active={!!header.column.getIsSorted()}>
                           {headerName?.toString()}
                         </AppButton>

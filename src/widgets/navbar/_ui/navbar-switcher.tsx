@@ -3,15 +3,17 @@ import { AppButton } from '@/shared/ui/app-button/app-button';
 import SwitcherIcon from '@assets/icons/navbar-controller.svg';
 import classNames from 'classnames';
 import { ButtonHTMLAttributes, useEffect, useRef } from 'react';
+import { useNavbarContext } from './navbar-provider';
 
 interface NavbarSwitcherProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  navbarIsActive?: boolean;
 }
 
 export const NavbarSwitcher = (props: NavbarSwitcherProps) => {
-  const { className, navbarIsActive, ...otherProps } = props;
+  const { className, ...otherProps } = props;
   const ref = useRef<HTMLButtonElement>(null);
+  const { navbarIsActive, setNavbarIsActive } = useNavbarContext();
+
   useEffect(() => {
     if (!navbarIsActive) {
       return ref?.current?.focus();
@@ -22,10 +24,11 @@ export const NavbarSwitcher = (props: NavbarSwitcherProps) => {
   return (
     <AppButton
       ref={ref}
-      className={classNames('!py-1 lg:!hidden', className)}
+      onClick={() => setNavbarIsActive(!navbarIsActive)}
+      className={classNames('!h-full lg:!hidden', className)}
       title={navbarIsActive ? 'Свернуть навигацию' : 'Развернуть навигацию'}
-      LeftIcon={SwitcherIcon}
-      theme="transparent"
+      LeftIcon={<SwitcherIcon className="fill-current stroke-current w-6 h-6" />}
+      variant="transparent"
       autoFocus={navbarIsActive}
       {...otherProps}
     />

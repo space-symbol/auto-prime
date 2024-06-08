@@ -1,33 +1,60 @@
+'use client';
 import classNames from 'classnames';
-import { DetailEntity } from '../detail';
+import { DetailEntity } from '../client';
 import Image from 'next/image';
 import { cn } from '@/shared/lib/utils';
 import { AppButton } from '@/shared/ui/app-button/app-button';
 import { useState } from 'react';
-import { AppInput } from '@/shared/ui/app-input/app-input';
-import Plus from '@/shared/public/assets/icons/plus.svg';
-import Minus from '@/shared/public/assets/icons/minus.svg';
-import { formatter } from '@/shared/lib/currencyFormatter';
+import { AppInputIncrement } from '@/shared/ui/app-input/app-input';
+import { currencyFormatter } from '@/shared/lib/currencyFormatter';
+import { useAddToCart, useRemoveFromCart } from '@/features/cart/server';
+import { toast } from '@/shared/ui/use-toast';
+import { useGetUserCart } from '@/entities/user/_queries';
 
 interface DetailAboutProps {
   className?: string;
   detail: DetailEntity;
 }
-const { format } = formatter;
 
 export const DetailAbout = ({ className, detail }: DetailAboutProps) => {
-  const { name, description, price, images, discountPercentage, discountEndDate, quantityAvailable } = detail;
-  const [isCanceled, setIsCanceled] = useState(false);
-  const [amount, setAmount] = useState(1);
+  const {
+    name,
+    description,
+    price,
+    images,
+    discountPercentage,
+    discountEndDate,
+    quantityAvailable,
+    priceAfterDiscount,
+  } = detail;
+  const [quantity, setAmount] = useState(1);
+  const { cart } = useGetUserCart();
+  const { removeFromCart } = useRemoveFromCart({});
 
-  const formattedPrice = format(price);
-  const discount = discountPercentage / 1000;
+  const { addToCart } = useAddToCart({
+    onSuccess: () => {
+      toast({
+        title: 'Товар добавлен в корзину',
+        description: `Товар "${name}" добавлен в корзину`,
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Произошла ошибка',
+        description: error.message,
+        variant: 'warning',
+      });
+    },
+  });
+  const { format } = currencyFormatter;
+  const isInCart = cart?.some((item) => item.id === detail.id);
   return (
     <div className={cn(classNames('flex flex-col gap-6 pb-10', className))}>
       <h1>{name}</h1>
       <div className="flex flex-col grid-rows-2 grid-flow-row gap-6 md:grid-rows-1 md:grid md:grid-cols-5">
         <Image
-          className="w-full h-full object-cover col-span-3 rounded-sm"
+          className="w-auto md:h-96 object-cover col-span-3 rounded-sm aspect-auto place-self-center"
           src={images[0]}
           width={1920}
           height={1080}
@@ -37,68 +64,48 @@ export const DetailAbout = ({ className, detail }: DetailAboutProps) => {
           <div className="font-rubik flex flex-col gap-4 items-center">
             <div className="font-rubik flex flex-col items-center md:items-start">
               <div className="flex gap-2 whitespace-nowrap items-start w-full text-xl">
-                <span className="text-accent">
-                  {amount <= 1 || Number.isNaN(amount) ? formattedPrice : format(price * amount)}
-                </span>
-                {discountPercentage > 0 && (
-                  <s className="text-foreground-secondary text-base select-none">
-                    {amount <= 1 || Number.isNaN(amount)
-                      ? format(price + price * discount)
-                      : format(price * amount + price * amount * discount)}
-                  </s>
+                {discountPercentage > 0 ? (
+                  <>
+                    <span className="text-accent">{format(priceAfterDiscount * (quantity || 1))}</span>
+                    <s className="text-foreground-secondary text-base select-none">{format(price * (quantity || 1))}</s>
+                  </>
+                ) : (
+                  <span className="text-accent">{format(price * (quantity || 1))}</span>
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <div className="flex items-center gap-4 justify-center relative flex-shrink-0 max-w-44">
-                <AppButton
-                  disabled={amount <= 1}
-                  theme={'transparent'}
-                  className="absolute left-0 h-4 w-4 text-base"
-                  onClick={() => setAmount((prev) => prev - 1)}
-                  LeftIcon={Minus}
-                />
-                <AppInput
-                  min={1}
-                  max={quantityAvailable}
-                  onChange={(e) => {
-                    const value = Number.parseInt(e.target.value);
-                    if (value <= quantityAvailable || !value) {
-                      setAmount(value);
+            <div className="flex flex-col items-center gap-6 sm:flex-row">
+              <AppInputIncrement
+                className="!w-44"
+                min={isInCart ? 0 : 1}
+                max={quantityAvailable}
+                onBlur={(value) => {
+                  if (value < 1) {
+                    if (isInCart) {
+                      removeFromCart(detail.id);
                     }
-                  }}
-                  onBlur={(e) => {
-                    const value = Number.parseInt(e.target.value);
-                    if (Number.isNaN(value) || value < 1) {
-                      setIsCanceled(true);
-                      setAmount(1);
-                      setTimeout(() => {
-                        setIsCanceled(false);
-                      }, 400);
-                      console.log(isCanceled);
-                    }
-                  }}
-                  onFocus={(e) => {
-                    e.target.select();
-                  }}
-                  type="number"
-                  inputMode="numeric"
-                  className={classNames('w-full text-center mb-0', { 'animate-cancel-shake': isCanceled })}
-                  value={amount}
-                />
+                    return setAmount(1);
+                  }
+                }}
+                onDecrement={(value) => {
+                  if (value < 1 && isInCart) {
+                    removeFromCart(detail.id);
+                    return setAmount(1);
+                  }
+                }}
+                onChange={(value) => {
+                  setAmount(value);
+                }}
+                value={quantity}
+              />
+              {!isInCart ? (
                 <AppButton
-                  disabled={amount >= quantityAvailable}
-                  theme={'transparent'}
-                  className="absolute right-0 h-4 w-4 text-base text-accent"
-                  onClick={() => setAmount((prev) => prev + 1)}
-                  LeftIcon={Plus}
-                />
-              </div>
-              <AppButton
-                fullWidth
-                theme={'background'}>
-                В корзину
-              </AppButton>
+                  onClick={() => addToCart({ detailId: detail.id, quantity: quantity })}
+                  fullWidth
+                  variant="background">
+                  В корзину
+                </AppButton>
+              ) : null}
             </div>
           </div>
           <span className="text-xs text-gray-500 select-none">В наличии: {detail.quantityAvailable}</span>
