@@ -1,22 +1,40 @@
-import { useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { getUserProfileAction } from '../_actions/get-user-profile';
+import { UserId } from '../client';
 import { getUserCartAction } from '../_actions/get-user-cart';
+import { getUserCartItemAction } from '../_actions/get-user-cart-item';
 
-const baseKey = 'cart';
-interface QueryOptions
-  extends Omit<UseQueryOptions<Awaited<ReturnType<typeof getUserCartAction>>>, 'queryFn' | 'queryKey'> {}
+const baseKey = 'user';
 
-export const useGetUserCart = (userId?: string, options?: QueryOptions) => {
-  const { data: cart, ...other } = useQuery({
-    queryKey: [baseKey],
-    queryFn: async () => await getUserCartAction(),
-    ...options,
-  });
+export const getProfileQuery = (userId: UserId) => ({
+  queryKey: [baseKey, 'getProfileById', userId],
+  queryFn: () => getUserProfileAction({ userId }),
+});
 
-  return {
-    cart,
-    ...other,
-  };
+export const useInvalidateProfile = () => {
+  const queryClient = useQueryClient();
+
+  return (userId: UserId) =>
+    queryClient.invalidateQueries({
+      queryKey: [baseKey, 'getProfileById', userId],
+    });
 };
+
+export const getUserCart = (userId: UserId | null) => ({
+  queryKey: [baseKey, 'getUserCart', userId],
+  queryFn: () => {
+    if (!userId) return null;
+    return getUserCartAction({ userId });
+  },
+});
+
+export const getItemFromUserCart = (userId: UserId | null, detailId: number) => ({
+  queryKey: [baseKey, 'getDetailFromCart'],
+  queryFn: () => {
+    if (!userId) return null;
+    return getUserCartItemAction({ userId, detailId });
+  },
+});
 
 export const useInvalidateUserCart = () => {
   const queryClient = useQueryClient();

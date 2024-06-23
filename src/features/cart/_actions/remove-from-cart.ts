@@ -1,13 +1,13 @@
 'use server';
-import { removeFromCartUseCase } from '@/entities/user/_use-cases/remove-from-cart';
-import { getAppSessionServer } from '@/entities/user/server';
-import { NeedAuthError } from '@/shared/lib/errors';
+import { getAppSessionStrictServer } from '@/entities/user/_vm/get-session.server';
+import { removeFromCartUseCase } from '@/entities/user/server';
+import { revalidatePath } from 'next/cache';
 
-export const removeFromCartAction = async (detailId: number) => {
-  const session = await getAppSessionServer();
-
-  if (!session?.user.id) {
-    throw new NeedAuthError('Необходимо авторизоваться');
+export const removeFromCartAction = async (itemId: number) => {
+  const session = await getAppSessionStrictServer();
+  const result = await removeFromCartUseCase.execute({ session, itemId });
+  if (result) {
+    revalidatePath('/store');
   }
-  return removeFromCartUseCase.execute(session.user.id, detailId);
+  return result;
 };

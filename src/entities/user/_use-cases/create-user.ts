@@ -1,5 +1,5 @@
 import { UserEntity } from '../_domain/types';
-import { userRepository } from '@entities/user/_repository/user.repository';
+import { userRepository } from '@/entities/user/_repositories/user';
 import { Roles } from '@prisma/client';
 import { createId } from '@paralleldrive/cuid2';
 import { privateConfig } from '@/shared/config/private';
@@ -8,7 +8,7 @@ interface CreateUser {
   email: string;
   name?: string | null;
   image?: string | null;
-  emailVerified: Date | null;
+  emailVerified?: Date | null;
 }
 
 class CreateUserUseCase {

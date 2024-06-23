@@ -1,12 +1,12 @@
 import { Montserrat, Roboto, Rubik } from 'next/font/google';
 import localFont from 'next/font/local';
 import '@app/_styles/global.css';
-import classNames from 'classnames';
 import { AppProvider } from '@app/_providers/app-provider';
 import { Metadata } from 'next';
 import { APP_NAME } from '@/shared/config/seo';
 import { Toaster } from '@/shared/ui/toaster';
-
+import '@/shared/lib/toDateTimeLocalString';
+import { cn } from '@/shared/lib/utils';
 const golos = localFont({
   src: './golos.woff2',
   variable: '--golos-font',
@@ -44,7 +44,7 @@ const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode }>)
       className="dark"
       suppressHydrationWarning>
       <body
-        className={classNames(
+        className={cn(
           montserrat.variable,
           rubik.variable,
           roboto.variable,

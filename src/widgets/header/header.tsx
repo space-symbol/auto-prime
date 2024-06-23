@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { AppLink } from '@shared/ui/app-link/app-link';
 import { Logo } from '@shared/ui/logo/logo';
 
@@ -18,7 +18,7 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header
-      className={classNames(
+      className={cn(
         'flex items-center justify-between flex-col md:flex-row flex-shrink-0 gap-4 w-full text-white bg-black bg-opacity-80 md:bg-opacity-100 p-page-x h-screen py-3 md:h-header',
         className,
       )}>

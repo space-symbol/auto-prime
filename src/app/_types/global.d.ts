@@ -13,3 +13,12 @@ type SVGIconFC = React.FC<SVG>;
 type SearchParams = Readonly<URLSearchParams>;
 
 type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
+
+interface Date {
+  toDateTimeLocalString(): string;
+}
+
+interface CustomError {
+  error: Error & { digest?: string };
+  reset: () => void;
+}

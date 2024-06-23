@@ -1,9 +1,22 @@
-import { userRepository } from '../_repository/user.repository';
+import { AuthorizatoinError } from '@/shared/lib/errors';
+import { craeteCartAbility } from '../_domain/ability';
+import { SessionEntity, UserId } from '../_domain/types';
+import { cartRepository } from '../_repositories/cart';
 
-class GetUserCartUseCase {
-  async execute(userId: string) {
-    return userRepository.getUserCart(userId);
+type GetUserCartProps = {
+  userId: UserId;
+  session: SessionEntity;
+};
+
+class GetuserCartUseCase {
+  async execute({ userId, session }: GetUserCartProps) {
+    const userAbility = craeteCartAbility(session);
+
+    if (!userAbility.canGetCart(userId)) {
+      throw new AuthorizatoinError();
+    }
+    return cartRepository.getCart(userId);
   }
 }
 
-export const getUserCartUseCase = new GetUserCartUseCase();
+export const getUserCartUseCase = new GetuserCartUseCase();

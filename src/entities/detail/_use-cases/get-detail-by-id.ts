@@ -1,4 +1,4 @@
-import { detailRepository } from '../_repository/detail.repository';
+import { detailRepository } from '../_repositories/detail';
 
 class GetDetailByIdUseCase {
   async execute(id: number) {

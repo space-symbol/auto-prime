@@ -1,28 +1,35 @@
 import { z } from 'zod';
-export const DetailBaseScema = z.object({
+
+export const detailSchema = z.object({
+  id: z.number(),
   name: z.string(),
   description: z.string(),
   price: z.number(),
-  discountPercentage: z.number().default(0),
-  priceAfterDiscount: z.number(),
-  discountEndDate: z.date().nullable(),
   quantityAvailable: z.number(),
   images: z.string().array(),
+  discountedPrice: z.number().nullable(),
 });
 
-export const DetailEntityScema = DetailBaseScema.extend({
-  id: z.number(),
+export const detailEntityWithDiscountsScema = detailSchema.extend({
+  discounts: z
+    .object({
+      percentage: z.number(),
+      endDate: z.date(),
+      startDate: z.date(),
+    })
+    .array(),
 });
 
-export const OrderBySchema = z.enum(['quantityOrdered', 'name', 'price', 'discountPercentage']);
-export const SortSchema = z.enum(['asc', 'desc']);
+export const orderBySchema = z.enum(['quantityOrdered', 'name', 'price', 'discountPercentage']);
+export const sortSchema = z.enum(['asc', 'desc']);
 
-export const SearchDetailsParamsSchema = {
-  orderBy: OrderBySchema.optional(),
-  sort: SortSchema.optional(),
+export const searchDetailsParamsSchema = {
+  orderBy: orderBySchema.optional(),
+  sort: sortSchema.optional(),
   search: z.string().optional(),
   novelty: z.boolean().optional(),
   promoted: z.boolean().optional(),
   popular: z.boolean().optional(),
   limit: z.number().optional(),
+  offset: z.number().optional(),
 };

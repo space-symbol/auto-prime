@@ -1,5 +1,4 @@
 'use client';
-import classNames from 'classnames';
 import {
   ColumnDef,
   flexRender,
@@ -22,6 +21,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { Spinner } from './spinner/spinner';
 import { AppInput } from './app-input/app-input';
 import { useState } from 'react';
+import { cn } from '@/shared/lib/utils';
 
 interface DataTableProps<TData, TValue> extends React.HTMLAttributes<HTMLTableElement> {
   className?: string;
@@ -73,7 +73,7 @@ export const DataTable = <TData, TValue>(props: DataTableProps<TData, TValue>) =
     },
   });
   return (
-    <div className={classNames('h-full flex flex-col gap-2', className)}>
+    <div className={cn('h-full flex flex-col gap-2', className)}>
       {filterByColumn && (
         <AppInput
           value={(table.getColumn('name' as string)?.getFilterValue() as string) ?? ''}
@@ -136,7 +136,7 @@ export const DataTable = <TData, TValue>(props: DataTableProps<TData, TValue>) =
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center">
-                  Пусто
+                  Нет записей
                 </TableCell>
               </TableRow>
             )}

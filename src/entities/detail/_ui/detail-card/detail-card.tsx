@@ -1,14 +1,13 @@
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import cls from './detail-card.module.css';
 import Image from 'next/image';
-import { DetailEntity } from '../../_domain/types';
-import { useState } from 'react';
+import { DetailEntityWithDiscounts } from '../../_domain/types';
 import { currencyFormatter } from '@shared/lib/currencyFormatter';
 import { AppLink, AppLinkVariant } from '@/shared/ui/app-link/app-link';
 
 interface DetailCardProps {
   className?: string;
-  detail: DetailEntity;
+  detail: DetailEntityWithDiscounts;
   searchValue?: string;
   horizontal?: boolean;
   variant?: AppLinkVariant;
@@ -19,11 +18,10 @@ const { format } = currencyFormatter;
 export const DetailCard = (props: DetailCardProps) => {
   const {
     className,
-    detail: { id, name, price, discountPercentage, quantityAvailable, images, discountEndDate, priceAfterDiscount },
+    detail: { id, name, price, discountedPrice, quantityAvailable, images, discounts },
     searchValue,
     variant = 'underlined',
   } = props;
-  const [timeToEnd, setTimeToEnd] = useState<string>();
 
   const renderName = () => {
     if (!searchValue) return <span className={cls.name}>{name}</span>;
@@ -47,14 +45,11 @@ export const DetailCard = (props: DetailCardProps) => {
     <AppLink
       variant={variant}
       fullwidth
-      className={classNames(className)}
+      className={cn(className)}
       href={`/store/main/${id}`}>
       <div className={cls.card}>
-        <div className={cls.saleBar}>
-          {discountPercentage > 0 && <span className={cls.sale}>-{discountPercentage}%</span>}
-          {discountEndDate && <span className={cls.sale}>{timeToEnd}</span>}
-        </div>
-        <div className={classNames(cls.imageContainer)}>
+        <div className={cls.saleBar}></div>
+        <div className={cn(cls.imageContainer)}>
           <Image
             className={cls.image}
             src={images[0]}
@@ -67,9 +62,9 @@ export const DetailCard = (props: DetailCardProps) => {
           {renderName()}
           <div className={cls.footer}>
             <div className={cls.priceWrapper}>
-              {discountPercentage ? (
+              {discountedPrice ? (
                 <>
-                  <div className={cls.price}>{format(priceAfterDiscount)}</div>
+                  <div className={cls.price}>{format(discountedPrice)}</div>
                   <s className={cls.discountPrice}>{format(price)}</s>
                 </>
               ) : (

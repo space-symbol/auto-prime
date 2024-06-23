@@ -1,25 +1,24 @@
 'use client';
-
+import { useAppSession } from '@/entities/user/client';
 import { FullPageSpinner } from '@/shared/ui/full-page-spinner';
 import { signIn } from 'next-auth/react';
 import { useEffect } from 'react';
-import { useAppSession } from '../../../entities/user/client';
 
 export const AuthorizedGuard = ({ children }: { children: React.ReactNode }) => {
-  const session = useAppSession();
+  const { data: session, status } = useAppSession();
 
   useEffect(() => {
-    if (session.status === 'unauthenticated') {
+    if (status === 'unauthenticated') {
       signIn();
     }
-  }, [session]);
+  }, [session, status]);
 
-  const isLoading = session.status === 'loading' || session.status === 'unauthenticated';
+  const isLoading = status === 'loading' || status === 'unauthenticated';
 
   return (
     <>
       <FullPageSpinner isLoading={isLoading} />
-      {session.status === 'authenticated' && children}
+      {status === 'authenticated' && children}
     </>
   );
 };

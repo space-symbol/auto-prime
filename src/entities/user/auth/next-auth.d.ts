@@ -1,8 +1,8 @@
-import { UserEntity } from '../_domain/types';
+import { SessionEntity, UserEntity } from '../_domain/types';
 
 declare module 'next-auth' {
   interface Session {
-    user: UserEntity;
+    user: SessionEntity['user'];
   }
   interface User extends UserEntity {}
 }

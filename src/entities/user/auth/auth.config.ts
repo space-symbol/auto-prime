@@ -10,6 +10,9 @@ export const authConfig = {
       Google({
         clientId: privateConfig.GOOGLE_CLIENT_ID,
         clientSecret: privateConfig.GOOGLE_CLIENT_SECRET,
+        authorization: {
+          params: { prompt: 'consent' },
+        },
       }),
   ]),
 } satisfies NextAuthConfig;

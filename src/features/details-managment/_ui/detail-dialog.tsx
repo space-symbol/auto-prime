@@ -1,4 +1,3 @@
-import { cn } from '@/shared/lib/utils';
 import { AppButton } from '@/shared/ui/app-button/app-button';
 import {
   DialogContent,
@@ -9,7 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/shared/ui/dialog';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 
 interface DetailDialogProps {
   className?: string;
@@ -30,8 +29,8 @@ export const DetailDialog = (props: DetailDialogProps) => {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent
         className={cn(
-          classNames(
-            'text-black h-[calc(100vh-2rem)] w-[calc(100vw-1rem)] lg:w-[calc(100vw-10rem)] min-w-80 flex flex-col max-w-full p-1 pt-2 lg:p-4',
+          cn(
+            'text-black h-[calc(100vh-2rem)] w-[calc(100vw-1rem)] lg:w-[calc(100vw-10rem)] flex flex-col max-w-full p-1 pt-2 lg:p-4',
             className,
           ),
         )}>

@@ -1,18 +1,18 @@
 import NextAuth from 'next-auth';
-import prisma from '@shared/lib/db';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { AdapterUser } from '@auth/core/adapters';
-import { Adapter } from 'next-auth/adapters';
+import { Adapter, AdapterUser } from 'next-auth/adapters';
 import { authConfig } from './auth.config';
-import { createUserUseCase } from '../_use-cases/create-user';
 import { Roles } from '@prisma/client';
 import { routes } from '@/shared/config/routes';
+import prisma from '@/shared/lib/db';
+import { createUserUseCase } from '../server';
 
 const prismaAdapter = PrismaAdapter(prisma);
 
 export const {
   auth,
   handlers: { GET, POST },
+  unstable_update: updateSession,
 } = NextAuth({
   adapter: {
     ...prismaAdapter,
@@ -30,7 +30,15 @@ export const {
       }
       return true;
     },
-    jwt: ({ token, user }) => {
+    jwt: ({ token, user, session, trigger }) => {
+      if (trigger === 'update' && session) {
+        token = {
+          ...token,
+          picture: session.user.image,
+          ...session.user,
+        };
+      }
+
       if (user) {
         token.role = user.role;
       }

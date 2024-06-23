@@ -2,7 +2,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { AppInput } from '@shared/ui/app-input/app-input';
 import { AppForm } from '@shared/ui/app-form/app-form';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEmailSignIn } from '../../_vm/use-email-sign-in';
 import { z } from 'zod';
@@ -42,7 +42,7 @@ export const EmailSignInForm = (props: EmailSignInFormProps) => {
       isPending={isPending}
       title={'Войти в аккаунт'}
       sendButtonText={'Войти через Email'}
-      className={classNames('w-full px-8 pb-0 border-none', className)}>
+      className={cn('w-full px-8 pb-0 border-none', className)}>
       <Controller
         control={control}
         render={({ field }) => (

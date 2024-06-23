@@ -1,5 +1,5 @@
 .card {
-  @apply font-montserrat text-base h-full flex !flex-col min-w-0 relative overflow-hidden bg-card text-card-foreground rounded-tr-none rounded-tl-none w-full;
+@apply font-montserrat !rounded text-base h-full flex !flex-col min-w-0 relative overflow-hidden bg-card text-card-foreground rounded-tr-none rounded-tl-none w-full;
 
   &:focus {
     @apply outline-offset-2;

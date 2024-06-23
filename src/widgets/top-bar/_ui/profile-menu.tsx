@@ -12,7 +12,6 @@ import { getProfileDisplayName } from '@/entities/user/_vm/get-profile-display-n
 import { SignInButton } from '@/features/auth/client';
 import { User, LayoutDashboardIcon } from 'lucide-react';
 import { AppLink } from '@shared/ui/app-link/app-link';
-import React from 'react';
 import { useAppSession } from '@/entities/user/client';
 import { useSignOut } from '@/features/auth/client';
 import { Skeleton } from '@/shared/ui/skeleton';
@@ -25,32 +24,31 @@ interface ProfileLink {
   isPrivate?: boolean;
 }
 export const Profile = () => {
-  const session = useAppSession();
+  const { data, status } = useAppSession();
   const { signOut, isPending: isLoadingSignOut } = useSignOut();
 
-  if (session.status === 'loading') {
+  if (status === 'loading') {
     return (
       <div className={'rounded-full w-10 h-10'}>
         <Skeleton
           className={'rounded-full w-full h-full bg-gray-light'}
-          isPending={session.status === 'loading'}
+          isPending={status === 'loading'}
           appearanceDelay={300}
         />
       </div>
     );
   }
 
-  if (session.status === 'unauthenticated') {
+  if (status === 'unauthenticated') {
     return <SignInButton className="!h-fit" />;
   }
-
-  const user = session.data?.user;
+  const user = data?.user;
   const role = user?.role;
 
   const profileLinks: ProfileLink[] = [
     {
       text: 'Профиль',
-      href: '/store/profile',
+      href: `/store/profile/${user?.id}`,
       Icon: User,
     },
     {

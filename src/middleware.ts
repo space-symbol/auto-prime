@@ -1,8 +1,8 @@
-import { authConfig } from '@entities/user/server';
 import NextAuth from 'next-auth';
 import { routes } from '@/shared/config/routes';
-const { auth: middleware } = NextAuth(authConfig);
+import { authConfig } from './entities/user/auth/auth.config';
 
+const { auth: middleware } = NextAuth(authConfig);
 const { apiAuthPrefix, privateRoutes, signInRoute, redirectAfterSignInRoute, authRoutes } = routes;
 
 // @ts-ignore

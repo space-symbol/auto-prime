@@ -1,6 +1,5 @@
 'use client';
 import { Logo } from '@shared/ui/logo/logo';
-import classNames from 'classnames';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared/ui/accordion';
 import { NavbarLink } from './navbar-link';
 import { useEffect, useState } from 'react';
@@ -24,7 +23,18 @@ export const Navbar = (props: NavbarProps) => {
 
   useEffect(() => {
     setInited(true);
-  }, []);
+    const escapeHandler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setNavbarIsActive(false);
+      }
+    };
+
+    window.addEventListener('keydown', escapeHandler);
+
+    return () => {
+      window.removeEventListener('keydown', escapeHandler);
+    };
+  }, [setNavbarIsActive]);
 
   const renderLinks = (links: Record<string, NavbarRoute>) => {
     return (
@@ -76,7 +86,7 @@ export const Navbar = (props: NavbarProps) => {
   const content = (
     <header
       className={cn(
-        classNames(
+        cn(
           'items-center bg-navbar left-[-100%] transition-left duration-400 h-full justify-between w-navbar z-navbar lg:animate-none flex-col flex-shrink-0 gap-4 top-0 fixed overflow-auto lg:static lg:translate-x-0 lg:flex p-page-y gutter-stable',
           className,
           {
@@ -87,13 +97,13 @@ export const Navbar = (props: NavbarProps) => {
         ),
       )}>
       <AppButton
-        LeftIcon={<CloseIcon className="h-4 w-4 fill-current" />}
+        LeftIcon={<CloseIcon className="w-4 h-4 fill-current" />}
         variant="transparent"
         onClick={() => setNavbarIsActive(false)}
         className={'!absolute top-2 right-1 lg:!hidden'}
       />
-      <div className="mx-6 ">
-        <Logo className={'h-auto w-auto pt-0'} />
+      <div className="px-6 w-full">
+        <Logo className={'h-full w-full pt-0'} />
       </div>
       <nav className={'font-montserrat flex-grow w-full flex flex-col pt-6'}>
         <ul className={'text-white font-golos text-base uppercase flex flex-col flex-grow justify-center'}>
@@ -106,7 +116,7 @@ export const Navbar = (props: NavbarProps) => {
     <>
       <div
         onClick={() => setNavbarIsActive(false)}
-        className={classNames('fixed top-0 transition-width duration-400 h-screen bg-overlay/80 z-navbar lg:hidden', {
+        className={cn('fixed top-0 transition-width duration-400 h-screen bg-overlay/80 z-navbar lg:hidden', {
           'animate-translate-right w-screen': navbarIsActive,
           'w-0': !navbarIsActive,
           'motion-safe:flex motion-safe:left-0': inited,

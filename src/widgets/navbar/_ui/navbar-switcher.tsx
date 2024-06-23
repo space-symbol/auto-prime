@@ -1,7 +1,7 @@
 'use client';
 import { AppButton } from '@/shared/ui/app-button/app-button';
 import SwitcherIcon from '@assets/icons/navbar-controller.svg';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { ButtonHTMLAttributes, useEffect, useRef } from 'react';
 import { useNavbarContext } from './navbar-provider';
 
@@ -25,7 +25,7 @@ export const NavbarSwitcher = (props: NavbarSwitcherProps) => {
     <AppButton
       ref={ref}
       onClick={() => setNavbarIsActive(!navbarIsActive)}
-      className={classNames('!h-full lg:!hidden', className)}
+      className={cn('!h-full lg:!hidden', className)}
       title={navbarIsActive ? 'Свернуть навигацию' : 'Развернуть навигацию'}
       LeftIcon={<SwitcherIcon className="fill-current stroke-current w-6 h-6" />}
       variant="transparent"

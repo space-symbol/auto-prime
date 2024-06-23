@@ -4,4 +4,3 @@ export { useSignOut } from './_vm/use-sign-out';
 export { SignInButton } from './_ui/sign-in-button';
 
 export { AuthorizedGuard } from './_ui/authorized-guard';
-export { SessionRefresh } from './_ui/session-refresh';

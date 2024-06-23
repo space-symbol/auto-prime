@@ -12,7 +12,7 @@ export const useRemoveFromCart = (props: RemoveFromCartProps) => {
   const { onSuccess, onError } = props;
 
   const cartMutation = useMutation({
-    mutationFn: (detailId: number) => removeFromCartAction(detailId),
+    mutationFn: removeFromCartAction,
     onSuccess: async (data) => {
       await invaliedateCart();
       onSuccess?.(data);

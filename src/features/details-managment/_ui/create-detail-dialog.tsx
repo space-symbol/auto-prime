@@ -19,6 +19,7 @@ export const CreateDetailDialog = (props: CreateDetailModalProps) => {
       toast({
         title: 'Успешно',
         description: 'Товар успешно создан',
+        variant: 'success',
       });
     },
     onError: (error) => {

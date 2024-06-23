@@ -1,29 +1,26 @@
 import prisma from '@shared/lib/db';
-import { Detail, Prisma } from '@prisma/client';
-import { DetailBase, DetailEntity, SearchDetailsParams } from '../_domain/types';
-import { DefaultArgs } from '@prisma/client/runtime/library';
+import { DetailEntity, SearchDetailsParams } from '../_domain/types';
 
 class DetailRepository {
-  async getDetailsList(params?: SearchDetailsParams): Promise<DetailEntity[]> {
-    const query: Prisma.DetailFindManyArgs<DefaultArgs> = {
+  async getDetailsList(params?: SearchDetailsParams) {
+    const query = {
       where: {},
       orderBy: {},
-      select: {
-        id: true,
-        name: true,
-        price: true,
-        quantityOrdered: true,
-        discountPercentage: true,
-        discountEndDate: true,
-        images: true,
-        description: true,
-        quantityAvailable: true,
-        priceAfterDiscount: true,
+      include: {
+        discounts: {
+          select: {
+            percentage: true,
+            endDate: true,
+            startDate: true,
+          },
+        },
       },
+      take: 10,
     };
 
     if (!params) {
-      return prisma.detail.findMany(query);
+      const details = await prisma.detail.findMany(query);
+      return details;
     }
     const { orderBy, sort, search, novelty, promoted, popular, limit } = params;
 
@@ -48,21 +45,13 @@ class DetailRepository {
     if (promoted) {
       query.where = {
         ...query.where,
-        OR: [
-          {
-            promotionId: { not: null },
-          },
-          {
-            discountPercentage: { gt: 0 },
-          },
-        ],
+        discountedPrice: { gt: 0 },
       };
     }
 
     if (popular) {
       query.where = {
         ...query.where,
-        quantityOrdered: { gt: 0 },
       };
     }
 
@@ -76,15 +65,16 @@ class DetailRepository {
     }
     return prisma.detail.findMany(query);
   }
-  async getDetailById(id: number): Promise<Detail | null> {
+
+  async getDetailById(id: number) {
     return prisma.detail.findUnique({ where: { id } });
   }
 
-  async getDetailByName(name: string): Promise<Detail | null> {
+  async getDetailByName(name: string) {
     return prisma.detail.findUnique({ where: { name } });
   }
-  async createDetail(data: DetailBase): Promise<Detail> {
-    return prisma.detail.create({ data: data });
+  async createDetail(data: Omit<DetailEntity, 'id'>) {
+    return prisma.detail.create({ data });
   }
 
   async deleteDetails(ids: number[]) {
@@ -95,7 +85,7 @@ class DetailRepository {
     });
   }
 
-  async updateDetail(id: number, data: Partial<DetailBase>): Promise<Detail> {
+  async updateDetail(id: number, data: Partial<DetailEntity>) {
     return prisma.detail.update({ where: { id }, data: data });
   }
 }

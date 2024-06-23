@@ -1,10 +1,16 @@
 import { z } from 'zod';
-import { OrderBySchema, SortSchema, SearchDetailsParamsSchema, DetailEntityScema, DetailBaseScema } from './schemas';
+import {
+  orderBySchema,
+  sortSchema,
+  searchDetailsParamsSchema,
+  detailSchema,
+  detailEntityWithDiscountsScema,
+} from './schemas';
 
-export type OrederBy = z.infer<typeof OrderBySchema>;
-export type Sort = z.infer<typeof SortSchema>;
+export type OrederBy = z.infer<typeof orderBySchema>;
+export type Sort = z.infer<typeof sortSchema>;
 export type SearchDetailsParams = {
-  [Key in keyof typeof SearchDetailsParamsSchema]?: z.infer<(typeof SearchDetailsParamsSchema)[Key]>;
+  [Key in keyof typeof searchDetailsParamsSchema]?: z.infer<(typeof searchDetailsParamsSchema)[Key]>;
 };
-export type DetailEntity = z.infer<typeof DetailEntityScema>;
-export type DetailBase = z.infer<typeof DetailBaseScema>;
+export type DetailEntity = z.infer<typeof detailSchema>;
+export type DetailEntityWithDiscounts = z.infer<typeof detailEntityWithDiscountsScema>;

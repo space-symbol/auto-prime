@@ -1,7 +1,5 @@
 'use server';
-import { DetailBase } from '@/entities/detail/_domain/types';
-import { detailRepository } from '@/entities/detail/_repository/detail.repository';
-import { createDetailUseCase } from '@/entities/detail/server';
+import { createDetailUseCase, getDetailByNameUseCase } from '@/entities/detail/server';
 import { getAppSessionServer } from '@/entities/user/server';
 import { privateConfig } from '@/shared/config/private';
 import { AuthorizatoinError, BadRequest } from '@/shared/lib/errors';
@@ -13,7 +11,7 @@ export const createDetailAction = async (detailFormData: FormData) => {
     throw new AuthorizatoinError('Доступ запрещен');
   }
 
-  const detailExists = await detailRepository.getDetailByName(detailFormData.get('name') as string);
+  const detailExists = await getDetailByNameUseCase.execute(detailFormData.get('name') as string);
   if (detailExists) {
     throw new BadRequest('Такой продукт уже существует');
   }
@@ -27,7 +25,6 @@ export const createDetailAction = async (detailFormData: FormData) => {
   if (Number(price) < 0) {
     throw new BadRequest('Цена не может быть отрицательной');
   }
-  let priceAfterDiscount = price;
 
   if (Number.parseInt(detailFormData.get('discountPercentage') as string) > 0) {
     const discountPercentage = Number.parseInt(detailFormData.get('discountPercentage') as string);
@@ -47,8 +44,6 @@ export const createDetailAction = async (detailFormData: FormData) => {
     if (discountPercentage > 100) {
       throw new BadRequest('Скидка не может быть больше 100%');
     }
-
-    priceAfterDiscount = price - (price / 100) * discountPercentage;
   }
 
   const images = (detailFormData.getAll('images') || []) as File[];
@@ -63,15 +58,11 @@ export const createDetailAction = async (detailFormData: FormData) => {
   });
   const imagesPaths = await Promise.all(newImagesPromises);
 
-  const detail: DetailBase = {
+  const detail = {
     name: detailFormData.get('name') as string,
     description: detailFormData.get('description') as string,
     price: price,
-    discountPercentage: Number(detailFormData.get('discountPercentage')),
-    priceAfterDiscount: priceAfterDiscount,
-    discountEndDate: detailFormData.get('discountEndDate')
-      ? new Date(detailFormData.get('discountEndDate') as string)
-      : null,
+    discountedPrice: Number(detailFormData.get('discountedPrice')),
     quantityAvailable: Number(detailFormData.get('quantityAvailable')),
     images: imagesPaths,
   };

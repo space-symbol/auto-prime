@@ -52,7 +52,7 @@
     }
     
     h2 {
-        @apply text-lg;
+        @apply text-xl;
     }
     
     h3, h4, h5, h6 {
@@ -144,6 +144,11 @@
     @media screen(3xl) {
         html {
             font-size: 30px;
+        }
+    }
+    @media screen(extra-large) {
+        html {
+            font-size: calc(30 * calc(100vw / 2560));
         }
     }
 }

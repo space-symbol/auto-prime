@@ -1,9 +1,8 @@
 import LogoIcon from '@assets/icons/logo.svg';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import cls from './logo.module.css';
 import { routes } from '@/shared/config/routes';
 import { NavbarLink } from '@/widgets/navbar/_ui/navbar-link';
-import { cn } from '@/shared/lib/utils';
 interface LogoProps {
   className?: string;
 }
@@ -14,9 +13,9 @@ export const Logo = (props: LogoProps) => {
   return (
     <NavbarLink
       variant="hover"
-      className={cn(classNames(cls.logo, 'p-0', className))}
+      className={cn(cls.logo, 'p-0', className)}
       href={routes.navbarRoutes.main.href}
-      LeftIcon={<LogoIcon />}
+      LeftIcon={<LogoIcon className={'h-full w-full'} />}
     />
   );
 };

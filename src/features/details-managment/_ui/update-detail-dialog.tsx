@@ -5,11 +5,11 @@ import { useId } from 'react';
 import { DetailForm } from './detail-form';
 import { DetailEntity } from '@/entities/detail/_domain/types';
 import { useUpdateDetail } from '../_vm/use-update-detail';
+import '@/shared/lib/toDateTimeLocalString';
 
 interface UpdateDetailModalProps {
   className?: string;
   triggerClassName?: string;
-  detailId: number;
   detail: DetailEntity;
 }
 
@@ -22,16 +22,23 @@ export const UpdateDetailModal = (props: UpdateDetailModalProps) => {
     onSuccess: async () => {
       toast({
         title: 'Успешно',
-        description: 'Товар успешно создан',
+        description: 'Товар успешно обновлен',
+        variant: 'success',
       });
     },
     onError: () => {
       toast({
         title: 'Произошла ошибка',
-        description: 'Не удалось создать новый товар',
+        description: 'Не удалось обновить данные',
+        variant: 'warning',
       });
     },
   });
+
+  const formattedDetail = {
+    ...detail,
+  };
+
   const Trigger = <AppButton className={triggerClassName}>Редактировать</AppButton>;
   return (
     <DetailDialog
@@ -39,11 +46,11 @@ export const UpdateDetailModal = (props: UpdateDetailModalProps) => {
       className={className}
       title="Редактирование товара"
       trigger={Trigger}
-      closeButtonText={'Создать'}
+      closeButtonText={'Сохранить'}
       isPending={isPending}>
       <DetailForm
         formId={formId}
-        defaultValues={detail}
+        defaultValues={formattedDetail}
         onSubmitSuccess={(values) => {
           updateDetail({
             id: detail.id,

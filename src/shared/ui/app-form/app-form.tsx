@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { AppButton } from '@shared/ui/app-button/app-button';
 import { Spinner } from '@shared/ui/spinner/spinner';
 import { cn } from '@/shared/lib/utils';
@@ -31,7 +30,7 @@ export const AppForm = (props: AppFormProps) => {
   return (
     <form
       className={cn(
-        classNames('flex flex-col gap-3 w-full p-2 lg:p-4 border border-opacity-40 border-black rounded', className),
+        cn('flex flex-col gap-3 w-full p-2 lg:p-4 border border-opacity-40 border-black rounded', className),
       )}
       onSubmit={onSubmitHandler}
       {...otherProps}>

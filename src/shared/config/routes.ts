@@ -111,6 +111,7 @@ const NavbarRoutes: RawNavbarRoutes = createRoutes(rawNavbarRoutes);
 
 export const routes = {
   navbarRoutes: NavbarRoutes,
+  rawNavbarRoutes: rawNavbarRoutes,
   redirectAfterSignInRoute: '/store/main',
   signInRoute: '/auth/sign-in',
   authRoutes: {

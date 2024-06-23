@@ -10,10 +10,12 @@ import {
 import { DataTable } from '@shared/ui/data-table';
 import { ColumnDef, OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import DotsHorizontalIcon from '@shared/public/assets/icons/dots-horizontal.svg';
-import { useGetDetailsQuery } from '@/entities/detail/client';
+import { getDetailsByParams } from '@/entities/detail/client';
 import { DetailEntity } from '@/entities/detail/_domain/types';
-import { useDeleteDetails } from '@/features/details-managment/client';
+import { UpdateDetailModal, useDeleteDetails } from '@/features/details-managment/client';
 import { toast } from '@/shared/ui/use-toast';
+import { useQuery } from '@tanstack/react-query';
+
 interface DetailsManagmentTableProps {
   className?: string;
   rowSelection: {};
@@ -21,7 +23,11 @@ interface DetailsManagmentTableProps {
 }
 export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
   const { className, rowSelection, setRowSelection } = props;
-  const { details, isPending } = useGetDetailsQuery();
+
+  const { data: details, isPending } = useQuery({
+    ...getDetailsByParams({ limit: 20 }),
+  });
+
   const { deleteDetails } = useDeleteDetails({
     onSuccess: (data) => {
       toast({
@@ -106,16 +112,8 @@ export const DetailsManagmentTable = (props: DetailsManagmentTableProps) => {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className={'w-full text-sm p-0'}>
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <AppButton
-                    fullWidth
-                    className={'justify-start'}
-                    variant="transparent"
-                    onClick={() => {}}>
-                    Изменить
-                  </AppButton>
-                </DropdownMenuItem>
+              <DropdownMenuGroup className="p-2">
+                <UpdateDetailModal detail={row.original} />
               </DropdownMenuGroup>
               <DropdownMenuGroup>
                 <DropdownMenuItem>

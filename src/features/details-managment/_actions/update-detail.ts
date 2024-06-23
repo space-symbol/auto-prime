@@ -1,18 +1,20 @@
 'use server';
-import { DetailBase, updateDetailUseCase } from '@/entities/detail/client';
-import { detailRepository } from '@/entities/detail/server';
+import { getDetailByIdUseCase } from '@/entities/detail/server';
+import { DetailBase } from '@/entities/detail/client';
+import { updateDetailUseCase } from '@/entities/detail/server';
 import { BadRequest } from '@/shared/lib/errors';
 import { fileStorage } from '@/shared/lib/file-storage';
+import { formatDetail } from '@/shared/lib/formatDetail';
 
 export const updateDetailAction = async (id: number, fields: FormData) => {
-  const detail = await detailRepository.getDetailById(id);
+  const detail = await getDetailByIdUseCase.execute(id);
   if (!detail) {
     throw new Error('Деталь не найдена');
   }
 
   const images = fields.getAll('images') || [];
 
-  if (!images?.length || !images.every((image) => image instanceof File)) {
+  if (!images?.length) {
     throw new BadRequest('Необходимо загрузить хотя бы одно изображение');
   }
 
@@ -23,14 +25,14 @@ export const updateDetailAction = async (id: number, fields: FormData) => {
 
   const imagesPaths = await Promise.all(newImagesPromises);
 
-  const newDetail: DetailBase = {
+  const newDetail: Partial<DetailBase> = {
     name: fields.get('name') as string,
     description: fields.get('description') as string,
     price: Number(fields.get('price')),
-    discountPercentage: Number(fields.get('discountPercentage')),
-    discountEndDate: fields.get('discountEndDate') ? new Date(fields.get('discountEndDate') as string) : null,
+    discountedPrice: Number(fields.get('discountedPrice')),
     quantityAvailable: Number(fields.get('quantityAvailable')),
     images: imagesPaths,
   };
-  return await updateDetailUseCase.execute(id, newDetail);
+  const updatedDetail = await updateDetailUseCase.execute(id, newDetail);
+  return formatDetail(updatedDetail);
 };

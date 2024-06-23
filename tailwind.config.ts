@@ -15,9 +15,17 @@ const config = {
       xl: '1600px',
       '2xl': '1920px',
       '3xl': '2560px',
+      'extra-large': {
+        raw: '(min-width: 2560px)',
+      },
     },
     extend: {
       colors: {
+        'top-bar': {
+          DEFAULT: 'hsl(var(--top-bar))',
+          foreground: 'hsl(var(--top-bar-foreground))',
+        },
+        'input-label': 'hsl(var(--input-label))',
         title: 'hsl(var(--title))',
         skeleton: 'hsl(var(--skeleton))',
         gold: 'hsl(var(--gold))',
@@ -113,8 +121,29 @@ const config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        inherit: 'inherit',
       },
       keyframes: {
+        'show-placeholder': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(-1em)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'show-label': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(1em)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
         'accordion-down': {
           from: {
             height: '0',
@@ -176,10 +205,12 @@ const config = {
         },
       },
       animation: {
+        'show-placeholder': 'show-placeholder 0.2s 0s 1 forwards ease',
+        'show-label': 'show-label 0.2s 0s 1 forwards ease',
         'accordion-down': 'accordion-down 0.4s ease-out',
         'accordion-up': 'accordion-up 0.2s ease',
         'show-delay': 'show 0.2s 0.1s forwards ease',
-        show: 'show 0.2s 0s 1 forwards ease',
+        show: 'show 0.3s 0s 1 forwards ease',
         'translate-right': 'translate-right 0.2s 0s 1 forwards ease',
         'translate-left': 'translate-left 0.2s 0s 1 forwards ease',
         'cancel-shake': 'cancel-shake 0.1s 0s 3 forwards ease',

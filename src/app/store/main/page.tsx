@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const StorePage = () => {
   return (
-    <main className="flex flex-col flex-grow h-full gap-6">
+    <main className="flex flex-col flex-grow h-full gap-6 overflow-auto">
       <PromotionsDetailsList />
       <NewDetailsList />
       <PopularDetailsList />

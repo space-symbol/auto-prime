@@ -1,13 +1,20 @@
 'use client';
-import { DetailsCardsList, useGetDetailsQuery } from '@entities/detail/client';
+import { DetailsCardsList, getDetailsByParams } from '@entities/detail/client';
 import { memo, useEffect } from 'react';
 import { useGetQueryParams } from '@/shared/hooks/use-get-query-params';
-import { SearchDetailsParamsSchema } from '@entities/detail/_domain/schemas';
+import { searchDetailsParamsSchema } from '@entities/detail/_domain/schemas';
+import { useQuery } from '@tanstack/react-query';
 
 export const SearchParamsDetailslist = memo(() => {
-  const searchQueryParams = useGetQueryParams(SearchDetailsParamsSchema);
+  const searchQueryParams = useGetQueryParams(searchDetailsParamsSchema);
 
-  const { details, isPending, refetch } = useGetDetailsQuery(searchQueryParams);
+  const {
+    data: details,
+    isPending,
+    refetch,
+  } = useQuery({
+    ...getDetailsByParams(searchQueryParams),
+  });
 
   useEffect(() => {
     refetch();

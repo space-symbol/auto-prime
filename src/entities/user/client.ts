@@ -9,3 +9,6 @@ export { AppSessionProvider } from './_ui/session-provider';
 export { AuthorizedGuard } from '../../features/auth/_ui/authorized-guard';
 
 export * from './_queries';
+
+export * from './_domain/shemas';
+export * from './_domain/types';

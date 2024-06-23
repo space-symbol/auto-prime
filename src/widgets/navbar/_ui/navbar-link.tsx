@@ -1,6 +1,5 @@
-import { cn } from '@/shared/lib/utils';
 import { AppLink, AppLinkProps } from '@/shared/ui/app-link/app-link';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { useNavbarContext } from './navbar-provider';
 
 export interface NavbarLinkProps extends AppLinkProps {
@@ -9,11 +8,11 @@ export interface NavbarLinkProps extends AppLinkProps {
 
 export const NavbarLink = (props: NavbarLinkProps) => {
   const { children, className, isRoot, href, ...otherProps } = props;
-  const { navbarIsActive, changeNavbarIsActive } = useNavbarContext();
+  const { navbarIsActive, setNavbarIsActive } = useNavbarContext();
 
   const onLinkClick = () => {
-    if (changeNavbarIsActive) {
-      changeNavbarIsActive(!navbarIsActive);
+    if (navbarIsActive) {
+      setNavbarIsActive(false);
     }
   };
   return (
@@ -21,7 +20,7 @@ export const NavbarLink = (props: NavbarLinkProps) => {
       onClick={onLinkClick}
       pathRespnosible
       fullwidth
-      className={classNames(cn('h-auto text-left block px-6 py-3 w-full text-navbar-foreground'), className)}
+      className={cn('h-auto text-left block px-6 py-3 w-full text-navbar-foreground', className)}
       variant={isRoot ? 'hover' : 'background'}
       href={href}
       {...otherProps}>

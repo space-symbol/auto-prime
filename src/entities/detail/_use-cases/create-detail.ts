@@ -1,9 +1,8 @@
-import { Detail } from '@prisma/client';
-import { DetailBase } from '../_domain/types';
-import { detailRepository } from '../_repository/detail.repository';
+import { DetailEntity } from '../_domain/types';
+import { detailRepository } from '../_repositories/detail';
 
 class CreateDetailUseCase {
-  async execute(detail: DetailBase): Promise<Detail> {
+  async execute(detail: Omit<DetailEntity, 'id'>) {
     return detailRepository.createDetail(detail);
   }
 }

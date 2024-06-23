@@ -1,5 +1,5 @@
-import { Profile } from '../_domain/types';
+import { UserEntity } from '../_domain/types';
 
-export const getProfileDisplayName = (profile: Profile) => {
+export const getProfileDisplayName = (profile: UserEntity) => {
   return profile.name ? profile.name : profile.email;
 };

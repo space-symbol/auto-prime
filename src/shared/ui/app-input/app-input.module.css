@@ -71,7 +71,6 @@
         bottom: 0;
         display: flex;
         align-items: center;
-        animation: 0.2s show-placeholder forwards ease;
         pointer-events: none;
         user-select: none;
         text-overflow: ellipsis;
@@ -79,6 +78,8 @@
         max-width: 100%;
         z-index: var(--input-label-z-index);
         background-color: transparent;
+        
+        @apply animate-show-placeholder;
 
         .labelText {
             @apply text-foreground-secondary;
@@ -108,14 +109,15 @@
                 top: -0.6em;
                 align-items: flex-start;
                 margin: 0;
-                animation: 0.2s show-label forwards ease;
                 max-width: calc(100% - 1rem - 2px);
                 right: 0;
-    
+                
+                @apply animate-show-label;
+
                 .labelText {
                     padding: 0 4px;
 
-                    @apply text-foreground;
+                    @apply text-input-label;
                 }
             }
 
@@ -140,16 +142,6 @@
     &:has(.input:focus) {
         .wrapper {
             border-width: 2px;
-        }
-
-        .inputLabel {
-            .labelText {
-                @apply text-accent;
-
-                padding: 0 4px;
-            }
-
-            font-weight: bold;
         }
 
         &.error {
@@ -190,156 +182,81 @@
 }
 
 .inputFileContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    position: relative;
-    border: 0.1rem dashed hsl(var(--foreground));
-    margin-bottom: 1.5em;
+    @apply flex flex-col gap-6 relative border-dashed border-2 border-foreground rounded-sm mb-6;
 
     .inputFile {
-        display: none;
+        @apply sr-only;
     }
-
-
-    &.dragging{
-        .inputLabel{
-            border: 0.1rem dashed var(--purple-color);
-        }
-
-        .labelText {
-           color: var(--purple-color);
-        }
-    }
-    
-
+  
     .inputLabel {
-        position: absolute;
-        cursor: pointer;
-        display: flex;
-        flex-shrink: 0;
-        inset: 0;
-        z-index: 1;
-        align-items: center;
-        justify-content: center;
-        color: hsl(var(--foreground));
-        font-weight: bold;
-        text-overflow: ellipsis;
-        width: 100%;
-        border-radius: 0.25rem;
-        height: auto;
-        flex-grow: 1;
-        min-height: 10rem;
-        transition: border-color 0.2s ease-out;
-
+        @apply rounded-inherit absolute cursor-pointer inset-0 z-10 flex items-center justify-center font-bold text-foreground w-full min-h-40 transition-all;
 
         .labelText {
-            user-select: none;
-            pointer-events: none;
-            display: block;
-            padding: 1rem;
-            animation: 0.2s show-placeholder forwards ease;
-            text-align: center;
-            transition: color 0.3s ease-out;
+            @apply select-none pointer-events-none block px-4 py-2 animate-show-placeholder text-center transition-colors duration-300 text-sm sm:text-base;
         }
 
         &:focus {
             @apply border-solid border-foreground;
 
-            outline: none;
-
             .labelText {
-                @apply text-foreground
+                @apply text-foreground;
             }
         }
     }
 
+    &.readOnly{
+        @apply border-solid;
+
+        .inputLabel {
+            @apply cursor-default;
+        }
+    }
+
     .files {
-        display: grid;
-        overflow: auto;
-        height: 100%;
-        grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-        grid-auto-rows: 13rem;
-        gap: 1rem;
-        border-radius: 0.25rem;
-        padding: 0.5rem;
-        transition: all 0.3s ease-out;
-        position: relative;
+        @apply grid overflow-auto h-full grid-cols-2 gap-4 rounded-md p-2 transition duration-300 relative;
+
+       
+        grid-auto-rows: 14rem;
 
         @apply rounded-sm;
+ 
+        
+        /* stylelint-disable-next-line media-query-no-invalid */
+        @media screen(sm) {
+            grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+        }
     }
 
     .filePreviewCard {
-        @apply grid grid-cols-1 grid-rows-5; 
-
-        max-width: 32rem;
-        flex-direction: column;
-        padding: 0.5rem;
-        position: relative;
-        gap: 0.2rem;
-        z-index: 2;
-        overflow: hidden;
+        @apply grid grid-cols-1 z-10 grid-rows-5 max-w-80 flex-col p-2 relative gap-2 overflow-hidden;
     }
 
     .fileImage {
-        height: 100%;
-        width: 100%;
-        flex-grow: 1;
-        object-fit: cover;
-        align-self: center;
-        user-select: none;
-        pointer-events: none;
-
-        @apply row-span-3;
-
+        @apply h-full w-full object-cover self-center select-none pointer-events-none row-span-3;
     }
 
     .fileName {
-        @apply row-span-1;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-weight: 400;
-        font-size: 0.9em;
-        height: 2em;
+        @apply row-span-1 overflow-hidden truncate font-normal text-sm h-8;
     }
 
-    &.error{
-        .errorText {
-            position: absolute;
-            font-size: 0.9em;
-            bottom: -1.2rem;
-            left: 2px;
-            z-index: 1;
-            line-height: 1em;
-        }
-    }
+   
 
     .filesInfo {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.8em;
-        position: absolute;
-        bottom: -1.6em;
-        left: 0;
-        user-select: none;
-    }
-         
-    .fileSize{
-        font-size: 0.8em;
-        right: 0.5rem;
-        padding-right: 0.2rem;
-        text-align: right;
-
-        @apply text-foreground-secondary
+        @apply flex gap-1 justify-between w-full flex-wrap px-2 pt-1 items-end text-xs sm:text-sm absolute -bottom-6 right-1 select-none;
     }
 
-    @media screen and (width <= 425px) {
-        &.files {
-                grid-template-columns: 1fr 1fr;
+    .filesInfoText{
+        @apply flex gap-2;
+    }
+
+    &.error {
+        .errorText {
+            @apply bottom-0 left-1 z-10;
         }
+    }
+
+    .fileSize {
+        @apply text-xs right-2 whitespace-nowrap text-foreground-secondary;
     }
 }
 
@@ -363,29 +280,5 @@
         .errorText {
             @apply text-warning;
         }
-    }
-}
-
-@keyframes show-label {
-    0% {
-        opacity: 0;
-        transform: translateY(-1em);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes show-placeholder {
-    0% {
-        opacity: 0;
-        transform: translateY(-1em);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
     }
 }

@@ -1,7 +1,7 @@
 import { getProfileDisplayName } from './get-profile-display-name';
-import { Profile } from '@entities/user/_domain/types';
+import { UserEntity } from '@entities/user/_domain/types';
 
-export const getProfileLetters = (profile: Profile) => {
+export const getProfileLetters = (profile: UserEntity) => {
   const displayName = getProfileDisplayName(profile);
   const [a, b] = displayName
     .replace(/`|'|/g, '')

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import cls from './app-swiper.module.css';
 import 'swiper/css';
 import { useSwiper } from 'swiper/react';
@@ -22,7 +22,7 @@ export const SwiperButton = (props: SwiperButtonProps) => {
 
   return (
     <button
-      className={classNames(cls.swiperButton, className, {
+      className={cn(cls.swiperButton, className, {
         [cls.right]: direction === 'right',
       })}
       onClick={onClick}>
@@ -43,7 +43,7 @@ export const AppSwiper = (props: AppSwiperProps) => {
 
   return (
     <Swiper
-      className={classNames(cls.appSwiper, className)}
+      className={cn(cls.appSwiper, className)}
       slidesPerView={1}
       spaceBetween={-1}
       modules={[Pagination]}

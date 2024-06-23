@@ -2,7 +2,7 @@
 import { AppForm } from '@/shared/ui/app-form/app-form';
 import { AppInput, AppTextarea, AppInputFile } from '@/shared/ui/app-input/app-input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,56 +16,30 @@ interface DetailFormProps {
   mode?: 'create' | 'update';
 }
 
-const DetailFormSchema = z
-  .object({
-    name: z.string().min(1, { message: 'Название обязательно' }),
-    description: z.string().min(1, { message: 'Описание обязательно' }),
-    price: z.coerce
-      .number({
-        invalid_type_error: 'Цена должна быть числом',
-        required_error: 'Цена обязательна',
-      })
-      .min(1, { message: 'Цена должна быть больше нуля' }),
-    quantityAvailable: z.coerce
-      .number({
-        invalid_type_error: 'Скидка должна быть числом',
-        required_error: 'Количество обязательно',
-      })
-      .min(1, { message: 'Количество должно быть больше нуля' }),
-    discountPercentage: z.coerce
-      .number({
-        invalid_type_error: 'Скидка должна быть числом',
-      })
-      .min(0, { message: 'Скидка не может быть меньше нуля' })
-      .max(99, { message: 'Скидка не может быть больше 99%' }),
-    discountEndDate: z.string().optional(),
-    images: z.custom<FileList | string[]>().refine(
-      (value) => {
-        if (!(value instanceof FileList) || value.length === 0) {
-          return false;
-        }
-        return value.length > 0;
-      },
-      {
-        message: 'Изображение обязательно',
-      },
-    ),
-  })
-  .superRefine((values, ctx) => {
-    if (!values.discountEndDate && values.discountPercentage) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Eсли есть скидка, то должна быть дата её окочания',
-        path: ['discountDuration'],
-      });
-    } else if (values.discountEndDate && !values.discountPercentage) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Если есть дата окончания скидки, то должна быть и скидка',
-        path: ['discountPercentage'],
-      });
-    }
-  });
+const DetailFormSchema = z.object({
+  name: z.string().min(1, { message: 'Название обязательно' }),
+  description: z.string().min(1, { message: 'Описание обязательно' }),
+  price: z.coerce
+    .number({
+      invalid_type_error: 'Цена должна быть числом',
+      required_error: 'Цена обязательна',
+    })
+    .min(1, { message: 'Цена должна быть больше нуля' }),
+  quantityAvailable: z.coerce
+    .number({
+      invalid_type_error: 'Скидка должна быть числом',
+      required_error: 'Количество обязательно',
+    })
+    .min(1, { message: 'Количество должно быть больше нуля' }),
+  images: z.custom<(File | string)[]>().refine(
+    (value) => {
+      return value.length > 0;
+    },
+    {
+      message: 'Изображение обязательно',
+    },
+  ),
+});
 
 type DetailFormType = z.infer<typeof DetailFormSchema>;
 
@@ -81,9 +55,8 @@ export const DetailForm = (props: DetailFormProps) => {
       name: '',
       description: '',
       price: 0,
-      discountPercentage: 0,
       quantityAvailable: 0,
-      discountEndDate: '',
+      images: [],
     },
     resolver: zodResolver(DetailFormSchema),
     mode: 'onTouched',
@@ -98,25 +71,23 @@ export const DetailForm = (props: DetailFormProps) => {
   return (
     <AppForm
       id={formId}
-      className={classNames(
-        'fle flex-wrap items-stretch justify-stretch overflow-auto xl:overflow-hidden h-full flex-row w-full sm:max-w-full',
+      className={cn(
+        'fle flex-wrap items-stretch justify-stretch overflow-auto lg:overflow-hidden lg:grid grid-cols-2 h-full flex-row w-full',
         className,
       )}
       externalSubmit
       onSubmit={handleSubmit((values) => {
         const detailFormData = new FormData();
-        detailFormData.append('name', values.name);
-        detailFormData.append('price', values.price.toString());
-        detailFormData.append('description', values.description);
-        detailFormData.append('discountPercentage', values.discountPercentage.toString());
-        detailFormData.append('discountEndDate', values.discountEndDate || '');
-        detailFormData.append('quantityAvailable', values.quantityAvailable.toString());
-        Array.from(values.images).forEach((image) => {
+        detailFormData.append('name', values.name.trim());
+        detailFormData.append('price', values.price.toString().trim());
+        detailFormData.append('description', values.description.trim());
+        detailFormData.append('quantityAvailable', values.quantityAvailable.toString().trim());
+        [...values.images].forEach((image) => {
           detailFormData.append('images', image);
         });
         onSubmitSuccess?.(detailFormData);
       })}>
-      <div className={'flex flex-col gap-4 xl:max-w-[49%] flex-grow w-full xl:overflow-auto xl:h-full pr-1'}>
+      <div className={'flex flex-col gap-4 flex-grow w-full lg:overflow-auto lg:h-full pr-1'}>
         <Controller
           control={control}
           render={({ field }) => (
@@ -173,41 +144,14 @@ export const DetailForm = (props: DetailFormProps) => {
           control={control}
           name="quantityAvailable"
         />
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              autoComplete="off"
-              type={'number'}
-              label={'Скидка %'}
-              error={errors.discountPercentage?.message}
-              {...field}
-            />
-          )}
-          name={'discountPercentage'}
-        />
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <AppInput
-              autoComplete="off"
-              type="datetime-local"
-              label={'Дата окончания скидки'}
-              error={errors.discountEndDate?.message}
-              min={new Date().toISOString().slice(0, 16)}
-              {...field}
-            />
-          )}
-          name={'discountEndDate'}
-        />
       </div>
-      <div className={'h-full flex flex-grow w-full xl:basis-[49%] min-h-96'}>
+      <div className={'h-full flex flex-grow w-full overflow-hidden min-h-96'}>
         <Controller
           control={control}
           render={({ field }) => (
             <AppInputFile
               multiple
-              className={'w-full h-full'}
+              className={'w-full'}
               accept={'image/*'}
               label={'Выберите или перетащите изображение'}
               error={errors.images?.message}

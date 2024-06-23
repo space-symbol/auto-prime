@@ -3,64 +3,48 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const user1 = await prisma.user.upsert({
-    where: { id: 'user_1' },
-    update: {
-      name: 'John Doe',
-      email: 'john1@example.com',
-      emailVerified: new Date(),
-      role: 'USER',
-    },
-    create: {
-      id: 'user_1',
-      name: 'John Doe',
-      email: 'john1@example.com',
-      emailVerified: new Date(),
-      role: 'USER',
-    },
-  });
   const detail1 = await prisma.detail.upsert({
     where: { id: 1 },
     update: {
       name: 'Тормозные колодки Brembo',
       description: 'Качественные тормозные колодки от Brembo для надежного торможения',
       price: 59.99,
-      discountPercentage: 0,
+      discountedPrice: 0,
       quantityAvailable: 100,
-      priceAfterDiscount: 59.99,
+
       images: ['https://1evel.ru/wa-data/public/shop/products/47/10/21047/images/17186/17186.1920.jpg'],
     },
     create: {
       name: 'Тормозные колодки Brembo',
       description: 'Качественные тормозные колодки от Brembo для надежного торможения',
       price: 59.99,
-      discountPercentage: 0,
+      discountedPrice: 0,
       quantityAvailable: 100,
-      priceAfterDiscount: 59.99,
       images: ['https://images.wallpaperscraft.ru/image/single/georgina_tsvetok_lepestki_1224100_1920x1080.jpg'],
     },
   });
-
+  const discount1 = await prisma.discount.create({
+    data: {
+      percentage: 10,
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 60 * 60 * 24 * 14 * 1000),
+      details: { connect: { id: detail1.id } },
+    },
+  });
   const detail2 = await prisma.detail.upsert({
     where: { id: 2 },
     update: {
       name: 'Фильтр масляный Mann',
       description: 'Оригинальный фильтр масляный Mann для эффективной фильтрации масла в двигателе',
       price: 12.99,
-      discountPercentage: 5,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 18),
       quantityAvailable: 200,
-      priceAfterDiscount: 12.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg'],
     },
     create: {
       name: 'Фильтр масляный Mann',
       description: 'Оригинальный фильтр масляный Mann для эффективной фильтрации масла в двигателе',
       price: 12.99,
-      discountPercentage: 5,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 18),
       quantityAvailable: 200,
-      priceAfterDiscount: 12.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/36/23698/images/22183/22183.400x0.jpeg'],
     },
   });
@@ -71,18 +55,14 @@ async function main() {
       name: 'Аккумулятор Bosch S5',
       description: 'Надежный аккумулятор Bosch S5 для старта двигателя в любых условиях',
       price: 129.99,
-      discountPercentage: 0,
       quantityAvailable: 50,
-      priceAfterDiscount: 129.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg'],
     },
     create: {
       name: 'Аккумулятор Bosch S5',
       description: 'Надежный аккумулятор Bosch S5 для старта двигателя в любых условиях',
       price: 129.99,
-      discountPercentage: 0,
       quantityAvailable: 50,
-      priceAfterDiscount: 129.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/50/20/22050/images/18570/18570.400x0.jpg'],
     },
   });
@@ -93,20 +73,14 @@ async function main() {
       name: 'Шины Michelin Pilot Sport 4',
       description: 'Высокопроизводительные шины Michelin Pilot Sport 4 для спортивного вождения',
       price: 199.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 1),
       quantityAvailable: 30,
-      priceAfterDiscount: 179.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
     create: {
       name: 'Шины Michelin Pilot Sport 4',
       description: 'Высокопроизводительные шины Michelin Pilot Sport 4 для спортивного вождения',
       price: 199.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 1),
       quantityAvailable: 30,
-      priceAfterDiscount: 179.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
   });
@@ -117,20 +91,14 @@ async function main() {
       name: 'LEVEL Performance Впускной коллектор двигателя BMW M5 F90 S63, Billet ',
       description: 'Высокопроизводительные шины Michelin Pilot Sport 4 для спортивного вождения',
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 2),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
     create: {
       name: 'LEVEL Performance Впускной коллектор двигателя BMW M5 F90 S63, Billet ',
       description: 'Высокопроизводительные шины Michelin Pilot Sport 4 для спортивного вождения',
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 2),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/55/29/22955/images/19715/19715.400x0.jpg'],
     },
   });
@@ -141,20 +109,14 @@ async function main() {
       name: 'ST Suspension Подвеска (койловеры) ST X Подвеска (койловеры) ST XA BMW 1er F20 / F 21 / 3er F30 / 4e ',
       description: 'Комплект винтовой подвески (койловеров) ST Suspension ST X с регулировкой по высоте',
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 7),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
       name: 'ST Suspension Подвеска (койловеры) ST X Подвеска (койловеры) ST XA BMW 1er F20 / F 21 / 3er F30 / 4e ',
       description: 'Комплект винтовой подвески (койловеров) ST Suspension ST X с регулировкой по высоте',
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 7),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -180,10 +142,7 @@ async function main() {
       +5В питание датчика
       +8В питание датчика`,
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 30),
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -204,11 +163,8 @@ async function main() {
       10 дополнительных выходов*
       +5В питание датчика
       +8В питание датчика`,
-      price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 30),
+      price: 99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -234,10 +190,7 @@ async function main() {
       +5В питание датчика
       +8В питание датчика`,
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 20),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -259,10 +212,7 @@ async function main() {
       +5В питание датчика
       +8В питание датчика`,
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 20),
       quantityAvailable: 30,
-      priceAfterDiscount: 90.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -288,7 +238,6 @@ async function main() {
       +8В питание датчика`,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
     create: {
@@ -311,7 +260,6 @@ async function main() {
       +8В питание датчика`,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/45/52/25245/images/22872/22872.400x0.jpeg'],
     },
   });
@@ -329,7 +277,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
 
       images: ['https://1evel.ru/wa-data/public/shop/products/52/46/24652/images/22230/22230.1920.jpg'],
     },
@@ -343,7 +290,6 @@ async function main() {
       - Bentley Bentayga 2019+
       `,
       price: 100.99,
-      priceAfterDiscount: 100.99,
       quantityAvailable: 30,
       images: ['https://1evel.ru/wa-data/public/shop/products/52/46/24652/images/22230/22230.1920.jpg'],
     },
@@ -360,10 +306,7 @@ async function main() {
       - Bentley Bentayga 2019+
       `,
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 14),
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/63/31/23163/images/20046/20046.1920.jpeg'],
     },
     create: {
@@ -376,10 +319,7 @@ async function main() {
       - Bentley Bentayga 2019+
       `,
       price: 100.99,
-      discountPercentage: 10,
-      discountEndDate: new Date(Date.now() + 60 * 60 * 24 * 14),
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/63/31/23163/images/20046/20046.1920.jpeg'],
     },
   });
@@ -392,7 +332,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -402,7 +341,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
   });
@@ -415,7 +353,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -425,7 +362,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
   });
@@ -439,7 +375,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
     create: {
@@ -449,7 +384,6 @@ async function main() {
       `,
       price: 100.99,
       quantityAvailable: 30,
-      priceAfterDiscount: 100.99,
       images: ['https://1evel.ru/wa-data/public/shop/products/98/50/25098/images/22694/22694.1920.jpeg'],
     },
   });

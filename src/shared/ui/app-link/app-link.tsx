@@ -2,7 +2,6 @@
 import Link, { LinkProps } from 'next/link';
 import { AnchorHTMLAttributes, forwardRef, ReactNode, useEffect, useState } from 'react';
 import cls from './app-link.module.css';
-import classNames from 'classnames';
 import { useParams } from 'next/navigation';
 import { cn } from '@/shared/lib/utils';
 
@@ -51,7 +50,7 @@ export const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>((props: AppLi
   const endPoint = href.includes('#') ? href.split('#').at(1) : href.split('/').at(-1);
 
   const linkClasses = cn(
-    classNames(cls.appLink, className, cls[variant], {
+    cn(cls.appLink, className, cls[variant], {
       [cls.active]: active || (currentPath && currentPath === endPoint),
       '!w-full': fullwidth,
     }),

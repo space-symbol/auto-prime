@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import cls from './app-button.module.css';
 import React, { forwardRef, ReactNode } from 'react';
 import { cn } from '@/shared/lib/utils';
@@ -19,7 +18,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>((props: A
   const { className, children, LeftIcon, RightIcon, variant = 'background', fullWidth, active, ...otherProps } = props;
 
   const buttonClasses = cn(
-    classNames(
+    cn(
       cls.appButton,
       cls[variant],
       { 'w-full': fullWidth, [cls.active]: active, [cls.icon]: (LeftIcon || RightIcon) && !children },

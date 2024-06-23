@@ -1,7 +1,7 @@
 .logo {
-    svg {
-        @apply !w-full !h-full;
+    @apply cursor-pointer;
 
+    svg {
         & path {
             transition: fill 0.2s ease-out;
         }

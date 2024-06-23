@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { debounce } from 'lodash-es';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import classNames from 'classnames';
+import { cn } from '@/shared/lib/utils';
 import { AppInput } from '@/shared/ui/app-input/app-input';
 import { useState } from 'react';
 import { routes } from '@/shared/config/routes';
@@ -37,16 +37,15 @@ export const UpdateSearchParamsBar = (props: SearchBarProps) => {
   };
 
   return (
-    <div className={classNames('flex items-center gap-4 flex-grow max-w-96 w-auto min-w-40', className)}>
+    <div className={cn('flex items-center gap-4 flex-grow max-w-96 w-auto min-w-40', className)}>
       <AppInput
         label={'Найти'}
         className={'flex-grow h-full'}
         placeholder={'Найти'}
         onChange={onChange}
         onKeyDown={onEnterPress}
-        value={value}
+        value={value ?? ''}
       />
-      {/*<Image src={FilterIcon} alt={''} className={'w-4 h-auto'}/>*/}
     </div>
   );
 };
